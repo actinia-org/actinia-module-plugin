@@ -158,7 +158,7 @@ def compare_module_to_file(self, uri_path='modules', module=None):
     assert hasattr(resp, 'json')
     currentResp = resp.json
 
-    with open('tests/resources/plugin/' + module + '.json') as jsonfile:
+    with open('tests/resources/' + module + '.json') as jsonfile:
         expectedResp = json.load(jsonfile)
 
     assert resp.status_code == respStatusCode
