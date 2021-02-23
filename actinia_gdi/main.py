@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Copyright (c) 2018-present mundialis GmbH & Co. KG
+Copyright (c) 2018-2021 mundialis GmbH & Co. KG
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ Application entrypoint. Creates Flask app and swagger docs, adds endpoints
 """
 
 __author__ = "Carmen Tawalika"
-__copyright__ = "2018-present mundialis GmbH & Co. KG"
+__copyright__ = "2018-2021 mundialis GmbH & Co. KG"
 __license__ = "Apache-2.0"
 
 
@@ -29,7 +29,6 @@ from flask_cors import CORS
 from flask_restful_swagger_2 import Api
 
 from actinia_gdi import endpoints
-from actinia_gdi.core.jobtable import initJobDB
 from actinia_gdi.resources.logging import log
 from actinia_gdi.resources.config import APP
 
@@ -51,7 +50,6 @@ apidoc = Api(
 )
 
 endpoints.addEndpoints(app, apidoc)
-initJobDB()
 
 
 if __name__ == '__main__':
