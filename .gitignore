@@ -46,3 +46,4 @@ dev
 venv/
 config/mount/config.ini
 config/mount/pw.ini
+config/*.cfg
