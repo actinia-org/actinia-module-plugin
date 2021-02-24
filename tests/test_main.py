@@ -39,10 +39,11 @@ class AppTest(ActiniaTestCase):
         resp = self.app.get('/')
         assert type(resp) is Response
 
-    def test_app_responding(self):
-        respStatusCode = 200
-        resp = self.app.get('/')
-        assert resp.status_code == respStatusCode
+    # see endpoints.py why this is outcommented
+    # def test_app_responding(self):
+    #     respStatusCode = 200
+    #     resp = self.app.get('/')
+    #     assert resp.status_code == respStatusCode
 
     def test_app_static(self):
         respStatusCode = 404
