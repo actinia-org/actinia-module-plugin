@@ -24,11 +24,6 @@ __copyright__ = "2018-2021 mundialis GmbH & Co. KG"
 __license__ = "Apache-2.0"
 
 
-from flask import current_app, send_from_directory
-import werkzeug
-
-from actinia_module_plugin.resources.logging import log
-
 from actinia_module_plugin.api.gmodules.grass import ListModules
 from actinia_module_plugin.api.gmodules.grass import DescribeModule
 from actinia_module_plugin.api.gmodules.actinia import ListProcessChainTemplates
@@ -42,25 +37,7 @@ from actinia_module_plugin.api.gdi_processing import \
 # endpoints loaded if run as actinia-core plugin
 def create_endpoints(flask_api):
 
-    app = flask_api.app
     apidoc = flask_api
-
-    @app.route('/')
-    def index():
-        try:
-            return current_app.send_static_file('index.html')
-        except werkzeug.exceptions.NotFound:
-            log.debug('No index.html found in static folder. Serving backup.')
-            # when actinia-module-plugin is installed in single mode, the swagger
-            # endpoint would be "latest/api/swagger.json". As api docs exist in
-            # single mode, use this fallback for plugin mode.
-            return ("""<h1 style='color:red'>actinia-module-plugin</h1>
-                <a href="api/v1/swagger.json">API docs</a>""")
-
-    @app.route('/<path:filename>')
-    def static_content(filename):
-        # WARNING: all content from folder "static" will be accessible!
-        return send_from_directory(app.static_folder, filename)
 
     apidoc.add_resource(ListModules, '/grassmodules')
     apidoc.add_resource(DescribeModule, '/grassmodules/<grassmodule>')

@@ -30,7 +30,6 @@ from flask_restful_swagger_2 import Api
 
 from actinia_module_plugin import endpoints
 from actinia_module_plugin.resources.logging import log
-from actinia_module_plugin.resources.config import APP
 
 
 app = Flask(__name__)
@@ -39,7 +38,6 @@ CORS(app)
 apidoc = Api(
     app,
     title="actinia-module-plugin",
-    api_version=APP.version,
     api_spec_url='/latest/api/swagger',
     schemes=['https', 'http'],
     consumes=['application/json'],
