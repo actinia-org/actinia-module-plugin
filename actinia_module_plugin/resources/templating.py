@@ -28,10 +28,10 @@ from jinja2 import Environment, PackageLoader
 
 # this environment is used for all cases where individual templates are loaded
 tplEnv = Environment(
-    loader=PackageLoader('actinia_gdi', 'templates')
+    loader=PackageLoader('actinia_module_plugin', 'templates')
 )
 
 # this environment is used for process chain templates only
 pcTplEnv = Environment(
-    loader=PackageLoader('actinia_gdi', 'templates/pc_templates')
+    loader=PackageLoader('actinia_module_plugin', 'templates/pc_templates')
 )

@@ -28,9 +28,9 @@ from flask import Flask
 from flask_cors import CORS
 from flask_restful_swagger_2 import Api
 
-from actinia_gdi import endpoints
-from actinia_gdi.resources.logging import log
-from actinia_gdi.resources.config import APP
+from actinia_module_plugin import endpoints
+from actinia_module_plugin.resources.logging import log
+from actinia_module_plugin.resources.config import APP
 
 
 app = Flask(__name__)
@@ -38,7 +38,7 @@ CORS(app)
 
 apidoc = Api(
     app,
-    title="actinia-gdi",
+    title="actinia-module-plugin",
     api_version=APP.version,
     api_spec_url='/latest/api/swagger',
     schemes=['https', 'http'],
@@ -53,7 +53,7 @@ endpoints.addEndpoints(app, apidoc)
 
 
 if __name__ == '__main__':
-    # call this for development only with `python -m actinia_gdi.main`
+    # call this for development only with `python -m actinia_module_plugin.main`
     log.debug('starting app in development mode...')
     app.run(debug=True, use_reloader=False)
     # for production environent use application in wsgy.py

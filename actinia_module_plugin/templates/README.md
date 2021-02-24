@@ -20,7 +20,7 @@ app.jinja_env.loader.get_source(app.jinja_env,'folderInTemplates/template.json')
   ```
   # keep autoescape? at least in mind ...
   tplEnv = Environment(
-        loader=PackageLoader('actinia_gdi', 'templates'),
+        loader=PackageLoader('actinia_module_plugin', 'templates'),
         autoescape=select_autoescape(['html', 'xml']),
         trim_blocks=True,
         lstrip_blocks=True

@@ -27,15 +27,15 @@ __license__ = "Apache-2.0"
 from flask import current_app, send_from_directory
 import werkzeug
 
-from actinia_gdi.resources.logging import log
+from actinia_module_plugin.resources.logging import log
 
-from actinia_gdi.api.gmodules.grass import ListModules
-from actinia_gdi.api.gmodules.grass import DescribeModule
-from actinia_gdi.api.gmodules.actinia import ListProcessChainTemplates
-from actinia_gdi.api.gmodules.actinia import DescribeProcessChainTemplate
-from actinia_gdi.api.gmodules.combined import ListVirtualModules
-from actinia_gdi.api.gmodules.combined import DescribeVirtualModule
-from actinia_gdi.api.gdi_processing import \
+from actinia_module_plugin.api.gmodules.grass import ListModules
+from actinia_module_plugin.api.gmodules.grass import DescribeModule
+from actinia_module_plugin.api.gmodules.actinia import ListProcessChainTemplates
+from actinia_module_plugin.api.gmodules.actinia import DescribeProcessChainTemplate
+from actinia_module_plugin.api.gmodules.combined import ListVirtualModules
+from actinia_module_plugin.api.gmodules.combined import DescribeVirtualModule
+from actinia_module_plugin.api.gdi_processing import \
     GdiAsyncEphemeralExportResource, GdiAsyncPersistentResource
 
 
@@ -51,7 +51,7 @@ def create_endpoints(flask_api):
             return current_app.send_static_file('index.html')
         except werkzeug.exceptions.NotFound:
             log.debug('No index.html found in static folder. Serving backup.')
-            # when actinia-gdi is installed in single mode, the swagger
+            # when actinia-module-plugin is installed in single mode, the swagger
             # endpoint would be "latest/api/swagger.json". As api docs exist in
             # single mode, use this fallback for plugin mode.
             return ("""<h1 style='color:red'>actinia-module-plugin</h1>

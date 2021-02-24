@@ -30,9 +30,9 @@ import time
 
 from actinia_core.resources.common.response_models import create_response_from_model
 
-from actinia_gdi.core.gmodulesProcessor import run_process_chain
-from actinia_gdi.core.gmodulesParser import ParseInterfaceDescription
-from actinia_gdi.model.gmodules import Module
+from actinia_module_plugin.core.gmodulesProcessor import run_process_chain
+from actinia_module_plugin.core.gmodulesParser import ParseInterfaceDescription
+from actinia_module_plugin.model.gmodules import Module
 
 
 def createModuleList(self):

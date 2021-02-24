@@ -35,11 +35,11 @@ from flask_restful_swagger_2 import swagger
 from flask_restful import Resource
 from actinia_core.resources.resource_base import ResourceBase
 
-from actinia_gdi.apidocs import gmodules
-from actinia_gdi.core.gmodulesActinia import createProcessChainTemplateList
-from actinia_gdi.core.gmodulesActinia import createActiniaModule
-from actinia_gdi.model.gmodules import ModuleList
-from actinia_gdi.model.responseModels import SimpleStatusCodeResponseModel
+from actinia_module_plugin.apidocs import gmodules
+from actinia_module_plugin.core.gmodulesActinia import createProcessChainTemplateList
+from actinia_module_plugin.core.gmodulesActinia import createActiniaModule
+from actinia_module_plugin.model.gmodules import ModuleList
+from actinia_module_plugin.model.responseModels import SimpleStatusCodeResponseModel
 
 
 class ListProcessChainTemplates(Resource):

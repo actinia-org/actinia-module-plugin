@@ -32,13 +32,10 @@ from logging import FileHandler
 from colorlog import ColoredFormatter
 from pythonjsonlogger import jsonlogger
 
-from actinia_gdi.resources.config import LOGCONFIG
+from actinia_module_plugin.resources.config import LOGCONFIG
 
 
-# Notice: do not call logging.warning (will create new logger for ever)
-# logging.warning("called actinia_gdi logger after 1")
-
-log = logging.getLogger('actinia-gdi')
+log = logging.getLogger('actinia-module-plugin')
 werkzeugLog = logging.getLogger('werkzeug')
 gunicornLog = logging.getLogger('gunicorn')
 

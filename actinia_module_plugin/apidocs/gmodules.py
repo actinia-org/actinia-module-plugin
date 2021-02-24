@@ -29,7 +29,7 @@ import copy
 
 from actinia_core.resources.common.response_models import ProcessingErrorResponseModel
 
-from actinia_gdi.model.gmodules import Module, ModuleList
+from actinia_module_plugin.model.gmodules import Module, ModuleList
 
 
 null = "null"

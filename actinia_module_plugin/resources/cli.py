@@ -32,16 +32,16 @@ import sys
 def name():
     """Print name to console
     """
-    return "actinia-gdi"
+    return "actinia-module-plugin"
 
 
 def about():
-    """Print information about actinia-gdi to console
+    """Print information about actinia-module-plugin to console
     """
 
-    text = "actinia-gdi"
+    text = "actinia-module-plugin"
     text = text + "\n This package communicates via HTTP"
-    text = text + "\n To start application, run 'python -m actinia_gdi.main'"
+    text = text + "\n To start application, run 'python -m actinia_module_plugin.main'"
     return text
 
 

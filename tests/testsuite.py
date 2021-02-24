@@ -61,7 +61,7 @@ from actinia_core.resources.common.config import global_config
 from actinia_core.resources.common.user import ActiniaUser
 
 
-# actinia-gdi endpoints are included as defined in actinia_core config
+# actinia-module-plugin endpoints are included as defined in actinia_core config
 create_endpoints()
 
 

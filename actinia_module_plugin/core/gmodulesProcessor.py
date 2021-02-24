@@ -58,7 +58,7 @@ from actinia_core.resources.common.response_models import \
     StringListProcessingResultResponseModel, \
     ProcessingErrorResponseModel
 
-from actinia_gdi.core.common import start_job
+from actinia_module_plugin.core.common import start_job
 
 
 def initGrass(self):

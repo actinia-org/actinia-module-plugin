@@ -29,7 +29,7 @@ import unittest
 from pkg_resources import get_distribution, DistributionNotFound
 from flask import Response
 
-import actinia_gdi
+import actinia_module_plugin
 from testsuite import ActiniaTestCase
 
 
@@ -54,8 +54,8 @@ class initTest(unittest.TestCase):
 
     def test_init(self):
         # TODO: apply to __init__.py
-        pkg_version = get_distribution('actinia_gdi.wsgi').version
-        assert actinia_gdi.__version__ == pkg_version
+        pkg_version = get_distribution('actinia_module_plugin.wsgi').version
+        assert actinia_module_plugin.__version__ == pkg_version
 
         with pytest.raises(DistributionNotFound):
             v = get_distribution('false_distro_name').version

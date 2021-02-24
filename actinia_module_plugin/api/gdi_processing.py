@@ -60,9 +60,9 @@ from actinia_core.resources.ephemeral_processing_with_export import start_job as
 from actinia_core.resources.persistent_processing import start_job as start_job_persistent_processing, SCHEMA_DOC as SCHEMA_DOC_PERSISTENT_PROCESSING
 from actinia_core.resources.common.response_models import create_response_from_model
 
-from actinia_gdi.core.gmodulesActinia import createProcessChainTemplateList
-from actinia_gdi.core.gmodulesActinia import fillTemplateFromProcessChain
-from actinia_gdi.core.gmodulesGrass import createModuleList
+from actinia_module_plugin.core.gmodulesActinia import createProcessChainTemplateList
+from actinia_module_plugin.core.gmodulesActinia import fillTemplateFromProcessChain
+from actinia_module_plugin.core.gmodulesGrass import createModuleList
 
 
 def log_error_to_resource_logger(self, msg, rdc):

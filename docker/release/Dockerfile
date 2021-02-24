@@ -5,8 +5,8 @@ RUN apk add git python3 postgresql-dev gcc python3-dev musl-dev
 RUN pip3 install --upgrade pip pep517 wheel
 
 # Build
-COPY . /src/actinia-gdi
-WORKDIR /src/actinia-gdi
+COPY . /src/actinia-module-plugin
+WORKDIR /src/actinia-module-plugin
 # TODO: include tests. Currently only running whith actinia_core installed
 # RUN pip3 install -r requirements.txt && python3 setup.py test
 # build including dependency list from setup.cfg (automatically installed).
@@ -20,7 +20,7 @@ FROM alpine:edge
 COPY --from=build /build/actinia*.whl /build/
 COPY docker/release/create_release_with_asset.sh .
 
-ARG release_url=https://api.github.com/repos/mundialis/actinia-gdi/releases
+ARG release_url=https://api.github.com/repos/mundialis/actinia-module-plugin/releases
 ARG tag=0.0
 ARG credentials=dummy:dummy
 ARG file=/build/actinia*.whl

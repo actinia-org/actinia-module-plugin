@@ -33,7 +33,7 @@ from pathlib import Path
 DEFAULT_CONFIG_PATH = "config"
 CONFIG_FILES = [str(f) for f in Path(
     DEFAULT_CONFIG_PATH).glob('**/*.ini') if f.is_file()]
-GENERATED_CONFIG = DEFAULT_CONFIG_PATH + '/actinia-gdi.cfg'
+GENERATED_CONFIG = DEFAULT_CONFIG_PATH + '/actinia-module-plugin.cfg'
 
 
 class APP:
@@ -73,7 +73,7 @@ class GEONETWORK:
 class LOGCONFIG:
     """Default config for logging
     """
-    logfile = 'actinia-gdi.log'
+    logfile = 'actinia-module-plugin.log'
     level = 'DEBUG'
     type = 'stdout'
 

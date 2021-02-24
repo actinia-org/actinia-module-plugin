@@ -1,11 +1,11 @@
 # actinia gdi
 
-You can run actinia-gdi in multiple ways:
+You can run actinia-module-plugin in multiple ways:
 
 * as actinia-core plugin
 * as standalone app with gunicorn, connected with a running actinia-core instance
 
-Depending on how you run, it, actinia-gdi has different endpoints as some make only sense in plugin mode or vice versa. See `actinia_gdi/endpoints.py`. Therefore a running postgres instance is only needed in standalone mode. If used as actinia-core plugin, the main.py is not executed. In standalone-mode, GRASS GIS is not required. Therefore, endpoints which needs GRASS GIS access, are only added in plugin-mode.
+Depending on how you run, it, actinia-module-plugin has different endpoints as some make only sense in plugin mode or vice versa. See `actinia_module_plugin/endpoints.py`. Therefore a running postgres instance is only needed in standalone mode. If used as actinia-core plugin, the main.py is not executed. In standalone-mode, GRASS GIS is not required. Therefore, endpoints which needs GRASS GIS access, are only added in plugin-mode.
 
 ## Installation
 For DEV setup or deployments, see docker/README.md.
@@ -30,7 +30,7 @@ python3 -m pep517.build .
 https://semver.org/ (MAJOR.MINOR.PATCH)
 
 #### Logging:
-in any module, import `from actinia_gdi.resources.logging import log` and call logger with `log.info("my info i want to log")`
+in any module, import `from actinia_module_plugin.resources.logging import log` and call logger with `log.info("my info i want to log")`
 
 
 #### requests library

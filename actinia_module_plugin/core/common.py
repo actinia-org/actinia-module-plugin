@@ -30,7 +30,7 @@ import requests
 import xmltodict
 from requests.auth import HTTPBasicAuth
 
-from actinia_gdi.resources.logging import log
+from actinia_module_plugin.resources.logging import log
 
 
 def auth(CONFIG):

@@ -1,6 +1,6 @@
 {
 	"id": "default_value",
-	"description": "test default value in actinia-gdi",
+	"description": "test default value in actinia-module-plugin",
 	"template": {
 		"version": "1",
 		"list": [

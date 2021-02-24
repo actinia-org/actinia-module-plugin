@@ -1,1 +1,1 @@
-from actinia_gdi.main import app as application
+from actinia_module_plugin.main import app as application
