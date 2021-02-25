@@ -43,7 +43,7 @@ Base class for GRASS GIS REST API tests
 
 __license__ = "Apache-2.0"
 __author__ = "Carmen Tawalika, Sören Gebbert"
-__copyright__ = "Copyright 2016-2018, Sören Gebbert and mundialis GmbH & Co. KG"
+__copyright__ = "Copyright 2016-2018, Sören Gebbert, mundialis GmbH & Co. KG"
 __maintainer__ = "mundialis"
 
 
@@ -61,7 +61,8 @@ from actinia_core.resources.common.config import global_config
 from actinia_core.resources.common.user import ActiniaUser
 
 
-# actinia-module-plugin endpoints are included as defined in actinia_core config
+# actinia-module-plugin endpoints are included as defined in actinia_core
+# config
 create_endpoints()
 
 
@@ -90,8 +91,10 @@ class ActiniaTestCase(unittest.TestCase):
         self.app = flask_app.test_client()
 
         # Start and connect the redis interface
-        redis_args = (global_config.REDIS_SERVER_URL, global_config.REDIS_SERVER_PORT)
-        if global_config.REDIS_SERVER_PW and global_config.REDIS_SERVER_PW is not None:
+        redis_args = (global_config.REDIS_SERVER_URL,
+                      global_config.REDIS_SERVER_PORT)
+        if (global_config.REDIS_SERVER_PW
+                and global_config.REDIS_SERVER_PW is not None):
             redis_args = (*redis_args, global_config.REDIS_SERVER_PW)
         redis_interface.connect(*redis_args)
 
@@ -100,12 +103,13 @@ class ActiniaTestCase(unittest.TestCase):
                                              "user1",
                                              "modis_lst"]}
         password = pwgen.pwgen()
-        self.user_id, self.user_group, self.user_auth_header = self.create_user(
+        self.user_id, self.user_group, self.user_auth_header = self.createUser(
             name="user", role="user", password=password, process_num_limit=3,
             process_time_limit=4, accessible_datasets=accessible_datasets)
 
         # # create process queue
-        # from actinia_core.resources.common.process_queue import create_process_queue
+        # from actinia_core.resources.common.process_queue import \
+        #    create_process_queue
         # create_process_queue(config=global_config)
 
     def tearDown(self):
@@ -118,10 +122,10 @@ class ActiniaTestCase(unittest.TestCase):
             user.delete()
         redis_interface.disconnect()
 
-    def create_user(self, name="guest", role="guest",
-                    group="group", password="abcdefgh",
-                    accessible_datasets=None, process_num_limit=1000,
-                    process_time_limit=6000):
+    def createUser(self, name="guest", role="guest",
+                   group="group", password="abcdefgh",
+                   accessible_datasets=None, process_num_limit=1000,
+                   process_time_limit=6000):
 
         auth = bytes('%s:%s' % (name, password), "utf-8")
 
@@ -153,7 +157,7 @@ def compare_module_to_file(self, uri_path='modules', module=None):
     # below is successful.
 
     resp = self.app.get(URL_PREFIX + '/' + uri_path + '/' + module,
-                            headers=self.user_auth_header)
+                        headers=self.user_auth_header)
     respStatusCode = 200
     assert hasattr(resp, 'json')
     currentResp = resp.json

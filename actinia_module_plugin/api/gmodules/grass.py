@@ -33,9 +33,11 @@ from flask_restful_swagger_2 import swagger
 from actinia_core.resources.resource_base import ResourceBase
 
 from actinia_module_plugin.apidocs import gmodules
-from actinia_module_plugin.core.gmodulesGrass import createModuleList, createGrassModule
+from actinia_module_plugin.core.gmodulesGrass import createModuleList
+from actinia_module_plugin.core.gmodulesGrass import createGrassModule
 from actinia_module_plugin.model.gmodules import ModuleList
-from actinia_module_plugin.model.responseModels import SimpleStatusCodeResponseModel
+from actinia_module_plugin.model.responseModels import \
+    SimpleStatusCodeResponseModel
 
 
 class ListModules(ResourceBase):

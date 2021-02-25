@@ -28,7 +28,8 @@ __maintainer__ = "Anika Bettge, Carmen Tawalika"
 import json
 import time
 
-from actinia_core.resources.common.response_models import create_response_from_model
+from actinia_core.resources.common.response_models import \
+    create_response_from_model
 
 from actinia_module_plugin.core.gmodulesProcessor import run_process_chain
 from actinia_module_plugin.core.gmodulesParser import ParseInterfaceDescription
@@ -56,7 +57,9 @@ def createModuleList(self):
         orig_datetime='',
         message=''
     )
-    self.resource_logger.commit(user_id=self.user_id, resource_id=self.resource_id, document=data,expiration=1)
+    self.resource_logger.commit(
+        user_id=self.user_id, resource_id=self.resource_id, document=data,
+        expiration=1)
 
     module_list = []
     for data in j_data:

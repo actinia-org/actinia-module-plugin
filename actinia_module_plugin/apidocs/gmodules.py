@@ -27,7 +27,8 @@ __license__ = "Apache-2.0"
 
 import copy
 
-from actinia_core.resources.common.response_models import ProcessingErrorResponseModel
+from actinia_core.resources.common.response_models import \
+    ProcessingErrorResponseModel
 
 from actinia_module_plugin.model.gmodules import Module, ModuleList
 
@@ -52,8 +53,6 @@ listModules_get_docs = {
         }
     }
 }
-Module = {}
-ProcessingErrorResponseModel = {}
 
 describeModule_get_docs = {
     'tags': ['Module Management'],
