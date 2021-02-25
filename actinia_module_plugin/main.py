@@ -41,9 +41,8 @@ apidoc = Api(
     api_spec_url='/latest/api/swagger',
     schemes=['https', 'http'],
     consumes=['application/json'],
-    description="""actinia GDI takes care of integrating actinia-core into
-                   an existing geodata infrastructure connecting clients,
-                   applications, databases, metadata and more.
+    description="""Contains module self-description and process-chain-template
+                   management and processing.
                    """
 )
 

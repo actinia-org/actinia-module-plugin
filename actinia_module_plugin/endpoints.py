@@ -27,7 +27,7 @@ __license__ = "Apache-2.0"
 from flask import current_app, send_from_directory
 import werkzeug
 
-from actinia_gdi.resources.logging import log
+from actinia_module_plugin.resources.logging import log
 
 from actinia_module_plugin.api.gmodules.grass import ListModules
 from actinia_module_plugin.api.gmodules.grass import DescribeModule
