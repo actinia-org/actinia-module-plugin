@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Copyright (c) 2018-present mundialis GmbH & Co. KG
+Copyright (c) 2018-2021 mundialis GmbH & Co. KG
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-Setup file for actinia_gdi.
+Setup file for actinia_module_plugin.
 
 This file was generated with PyScaffold 3.0.2.
 PyScaffold helps you to put up the scaffold of your new Python project.
@@ -24,26 +24,26 @@ Learn more under: http://pyscaffold.org/
 """
 
 __author__ = "Carmen Tawalika"
-__copyright__ = "2018-present mundialis GmbH & Co. KG"
-__license__ = "TODO"
+__copyright__ = "2018-2021 mundialis GmbH & Co. KG"
+__license__ = "Apache-2.0"
 
 
 from setuptools import setup
 
 entry_points = {
     'console_scripts': [
-        'name = actinia_gdi.resources.cli:name',
-    'about = actinia_gdi.resources.cli:about',
-    'pc2grass = actinia_gdi.resources.cli:pc2grass'
-  ]
+        'name = actinia_module_plugin.resources.cli:name',
+        'about = actinia_module_plugin.resources.cli:about',
+        'pc2grass = actinia_module_plugin.resources.cli:pc2grass'
+    ]
 }
 
 
 def setup_package():
     setup(setup_requires=['pyscaffold>=3.0a0,<3.1a0'],
           entry_points=entry_points,
-          packages=['actinia_gdi'],
-          package_dir={'actinia_gdi': 'actinia_gdi'},
+          packages=['actinia_module_plugin'],
+          package_dir={'actinia_module_plugin': 'actinia_module_plugin'},
           include_package_data=True,
           use_pyscaffold=True)
 
