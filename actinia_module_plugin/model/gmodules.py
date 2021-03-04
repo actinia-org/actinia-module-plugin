@@ -24,7 +24,6 @@ __copyright__ = "2019-present mundialis GmbH & Co. KG"
 __license__ = "Apache-2.0"
 
 
-import copy
 import os
 import json
 

@@ -38,17 +38,17 @@ Code based on actinia_core: github.com/mundialis/actinia_core
 #
 
 
-Extension of actinia_cores ephemeral_processing_with_export AsyncEphemeralExportResource to include process chain templates
+Extension of actinia_cores ephemeral_processing_with_export
+AsyncEphemeralExportResource to include process chain templates
 """
 
 __license__ = "Apache-2.0"
 __author__ = "Anika Bettge, Sören Gebbert"
-__copyright__ = "Copyright 2016-2019, Sören Gebbert and mundialis GmbH & Co. KG"
+__copyright__ = "Copyright 2016-2019, Sören Gebbert, mundialis GmbH & Co. KG"
 __maintainer__ = "mundialis"
 
 
 import pickle
-import time
 from flask import jsonify, make_response
 
 from copy import deepcopy
@@ -56,12 +56,19 @@ from flask_restful_swagger_2 import swagger
 
 from actinia_core.resources.resource_base import ResourceBase
 from actinia_core.resources.common.redis_interface import enqueue_job
-from actinia_core.resources.ephemeral_processing_with_export import start_job as start_job_ephemeral_processing_with_export, SCHEMA_DOC as SCHEMA_DOC_EPHEMERAL_PROCESSING_WITH_EXPORT
-from actinia_core.resources.persistent_processing import start_job as start_job_persistent_processing, SCHEMA_DOC as SCHEMA_DOC_PERSISTENT_PROCESSING
-from actinia_core.resources.common.response_models import create_response_from_model
+from actinia_core.resources.ephemeral_processing_with_export import \
+    start_job as start_job_ephemeral_processing_with_export, \
+    SCHEMA_DOC as SCHEMA_DOC_EPHEMERAL_PROCESSING_WITH_EXPORT
+from actinia_core.resources.persistent_processing import \
+    start_job as start_job_persistent_processing, \
+    SCHEMA_DOC as SCHEMA_DOC_PERSISTENT_PROCESSING
+from actinia_core.resources.common.response_models import \
+    create_response_from_model
 
-from actinia_module_plugin.core.gmodulesActinia import createProcessChainTemplateList
-from actinia_module_plugin.core.gmodulesActinia import fillTemplateFromProcessChain
+from actinia_module_plugin.core.gmodulesActinia import \
+    createProcessChainTemplateList
+from actinia_module_plugin.core.gmodulesActinia import \
+    fillTemplateFromProcessChain
 from actinia_module_plugin.core.gmodulesGrass import createModuleList
 
 
@@ -93,7 +100,8 @@ def log_error_to_resource_logger(self, msg, rdc):
     )
 
 
-def set_actinia_modules(self, rdc, pc_list, grass_module_list, actinia_module_list):
+def set_actinia_modules(
+        self, rdc, pc_list, grass_module_list, actinia_module_list):
     new_pc = []
     for module in pc_list:
         if "module" in module:
@@ -115,7 +123,9 @@ def set_actinia_modules(self, rdc, pc_list, grass_module_list, actinia_module_li
                     log_error_to_resource_logger(self, msg, rdc)
                     return
                 else:
-                    ac_module_pc = set_actinia_modules(self, rdc, module_pc, grass_module_list, actinia_module_list)
+                    ac_module_pc = set_actinia_modules(
+                        self, rdc, module_pc, grass_module_list,
+                        actinia_module_list)
                     new_pc.extend(ac_module_pc)
             else:
                 msg = ("Module %s is not of type importer, exporter, "
@@ -152,7 +162,9 @@ def preprocess_build_pc_and_enqueue(self, preprocess_kwargs, start_job):
     if rdc:
         rdc.set_storage_model_to_file()
 
-        new_pc = set_actinia_modules(self, rdc, rdc.request_data['list'], grass_module_list, actinia_module_list)
+        new_pc = set_actinia_modules(
+            self, rdc, rdc.request_data['list'], grass_module_list,
+            actinia_module_list)
         rdc.request_data['list'] = new_pc
 
         enqueue_job(self.job_timeout, start_job, rdc)

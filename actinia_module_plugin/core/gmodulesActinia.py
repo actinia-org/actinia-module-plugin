@@ -122,7 +122,7 @@ def createProcessChainTemplateList():
         tpl = pcTplEnv.get_template(tpl_string)
         try:
             pc_template = json.loads(tpl.render().replace('\n', ''))
-        except:
+        except Exception:
             log.error('Error parsing template ' + tpl_string)
 
         tpl_id = pc_template['id']
@@ -314,7 +314,8 @@ class PlaceholderCollector(object):
                 self.collect_value_placeholders(vp)
 
             if 'import_descr' in j:
-                self.collect_im_and_exporter_placeholders(vp, j, "import_descr")
+                self.collect_im_and_exporter_placeholders(
+                    vp, j, "import_descr")
 
             if 'exporter' in j:
                 self.collect_im_and_exporter_placeholders(vp, j, "exporter")
@@ -420,7 +421,7 @@ class PlaceholderTransformer(object):
 
         for k, v in placeholderCollection:
             # case when nested actiniamodule
-            if v['run_interface_descr'] == False:
+            if v['run_interface_descr'] is False:
                 return
             xml_string = v['xml_string']
             self.aggregated_keys = v['gparams']
@@ -594,7 +595,7 @@ def fillTemplateFromProcessChain(module):
             default_vars.append(filtered_var[0])
 
     for i in undef:
-        if i not in kwargs.keys() and not i in default_vars:
+        if i not in kwargs.keys() and i not in default_vars:
             log.error('Required parameter "' + i + '" not in process chain!')
             return i
 

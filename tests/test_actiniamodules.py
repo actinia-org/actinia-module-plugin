@@ -61,17 +61,3 @@ for i in someActiniaModules:
     def_name = "test_describe_process_chain_template_get_" + i
     compare_module_to_file.__defaults__ = ('actiniamodules', i,)
     setattr(ActiniaModulesTest, def_name, compare_module_to_file)
-
-
-
-# apidoc.add_resource(ListVirtualModules, '/modules')
-# apidoc.add_resource(DescribeVirtualModule, '/modules/<module>')
-
-# apidoc.add_resource(
-#     GdiAsyncEphemeralExportResource,
-#     '/locations/<string:location_name>/gdi_processing_async_export'
-# )
-# apidoc.add_resource(
-#     GdiAsyncPersistentResource,
-#     '/locations/<string:location_name>/mapsets/<string:mapset_name>/gdi_processing_async'
-# )

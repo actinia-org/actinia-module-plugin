@@ -41,7 +41,8 @@ def about():
 
     text = "actinia-module-plugin"
     text = text + "\n This package communicates via HTTP"
-    text = text + "\n To start application, run 'python -m actinia_module_plugin.main'"
+    text = text + "\n To start application, run "
+    text = text + "\n 'python -m actinia_module_plugin.main'"
     return text
 
 

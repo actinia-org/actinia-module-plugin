@@ -50,7 +50,8 @@ endpoints.addEndpoints(app, apidoc)
 
 
 if __name__ == '__main__':
-    # call this for development only with `python -m actinia_module_plugin.main`
+    # call this for development only with
+    # `python -m actinia_module_plugin.main`
     log.debug('starting app in development mode...')
     app.run(debug=True, use_reloader=False)
     # for production environent use application in wsgy.py

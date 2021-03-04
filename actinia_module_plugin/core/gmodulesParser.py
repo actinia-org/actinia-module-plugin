@@ -29,7 +29,8 @@ import json
 import xmltodict
 
 from actinia_module_plugin.model.gmodules import Module
-from actinia_module_plugin.model.gmodules import ModuleParameter, ModuleParameterSchema
+from actinia_module_plugin.model.gmodules import ModuleParameter
+from actinia_module_plugin.model.gmodules import ModuleParameterSchema
 from actinia_module_plugin.resources.logging import log
 from actinia_module_plugin.resources.templating import tplEnv
 
@@ -276,7 +277,7 @@ def ParseInterfaceDescription(xml_string, keys=None):
             extrakwargs[key] = []
             for param in pc_template[key]:
                 extrakwargs[key].append(ModuleParameter(**param))
-    except Exception as e:
+    except Exception:
         # if no template for module exist, use as is (default)
         # log.debug('template %s does not exist.', e)
         pass

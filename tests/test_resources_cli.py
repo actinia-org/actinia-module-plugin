@@ -35,8 +35,9 @@ class CliTest(unittest.TestCase):
         assert name() == "actinia-module-plugin"
 
     def test_cli_about(self):
-        t = "actinia-module-plugin"
-        t = t + "\n This package communicates via HTTP"
-        t = t + "\n To start application, run 'python -m actinia_module_plugin.main'"
+        text = "actinia-module-plugin"
+        text = text + "\n This package communicates via HTTP"
+        text = text + "\n To start application, run "
+        text = text + "\n 'python -m actinia_module_plugin.main'"
 
-        assert about() == t
+        assert about() == text
