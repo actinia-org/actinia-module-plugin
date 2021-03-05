@@ -34,7 +34,8 @@ __maintainer__ = "Carmen Tawalika"
 from flask import jsonify, make_response, request
 from actinia_core.resources.resource_base import ResourceBase
 
-from actinia_module_plugin.model.responseModels import SimpleStatusCodeResponseModel
+from actinia_module_plugin.model.responseModels import \
+    SimpleStatusCodeResponseModel
 from actinia_module_plugin.core.actinia_module import readAllActiniaModules
 from actinia_module_plugin.core.actinia_module import createActiniaModule
 from actinia_module_plugin.core.actinia_module import readActiniaModule

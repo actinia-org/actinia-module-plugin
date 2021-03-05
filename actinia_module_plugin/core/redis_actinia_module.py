@@ -101,7 +101,7 @@ class RedisActiniaModuleInterface(RedisBaseInterface):
             actinia_module = pickle.loads(self.redis_server.hget(
                 self.actinia_module_id_hash_prefix + actinia_module_id,
                 "actinia_module"))
-        except:
+        except Exception:
             return False
 
         return actinia_module

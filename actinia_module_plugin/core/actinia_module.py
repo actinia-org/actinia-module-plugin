@@ -25,7 +25,8 @@ __copyright__ = "Copyright 2021, mundialis"
 __maintainer__ = "Carmen Tawalika"
 
 
-from actinia_module_plugin.core.redis_actinia_module import redis_actinia_module_interface
+from actinia_module_plugin.core.redis_actinia_module import \
+    redis_actinia_module_interface
 from actinia_core.resources.common.config import Configuration
 
 
@@ -33,7 +34,7 @@ def connect():
     conf = Configuration()
     try:
         conf.read()
-    except:
+    except Exception:
         pass
 
     server = conf.REDIS_SERVER_URL

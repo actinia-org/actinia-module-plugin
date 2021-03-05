@@ -43,7 +43,7 @@ from actinia_module_plugin.api.gdi_processing import \
 from actinia_module_plugin.api.actinia_modules import ActiniaModule
 from actinia_module_plugin.api.actinia_modules import ActiniaModuleId
 
-# endpoints loaded if run as actinia-core plugin
+
 def create_endpoints(flask_api):
 
     # app = flask_api.app
