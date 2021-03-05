@@ -40,6 +40,8 @@ from actinia_module_plugin.api.gmodules.combined import DescribeVirtualModule
 from actinia_module_plugin.api.gdi_processing import \
     GdiAsyncEphemeralExportResource, GdiAsyncPersistentResource
 
+from actinia_module_plugin.api.actinia_modules import ActiniaModule
+from actinia_module_plugin.api.actinia_modules import ActiniaModuleId
 
 # endpoints loaded if run as actinia-core plugin
 def create_endpoints(flask_api):
@@ -80,6 +82,13 @@ def create_endpoints(flask_api):
     apidoc.add_resource(
         GdiAsyncPersistentResource,
         '/locations/<string:location_name>/mapsets/<string:mapset_name>/gdi_processing_async'
+    )
+
+    apidoc.add_resource(
+        ActiniaModule, '/actinia_modules'
+    )
+    apidoc.add_resource(
+        ActiniaModuleId, '/actinia_modules/<module_id>'
     )
 
     # apidoc.add_resource(Actinia, '/actinia/<path:actinia_path>')
