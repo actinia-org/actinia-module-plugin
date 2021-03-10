@@ -51,7 +51,7 @@ class AppTest(ActiniaTestCase):
         assert resp.status_code == respStatusCode
 
 
-class initTest(unittest.TestCase):
+class InitTest(unittest.TestCase):
 
     def test_init(self):
         # TODO: apply to __init__.py

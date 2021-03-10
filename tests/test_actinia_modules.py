@@ -24,8 +24,6 @@ __author__ = "Carmen Tawalika"
 __copyright__ = "Copyright 2021, mundialis"
 
 
-# import unittest
-
 from flask import Response
 
 from actinia_core.resources.common.app import URL_PREFIX
@@ -33,37 +31,33 @@ from actinia_core.resources.common.app import URL_PREFIX
 from testsuite import ActiniaTestCase, compare_module_to_file
 
 
-someGrassModules = ['r.slope.aspect', 'importer', 'exporter']
+someActiniaModules = [
+    'add_enumeration', 'default_value', 'nested_modules_test',
+    'point_in_polygon', 'slope_aspect', 'vector_area', 'index_NDVI']
 
 
-class GmodulesTest(ActiniaTestCase):
+class ActiniaModulesTest(ActiniaTestCase):
 
-    # @unittest.skip("demonstrating skipping")
-    def test_list_modules_get(self):
-        global someGrassModules
+    def test_list_process_chain_templates_get(self):
+        global someActiniaModules
 
         respStatusCode = 200
-        resp = self.app.get(URL_PREFIX + '/grassmodules',
-                            headers=self.user_auth_header)
+        resp = self.app.get(URL_PREFIX + '/actinia_modules')
 
         assert type(resp) is Response
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
-
-        assert len(resp.json['processes']) > 500
-        assert 'categories' in resp.json['processes'][0]
-        assert 'description' in resp.json['processes'][0]
-        assert 'id' in resp.json['processes'][0]
+        assert 'actinia-module' in resp.json['processes'][0]['categories']
 
         respModules = [i['id'] for i in resp.json['processes']]
 
-        for i in someGrassModules:
+        for i in someActiniaModules:
             assert i in respModules
 
 
-for i in someGrassModules:
-    # create method for every grass-module to have a better overview in
+for i in someActiniaModules:
+    # create method for every actinia-module to have a better overview in
     # test summary
-    def_name = "test_describe_module_get_" + i
-    compare_module_to_file.__defaults__ = ('grassmodules', i,)
-    setattr(GmodulesTest, def_name, compare_module_to_file)
+    def_name = "test_describe_process_chain_template_get_" + i
+    compare_module_to_file.__defaults__ = ('actinia_modules', i,)
+    setattr(ActiniaModulesTest, def_name, compare_module_to_file)
