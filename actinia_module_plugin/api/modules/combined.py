@@ -32,13 +32,13 @@ from flask import jsonify, make_response
 from flask_restful_swagger_2 import swagger
 from actinia_core.resources.resource_base import ResourceBase
 
-from actinia_module_plugin.apidocs import gmodules
-from actinia_module_plugin.core.gmodulesActinia import \
+from actinia_module_plugin.apidocs import modules
+from actinia_module_plugin.core.modules.actinia import \
     createProcessChainTemplateList
-from actinia_module_plugin.core.gmodulesActinia import createActiniaModule
-from actinia_module_plugin.core.gmodulesGrass import createModuleList
-from actinia_module_plugin.core.gmodulesGrass import createGrassModule
-from actinia_module_plugin.model.gmodules import ModuleList
+from actinia_module_plugin.core.modules.actinia import createActiniaModule
+from actinia_module_plugin.core.modules.grass import createModuleList
+from actinia_module_plugin.core.modules.grass import createGrassModule
+from actinia_module_plugin.model.modules import ModuleList
 from actinia_module_plugin.model.responseModels import \
     SimpleStatusCodeResponseModel
 
@@ -47,7 +47,7 @@ class ListVirtualModules(ResourceBase):
     """List all GRASS GIS modules and process chain templates
     """
 
-    @swagger.doc(gmodules.listModules_get_docs)
+    @swagger.doc(modules.listModules_get_docs)
     def get(self):
         """Get a list of all modules.
         """
@@ -69,7 +69,7 @@ class DescribeVirtualModule(ResourceBase):
     Contains swagger documentation
     """
 
-    @swagger.doc(gmodules.describeModule_get_docs)
+    @swagger.doc(modules.describeModule_get_docs)
     def get(self, module):
         """Describe a module.
         """

@@ -36,43 +36,43 @@ from actinia_core.resources.resource_base import ResourceBase
 
 from actinia_module_plugin.model.responseModels import \
     SimpleStatusCodeResponseModel
-from actinia_module_plugin.core.actinia_module import readAllActiniaModules
-from actinia_module_plugin.core.actinia_module import createActiniaModule
-from actinia_module_plugin.core.actinia_module import readActiniaModule
-from actinia_module_plugin.core.actinia_module import updateActiniaModule
-from actinia_module_plugin.core.actinia_module import deleteActiniaModule
+from actinia_module_plugin.core.actinia_templates import readAllTemplates
+from actinia_module_plugin.core.actinia_templates import createTemplate
+from actinia_module_plugin.core.actinia_templates import readTemplate
+from actinia_module_plugin.core.actinia_templates import updateTemplate
+from actinia_module_plugin.core.actinia_templates import deleteTemplate
 
 
-class ActiniaModule(ResourceBase):
-    """List all actinia modules (process chain templates)
+class ActiniaTemplate(ResourceBase):
+    """List all actinia templates (process chain templates)
     """
 
     # @swagger.doc(TODO)
     def get(self):
-        """Get a list of all actinia modules (process chain templates).
+        """Get a list of all actinia templates (process chain templates).
         """
-        actinia_module_list = readAllActiniaModules()
-        return make_response(jsonify(actinia_module_list), 201)
+        actinia_templates_list = readAllTemplates()
+        return make_response(jsonify(actinia_templates_list), 200)
 
     # @swagger.doc(TODO)
     def post(self):
-        """Create an actinia module (process chain template).
+        """Create an actinia template (process chain template).
         """
-        actinia_module = createActiniaModule(request.get_json(force=True))
-        return make_response(jsonify(actinia_module), 201)
+        actinia_templates = createTemplate(request.get_json(force=True))
+        return make_response(jsonify(actinia_templates), 201)
 
 
-class ActiniaModuleId(ResourceBase):
-    """ Manage actinia modules (process chain templates)
+class ActiniaTemplateId(ResourceBase):
+    """ Manage actinia templates (process chain templates)
     """
 
     # @swagger.doc(TODO)
-    def get(self, module_id):
-        """Describe an actinia module (process chain template).
+    def get(self, template_id):
+        """Describe an actinia template (process chain template).
         """
-        actinia_module = readActiniaModule(module_id)
-        if actinia_module is not False:
-            return make_response(jsonify(actinia_module), 201)
+        actinia_template = readTemplate(template_id)
+        if actinia_template is not False:
+            return make_response(jsonify(actinia_template), 200)
         else:
             res = (jsonify(SimpleStatusCodeResponseModel(
                         status=404,
@@ -81,13 +81,13 @@ class ActiniaModuleId(ResourceBase):
             return make_response(res, 404)
 
     # @swagger.doc(TODO)
-    def put(self, module_id):
-        """Update an actinia module (process chain template).
+    def put(self, template_id):
+        """Update an actinia template (process chain template).
         """
-        actinia_module = updateActiniaModule(
-            module_id, request.get_json(force=True))
-        if actinia_module is not False:
-            return make_response(jsonify(actinia_module), 201)
+        actinia_template = updateTemplate(
+            template_id, request.get_json(force=True))
+        if actinia_template is not False:
+            return make_response(jsonify(actinia_template), 201)
         else:
             res = (jsonify(SimpleStatusCodeResponseModel(
                         status=404,
@@ -96,12 +96,12 @@ class ActiniaModuleId(ResourceBase):
             return make_response(res, 404)
 
     # @swagger.doc(TODO)
-    def delete(self, module_id):
-        """Delete an actinia module (process chain template).
+    def delete(self, template_id):
+        """Delete an actinia template (process chain template).
         """
-        resp = deleteActiniaModule(module_id)
+        resp = deleteTemplate(template_id)
         if resp is True:
-            return make_response(jsonify(resp), 201)
+            return make_response(jsonify(resp), 200)
         else:
             res = (jsonify(SimpleStatusCodeResponseModel(
                         status=404,

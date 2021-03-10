@@ -35,11 +35,11 @@ from flask_restful_swagger_2 import swagger
 from flask_restful import Resource
 from actinia_core.resources.resource_base import ResourceBase
 
-from actinia_module_plugin.apidocs import gmodules
-from actinia_module_plugin.core.gmodulesActinia import \
+from actinia_module_plugin.apidocs import modules
+from actinia_module_plugin.core.modules.actinia import \
     createProcessChainTemplateList
-from actinia_module_plugin.core.gmodulesActinia import createActiniaModule
-from actinia_module_plugin.model.gmodules import ModuleList
+from actinia_module_plugin.core.modules.actinia import createActiniaModule
+from actinia_module_plugin.model.modules import ModuleList
 from actinia_module_plugin.model.responseModels import \
     SimpleStatusCodeResponseModel
 
@@ -48,7 +48,7 @@ class ListProcessChainTemplates(Resource):
     """List all process chain templates
     """
 
-    @swagger.doc(gmodules.listModules_get_docs)
+    @swagger.doc(modules.listModules_get_docs)
     def get(self):
         """Get a list of all actinia modules (process chain templates).
         """
@@ -66,7 +66,7 @@ class DescribeProcessChainTemplate(ResourceBase):
     Contains swagger documentation
     """
 
-    @swagger.doc(gmodules.describeActiniaModule_get_docs)
+    @swagger.doc(modules.describeActiniaModule_get_docs)
     def get(self, actiniamodule):
         """Describe an actinia module (process chain template).
         """

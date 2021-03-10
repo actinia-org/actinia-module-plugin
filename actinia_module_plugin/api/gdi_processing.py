@@ -65,11 +65,11 @@ from actinia_core.resources.persistent_processing import \
 from actinia_core.resources.common.response_models import \
     create_response_from_model
 
-from actinia_module_plugin.core.gmodulesActinia import \
+from actinia_module_plugin.core.modules.actinia import \
     createProcessChainTemplateList
-from actinia_module_plugin.core.gmodulesActinia import \
+from actinia_module_plugin.core.modules.actinia import \
     fillTemplateFromProcessChain
-from actinia_module_plugin.core.gmodulesGrass import createModuleList
+from actinia_module_plugin.core.modules.grass import createModuleList
 
 
 def log_error_to_resource_logger(self, msg, rdc):

@@ -6,7 +6,7 @@
 per-file-ignores =
     ./actinia_module_plugin/wsgi.py: F401
     ./actinia_module_plugin/resources/config.py: F401
-    ./actinia_module_plugin/core/gmodulesActinia.py: E501
-    ./actinia_module_plugin/model/gmodules.py: E501
-    ./actinia_module_plugin/apidocs/gmodules.py: E501
+    ./actinia_module_plugin/core/modules/actinia.py: E501
+    ./actinia_module_plugin/model/modules.py: E501
+    ./actinia_module_plugin/apidocs/modules.py: E501
     ./actinia_module_plugin/endpoints.py: E501

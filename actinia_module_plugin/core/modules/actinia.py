@@ -29,9 +29,9 @@ import json
 from jinja2 import meta, nodes
 import re
 
-from actinia_module_plugin.core.gmodulesProcessor import run_process_chain
-from actinia_module_plugin.core.gmodulesParser import ParseInterfaceDescription
-from actinia_module_plugin.model.gmodules import Module
+from actinia_module_plugin.core.modules.processor import run_process_chain
+from actinia_module_plugin.core.modules.parser import ParseInterfaceDescription
+from actinia_module_plugin.model.modules import Module
 from actinia_module_plugin.resources.templating import pcTplEnv
 from actinia_module_plugin.resources.logging import log
 

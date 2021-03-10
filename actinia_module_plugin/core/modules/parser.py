@@ -28,9 +28,9 @@ __maintainer__ = "Carmen Tawalika"
 import json
 import xmltodict
 
-from actinia_module_plugin.model.gmodules import Module
-from actinia_module_plugin.model.gmodules import ModuleParameter
-from actinia_module_plugin.model.gmodules import ModuleParameterSchema
+from actinia_module_plugin.model.modules import Module
+from actinia_module_plugin.model.modules import ModuleParameter
+from actinia_module_plugin.model.modules import ModuleParameterSchema
 from actinia_module_plugin.resources.logging import log
 from actinia_module_plugin.resources.templating import tplEnv
 
