@@ -58,8 +58,8 @@ class ActiniaTemplatesTest(ActiniaTestCase):
 
         respStatusCode = 201
 
-        with open('tests/resources/actinia_templates/pc_template.json') as jsonfile:
-            pc_template = json.load(jsonfile)
+        with open('tests/resources/actinia_templates/pc_tpl.json') as file:
+            pc_template = json.load(file)
         templateUUID = str(uuid.uuid4())
         pc_template['id'] = templateUUID
 
@@ -85,8 +85,8 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 
-        with open('tests/resources/actinia_templates/pc_template.json') as jsonfile:
-            pc_template = json.load(jsonfile)
+        with open('tests/resources/actinia_templates/pc_tpl.json') as file:
+            pc_template = json.load(file)
         pc_template['id'] = templateUUID
         assert resp.json == pc_template
 
@@ -94,8 +94,8 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         global templateUUID
 
         respStatusCode = 201
-        with open('tests/resources/actinia_templates/pc_template2.json') as jsonfile:
-            pc_template = json.load(jsonfile)
+        with open('tests/resources/actinia_templates/pc_tpl2.json') as file:
+            pc_template = json.load(file)
         pc_template['id'] = templateUUID
 
         resp = self.app.put(URL_PREFIX + '/actinia_templates/' + templateUUID,
@@ -120,8 +120,8 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 
-        with open('tests/resources/actinia_templates/pc_template2.json') as jsonfile:
-            pc_template = json.load(jsonfile)
+        with open('tests/resources/actinia_templates/pc_tpl2.json') as file:
+            pc_template = json.load(file)
         pc_template['id'] = templateUUID
         assert resp.json == pc_template
 

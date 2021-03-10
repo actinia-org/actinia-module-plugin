@@ -152,6 +152,8 @@ class ActiniaTestCase(unittest.TestCase):
         return name, group, self.auth_header[role]
 
 
+# import unittest
+# @unittest.skip("compare response to file")
 def compare_module_to_file(self, uri_path='modules', module=None):
     # Won't run with module=None but ensures, that "passing of arguments"
     # below is successful.
