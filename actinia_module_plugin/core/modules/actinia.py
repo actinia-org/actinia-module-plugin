@@ -436,13 +436,17 @@ class PlaceholderTransformer(object):
 
         # add parameters from executable
         for param in placeholderCollector.aggregated_exes:
+            if param in [i['name'] for i in self.vm_params]:
+                continue
             exe_param = {}
+            exe_param['name'] = param
             exe_param['description'] = 'Simple parameter from executable'
             exe_param['required'] = True
             exe_param['schema'] = {'type': 'string'}
             add_param_description(
                 exe_param, 'exe', dict())
-            self.vm_params[param] = exe_param
+            self.vm_params.append(exe_param)
+
 
 
 def createActiniaModule(resourceBaseSelf, processchain):

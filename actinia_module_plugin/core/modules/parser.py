@@ -25,6 +25,7 @@ __copyright__ = "Copyright 2019, mundialis"
 __maintainer__ = "Carmen Tawalika"
 
 
+import collections
 import json
 import xmltodict
 
@@ -46,6 +47,9 @@ def setParameterKey(module_id, parameter):
     except KeyError:
         key = None
         logstring(module_id, key, "name")
+    except TypeError:
+        logstring(module_id, key, "name")
+        log.error('Yet unknown error occured')
 
     return key
 
@@ -62,10 +66,12 @@ def setVirtualParameterKey(module_id, parameter):
 
 def setParameterDescription(module_id, key, parameter, kwargs):
     param_descr = ""
+    label = False
 
     try:
         param_descr = parameter['label'] + ". "
         kwargs['description'] = param_descr
+        label = True
     except KeyError:
         # logstring(module_id, key, "label")
         pass
@@ -73,7 +79,11 @@ def setParameterDescription(module_id, key, parameter, kwargs):
         param_descr += parameter['description'] + ". "
         kwargs['description'] = param_descr
     except KeyError:
-        logstring(module_id, key, "description")
+        if label:
+            logstring(module_id, key, "description")
+            pass
+        log.warning('Neither label nor description set for param %s' %
+                    parameter['@name'])
 
     return kwargs
 
@@ -223,6 +233,13 @@ def ParseInterfaceDescription(xml_string, keys=None):
     parameters = []
     returns = []
     extrakwargs = dict()
+
+    # if a GRASS GIS module has only one parameter, xml2dict does not transform
+    # parameters to an array but only assigns this one parameter. For our
+    # parser to get along, we transform in this case to array as well.
+    if (type(xmltodict.parse(xml_string)['task']['parameter'])
+            == collections.OrderedDict):
+        gm_dict['parameter'] = [gm_dict['parameter']]
 
     try:
         grass_params = gm_dict['parameter']
