@@ -200,6 +200,7 @@ def createModuleParameterFromGrassFlag(module_id, key, parameter):
 
     kwargs = dict()
     kwargs['default'] = 'False'
+    kwargs['optional'] = True
     schema_kwargs = dict()
     schema_kwargs['type'] = 'boolean'
 
@@ -207,7 +208,6 @@ def createModuleParameterFromGrassFlag(module_id, key, parameter):
 
     kwargs = setParameterDescription(module_id, key, parameter, kwargs)
     kwargs = setParameterName(key, kwargs)
-    kwargs = setParameterOptional(parameter, kwargs)
 
     param_object = ModuleParameter(
         **kwargs,
