@@ -24,8 +24,8 @@ __copyright__ = "Copyright 2021, mundialis"
 __maintainer__ = "Carmen Tawalika"
 
 
-from actinia_module_plugin.core.redis_actinia_templates import \
-    redis_actinia_template_interface
+from actinia_module_plugin.core.templates.user_templates_redis_interface \
+    import redis_actinia_template_interface
 from actinia_core.resources.common.config import Configuration
 
 
@@ -49,7 +49,7 @@ def connect():
     return redis_actinia_template_interface
 
 
-def readAllTemplates():
+def readAll():
     '''
     Get all actinia templates from redis database
     '''
