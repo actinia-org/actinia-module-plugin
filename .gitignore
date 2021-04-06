@@ -47,3 +47,4 @@ venv/
 config/mount/config.ini
 config/mount/pw.ini
 config/*.cfg
+actinia_module_plugin/templates/pc_templates/assets/
