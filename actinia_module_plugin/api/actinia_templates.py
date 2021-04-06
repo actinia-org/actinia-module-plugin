@@ -36,11 +36,13 @@ from actinia_core.resources.resource_base import ResourceBase
 
 from actinia_module_plugin.model.responseModels import \
     SimpleStatusCodeResponseModel
-from actinia_module_plugin.core.actinia_templates import readAllTemplates
-from actinia_module_plugin.core.actinia_templates import createTemplate
-from actinia_module_plugin.core.actinia_templates import readTemplate
-from actinia_module_plugin.core.actinia_templates import updateTemplate
-from actinia_module_plugin.core.actinia_templates import deleteTemplate
+from actinia_module_plugin.core.templates.user_templates import readAll
+from actinia_module_plugin.core.templates.user_templates import createTemplate
+from actinia_module_plugin.core.templates.user_templates import readTemplate
+from actinia_module_plugin.core.templates.user_templates import updateTemplate
+from actinia_module_plugin.core.templates.user_templates import deleteTemplate
+from actinia_module_plugin.core.templates.global_templates import getAll
+from actinia_module_plugin.core.templates.global_templates import getTemplate
 
 
 class ActiniaTemplate(ResourceBase):
@@ -51,7 +53,10 @@ class ActiniaTemplate(ResourceBase):
     def get(self):
         """Get a list of all actinia templates (process chain templates).
         """
-        actinia_templates_list = readAllTemplates()
+        user_templates_list = readAll()
+        global_templates_list = getAll()
+        actinia_templates_list = user_templates_list + global_templates_list
+
         return make_response(jsonify(actinia_templates_list), 200)
 
     # @swagger.doc(TODO)
@@ -71,6 +76,10 @@ class ActiniaTemplateId(ResourceBase):
         """Describe an actinia template (process chain template).
         """
         actinia_template = readTemplate(template_id)
+        if actinia_template is not False:
+            return make_response(jsonify(actinia_template), 200)
+
+        actinia_template = getTemplate(template_id)
         if actinia_template is not False:
             return make_response(jsonify(actinia_template), 200)
         else:

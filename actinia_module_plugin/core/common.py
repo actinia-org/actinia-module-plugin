@@ -37,3 +37,12 @@ def start_job(timeout, func, *args):
     p.start()
 
     return
+
+
+def filter_func(name):
+    ''' filter examples out of template folder
+    '''
+
+    if "example" not in name:
+        return True
+    return False

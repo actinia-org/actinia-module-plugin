@@ -36,9 +36,13 @@ from flask_restful import Resource
 from actinia_core.resources.resource_base import ResourceBase
 
 from actinia_module_plugin.apidocs import modules
-from actinia_module_plugin.core.modules.actinia import \
-    createProcessChainTemplateList
-from actinia_module_plugin.core.modules.actinia import createActiniaModule
+from actinia_module_plugin.core.filter import filter
+from actinia_module_plugin.core.modules.actinia_global_templates import \
+    createProcessChainTemplateListFromFileSystem
+from actinia_module_plugin.core.modules.actinia_user_templates import \
+    createProcessChainTemplateListFromRedis
+from actinia_module_plugin.core.modules.actinia_common import \
+    createActiniaModule
 from actinia_module_plugin.model.modules import ModuleList
 from actinia_module_plugin.model.responseModels import \
     SimpleStatusCodeResponseModel
@@ -53,7 +57,11 @@ class ListProcessChainTemplates(Resource):
         """Get a list of all actinia modules (process chain templates).
         """
 
-        pc_list = createProcessChainTemplateList()
+        pc_list_fs = createProcessChainTemplateListFromFileSystem()
+        pc_list_redis = createProcessChainTemplateListFromRedis()
+        pc_list = pc_list_fs + pc_list_redis
+
+        pc_list = filter(pc_list)
 
         return make_response(jsonify(
             ModuleList(status="success", processes=pc_list)), 200)
