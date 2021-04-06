@@ -26,23 +26,14 @@ __maintainer__ = "Carmen Tawalika"
 
 
 import json
-from jinja2 import meta, nodes
+from jinja2 import meta
 import re
 
+from actinia_module_plugin.core.common import filter_func
 from actinia_module_plugin.core.modules.processor import run_process_chain
 from actinia_module_plugin.core.modules.parser import ParseInterfaceDescription
 from actinia_module_plugin.model.modules import Module
 from actinia_module_plugin.resources.templating import pcTplEnv
-from actinia_module_plugin.resources.logging import log
-
-
-def filter_func(name):
-    ''' filter examples out of template folder
-    '''
-
-    if "example" not in name:
-        return True
-    return False
 
 
 def get_path_from_pc_name(pc_name):
@@ -108,35 +99,6 @@ def render_template(pc):
     pc_template = json.loads(tpl.render(**kwargs).replace('\n', ''))
 
     return pc_template
-
-
-def createProcessChainTemplateList():
-    '''
-       list all stored templates and return as actinia-module list
-    '''
-
-    pc_list = []
-    tpl_list = pcTplEnv.list_templates(filter_func=filter_func)
-
-    for tpl_string in tpl_list:
-        tpl = pcTplEnv.get_template(tpl_string)
-        try:
-            pc_template = json.loads(tpl.render().replace('\n', ''))
-        except Exception:
-            log.error('Error parsing template ' + tpl_string)
-
-        tpl_id = pc_template['id']
-        description = pc_template['description']
-        categories = ['actinia-module']
-
-        pc_response = (Module(
-            id=tpl_id,
-            description=description,
-            categories=categories
-        ))
-        pc_list.append(pc_response)
-
-    return pc_list
 
 
 def add_param_description(moduleparameter, param, input_dict):
@@ -448,7 +410,6 @@ class PlaceholderTransformer(object):
             self.vm_params.append(exe_param)
 
 
-
 def createActiniaModule(resourceBaseSelf, processchain):
     '''
     This method is used to create self-descriptions for actinia-modules.
@@ -523,88 +484,3 @@ def createActiniaModule(resourceBaseSelf, processchain):
     )
 
     return virtual_module
-
-
-def find_filters(ast):
-    """Find all the nodes of a given type.  If the type is a tuple,
-    the check is performed for any of the tuple items.
-    Function from: https://stackoverflow.com/questions/55275399/how-to-get-variables-along-with-their-filter-name-from-jinja2-template
-    """
-    for child in ast.iter_child_nodes():
-        if isinstance(child, nodes.Filter):
-            yield child
-        else:
-            for result in find_filters(child):
-                yield result
-
-
-def filtered_variables(ast):
-    """Return variables that have filters, along with their filters. might
-    return duplicate variable names with different filters
-    Function from: https://stackoverflow.com/questions/55275399/how-to-get-variables-along-with-their-filter-name-from-jinja2-template
-    """
-    results = []
-    for i, node in enumerate(find_filters(ast)):
-        filters = []
-        f = node
-        filters.append(f.name)
-        while isinstance(f.node, nodes.Filter):
-            f = f.node
-            filters.append(f.name)
-        filters.reverse()
-        results.append((f.node.name, filters))
-    return results
-
-
-def fillTemplateFromProcessChain(module):
-    """ This method receives a process chain for an actinia module and loads
-        the according process chain template. The received values will be
-        replaced to be passed to actinia. In case the template has more
-        placeholder values than it receives, the missing attribute is returned
-        as string.
-    """
-    kwargs = {}
-    inOrOutputs = []
-
-    if module.get('inputs') is not None:
-        inOrOutputs += module.get('inputs')
-
-    if module.get('outputs') is not None:
-        inOrOutputs += module.get('outputs')
-
-    for item in inOrOutputs:
-        if (item.get('param') is None) or (item.get('value') is None):
-            return None
-        key = item['param']
-        val = item['value']
-        kwargs[key] = val
-
-    tpl_file = module["module"] + '.json'
-
-    # change path to template if in subdir
-    for i in pcTplEnv.list_templates(filter_func=filter_func):
-        if i.split('/')[-1] == tpl_file:
-            tpl_file = i
-
-    # find variables from processchain
-    tpl_source = pcTplEnv.loader.get_source(pcTplEnv, tpl_file)[0]
-    parsed_content = pcTplEnv.parse(tpl_source)
-    undef = meta.find_undeclared_variables(parsed_content)
-
-    # find default variables from processchain
-    default_vars = []
-    filtered_vars = filtered_variables(parsed_content)
-    for filtered_var in filtered_vars:
-        if 'default' in filtered_var[1]:
-            default_vars.append(filtered_var[0])
-
-    for i in undef:
-        if i not in kwargs.keys() and i not in default_vars:
-            log.error('Required parameter "' + i + '" not in process chain!')
-            return i
-
-    # fill process chain template
-    tpl = pcTplEnv.get_template(tpl_file)
-    pc_template = json.loads(tpl.render(**kwargs).replace('\n', ''))
-
-    return (pc_template['template']['list'])
