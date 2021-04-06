@@ -65,9 +65,11 @@ from actinia_core.resources.persistent_processing import \
 from actinia_core.resources.common.response_models import \
     create_response_from_model
 
-from actinia_module_plugin.core.modules.actinia import \
-    createProcessChainTemplateList
-from actinia_module_plugin.core.modules.actinia import \
+from actinia_module_plugin.core.modules.actinia_global_templates import \
+    createProcessChainTemplateListFromFileSystem
+from actinia_module_plugin.core.modules.actinia_user_templates import \
+    createProcessChainTemplateListFromRedis
+from actinia_module_plugin.core.processing import \
     fillTemplateFromProcessChain
 from actinia_module_plugin.core.modules.grass import createModuleList
 
@@ -127,6 +129,7 @@ def set_actinia_modules(
                         self, rdc, module_pc, grass_module_list,
                         actinia_module_list)
                     new_pc.extend(ac_module_pc)
+
             else:
                 msg = ("Module %s is not of type importer, exporter, "
                        "grass-module or an actinia-module." % name)
@@ -146,14 +149,18 @@ def preprocess_build_pc_and_enqueue(self, preprocess_kwargs, start_job):
 
     # get grass and actinia module lists
     module_list = createModuleList(self)
-    pc_list = createProcessChainTemplateList()
+    pc_global_list = createProcessChainTemplateListFromFileSystem()
+    pc_user_list = createProcessChainTemplateListFromRedis()
     grass_module_list = []
     actinia_module_list = []
 
     for module in module_list:
         grass_module_list.append(module['id'])
 
-    for module in pc_list:
+    for module in pc_global_list:
+        actinia_module_list.append(module['id'])
+
+    for module in pc_user_list:
         actinia_module_list.append(module['id'])
 
     # run preprocess again after createModuleList
