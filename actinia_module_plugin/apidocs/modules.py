@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Copyright (c) 2018-present mundialis GmbH & Co. KG
+Copyright (c) 2018-2021 mundialis GmbH & Co. KG
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,19 +16,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-Documentation objects for GRASS modules and process chain template
-api endpoints
+Documentation objects for GRASS modules and actinia modules api endpoints
 """
 
 __author__ = "Carmen Tawalika"
-__copyright__ = "2018-present mundialis GmbH & Co. KG"
+__copyright__ = "2018-2021 mundialis GmbH & Co. KG"
 __license__ = "Apache-2.0"
 
 
 import copy
 
-from actinia_core.resources.common.response_models import \
-    ProcessingErrorResponseModel
+from actinia_module_plugin.model.responseModels import \
+     SimpleStatusCodeResponseModel
 
 from actinia_module_plugin.model.modules import Module, ModuleList
 
@@ -37,25 +36,25 @@ null = "null"
 
 
 listModules_get_docs = {
-    'tags': ['Module Management'],
+    'tags': ['Module Viewer'],
     'description': 'Get a list of modules. '
                    'Minimum required user role: user.',
     'responses': {
         '200': {
-            'description': 'This response returns a list of module names and the log '
-                           'of the process chain that was used to create the response.',
+            'description': 'This response returns a list of module names and '
+                           'the status.',
             'schema': ModuleList
         },
         '400': {
-            'description': 'The error message and a detailed log why listing of '
-                           'modules did not succeeded',
-            'schema': ProcessingErrorResponseModel
+            'description': 'The error message and a detailed log why listing of'
+                           ' modules did not succeeded',
+            'schema': SimpleStatusCodeResponseModel
         }
     }
 }
 
 describeModule_get_docs = {
-    'tags': ['Module Management'],
+    'tags': ['Module Viewer'],
     "parameters": [
         {
             "in": "path",
@@ -75,7 +74,7 @@ describeModule_get_docs = {
         '400': {
             'description': 'The error message and a detailed log why '
                            'describing modules did not succeeded',
-            'schema': ProcessingErrorResponseModel
+            'schema': SimpleStatusCodeResponseModel
         }
     }
 }

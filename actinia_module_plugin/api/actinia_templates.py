@@ -32,8 +32,10 @@ __maintainer__ = "Carmen Tawalika"
 
 
 from flask import jsonify, make_response, request
+from flask_restful_swagger_2 import swagger
 from actinia_core.resources.resource_base import ResourceBase
 
+from actinia_module_plugin.apidocs import templates
 from actinia_module_plugin.core.templates.user_templates import readAll
 from actinia_module_plugin.core.templates.user_templates import createTemplate
 from actinia_module_plugin.core.templates.user_templates import readTemplate
@@ -49,7 +51,7 @@ class ActiniaTemplate(ResourceBase):
     """List all actinia templates (process chain templates)
     """
 
-    # @swagger.doc(TODO)
+    @swagger.doc(templates.listTemplates_get_docs)
     def get(self):
         """Get a list of all actinia templates (process chain templates).
         """
@@ -59,7 +61,7 @@ class ActiniaTemplate(ResourceBase):
 
         return make_response(jsonify(actinia_templates_list), 200)
 
-    # @swagger.doc(TODO)
+    @swagger.doc(templates.createTemplate_post_docs)
     def post(self):
         """Create an actinia template (process chain template).
         """
@@ -71,9 +73,9 @@ class ActiniaTemplateId(ResourceBase):
     """ Manage actinia templates (process chain templates)
     """
 
-    # @swagger.doc(TODO)
+    @swagger.doc(templates.readTemplate_get_docs)
     def get(self, template_id):
-        """Describe an actinia template (process chain template).
+        """Read an actinia template (process chain template).
         """
         actinia_template = readTemplate(template_id)
         if actinia_template is not False:
@@ -84,12 +86,12 @@ class ActiniaTemplateId(ResourceBase):
             return make_response(jsonify(actinia_template), 200)
         else:
             res = (jsonify(SimpleStatusCodeResponseModel(
-                        status=404,
+                        status=400,
                         message='Error'
                    )))
-            return make_response(res, 404)
+            return make_response(res, 400)
 
-    # @swagger.doc(TODO)
+    @swagger.doc(templates.updateTemplate_put_docs)
     def put(self, template_id):
         """Update an actinia template (process chain template).
         """
@@ -99,12 +101,12 @@ class ActiniaTemplateId(ResourceBase):
             return make_response(jsonify(actinia_template), 201)
         else:
             res = (jsonify(SimpleStatusCodeResponseModel(
-                        status=404,
+                        status=400,
                         message='Error'
                    )))
-            return make_response(res, 404)
+            return make_response(res, 400)
 
-    # @swagger.doc(TODO)
+    @swagger.doc(templates.deleteTemplate_delete_docs)
     def delete(self, template_id):
         """Delete an actinia template (process chain template).
         """
@@ -113,7 +115,7 @@ class ActiniaTemplateId(ResourceBase):
             return make_response(jsonify(resp), 200)
         else:
             res = (jsonify(SimpleStatusCodeResponseModel(
-                        status=404,
+                        status=400,
                         message='Error'
                    )))
-            return make_response(res, 404)
+            return make_response(res, 400)
