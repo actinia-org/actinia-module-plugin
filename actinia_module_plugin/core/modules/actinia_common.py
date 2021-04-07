@@ -439,9 +439,9 @@ def createActiniaModule(resourceBaseSelf, processchain):
 
     categories = ['actinia-module']
     if user_template:
-        categories.append('user_template')
+        categories.append('user-template')
     else:
-        categories.append('global_template')
+        categories.append('global-template')
 
     virtual_module = Module(
         id=pc_template['id'],
