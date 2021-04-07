@@ -46,10 +46,12 @@ def render_template(pc):
     # first see if a user template exists
     tpl = get_user_template(pc)
     tpl_source = get_user_template_source(pc)
+    user_template = True
     if tpl is False:
         # then fall back to global filesystem template
         tpl = get_global_template(pc)
         tpl_source = get_global_template_source(pc)
+        user_template = False
 
     undef = get_template_undef(tpl_source)
 
@@ -58,7 +60,7 @@ def render_template(pc):
         kwargs[i] = '{{ ' + i + ' }}'
 
     pc_template = json.loads(tpl.render(**kwargs).replace('\n', ''))
-    return pc_template
+    return pc_template, user_template
 
 
 def add_param_description(moduleparameter, param, input_dict):
@@ -130,7 +132,7 @@ class PlaceholderCollector(object):
         # do not run interface description if module is
         # nested actiniamodule in actiniamodule
         if vp.module in self.actiniamodules_list:
-            module_pc_tpl = render_template(vp.module)
+            module_pc_tpl, user_template = render_template(vp.module)
             module_list_items = module_pc_tpl['template']['list']
             child_amc = PlaceholderCollector(self.resourceBaseSelf)
             self.nested_modules.append(vp)
@@ -388,7 +390,7 @@ def createActiniaModule(resourceBaseSelf, processchain):
     attributes which can be replaced in the processchain template.
     '''
 
-    pc_template = render_template(processchain)
+    pc_template, user_template = render_template(processchain)
     pc_template_list_items = pc_template['template']['list']
     undef = get_template_undef(processchain)
 
@@ -435,10 +437,16 @@ def createActiniaModule(resourceBaseSelf, processchain):
                             temp_dict['name'] = undefitem
                             pt.vm_returns.append(temp_dict)
 
+    categories = ['actinia-module']
+    if user_template:
+        categories.append('user_template')
+    else:
+        categories.append('global_template')
+
     virtual_module = Module(
         id=pc_template['id'],
         description=pc_template['description'],
-        categories=['actinia-module'],
+        categories=categories,
         parameters=pt.vm_params,
         returns=pt.vm_returns
     )
