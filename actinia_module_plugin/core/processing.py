@@ -27,12 +27,13 @@ __maintainer__ = "Carmen Tawalika"
 
 import json
 from jinja2 import meta, nodes
-from jinja2 import Template, DictLoader, Environment
 
-from actinia_module_plugin.core.common import filter_func
-from actinia_module_plugin.core.templates.user_templates import readTemplate
 from actinia_module_plugin.resources.templating import pcTplEnv
 from actinia_module_plugin.resources.logging import log
+from actinia_module_plugin.core.common import \
+    get_user_template, get_user_template_source, \
+    get_global_template, get_global_template_source, \
+    get_template_undef
 
 
 def find_filters(ast):
@@ -86,11 +87,7 @@ def build_kwargs_for_template_rendering(module):
     return kwargs
 
 
-def check_for_errors(tpl_source, kwargs):
-    # find variables from processchain
-    parsed_content = pcTplEnv.parse(tpl_source)
-    undef = meta.find_undeclared_variables(parsed_content)
-
+def check_for_errors(undef, parsed_content, kwargs):
     # find default variables from processchain
     default_vars = []
     filtered_vars = filtered_variables(parsed_content)
@@ -116,28 +113,20 @@ def fillTemplateFromProcessChain(module):
 
     kwargs = build_kwargs_for_template_rendering(module)
     tpl_source = ""
+    pc = module["module"]
 
     # first see if a user template exists
-    try:
-        actinia_template = readTemplate(module["module"])
-        tplEnv = Environment(loader=DictLoader(
-            {module["module"]: actinia_template}))
+    tpl = get_user_template(pc)
+    tpl_source = get_user_template_source(pc)
+    if tpl is False:
+        # then fall back to global filesystem template
+        tpl = get_global_template(pc)
+        tpl_source = get_global_template_source(pc)
 
-        tpl_source = tplEnv.loader.get_source(tplEnv, module["module"])[0]
-        tpl = Template(json.dumps(actinia_template))
+    undef = get_template_undef(tpl_source)
+    parsed_content = pcTplEnv.parse(tpl_source)
 
-    # then fall back to global filesystem template
-    except Exception:
-        tpl_file = module["module"] + '.json'
-        # change path to template if in subdir
-        for i in pcTplEnv.list_templates(filter_func=filter_func):
-            if i.split('/')[-1] == tpl_file:
-                tpl_file = i
-
-        tpl_source = pcTplEnv.loader.get_source(pcTplEnv, tpl_file)[0]
-        tpl = pcTplEnv.get_template(tpl_file)
-
-    errors = check_for_errors(tpl_source, kwargs)
+    errors = check_for_errors(undef, parsed_content, kwargs)
     if errors is not None:
         return errors
 

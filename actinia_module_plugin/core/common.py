@@ -24,6 +24,14 @@ __copyright__ = "2018-2021 mundialis GmbH & Co. KG"
 __license__ = "Apache-2.0"
 
 
+import json
+from jinja2 import meta
+from jinja2 import Template, DictLoader, Environment
+
+from actinia_module_plugin.core.templates.user_templates import readTemplate
+from actinia_module_plugin.resources.templating import pcTplEnv
+
+
 def start_job(timeout, func, *args):
     """Execute the provided function in a subprocess
     Args:
@@ -46,3 +54,49 @@ def filter_func(name):
     if "example" not in name:
         return True
     return False
+
+
+def get_user_template(name):
+    actinia_template = readTemplate(name)
+    if actinia_template is False:
+        return False
+    tpl = Template(json.dumps(actinia_template))
+
+    return tpl
+
+
+def get_user_template_source(name):
+    actinia_template = readTemplate(name)
+    tplEnv = Environment(loader=DictLoader({name: actinia_template}))
+    tpl_source = tplEnv.loader.get_source(tplEnv, name)[0]
+
+    return tpl_source
+
+
+def get_global_template_path(name):
+    tplPath = name + '.json'
+
+    # change path to template if in subdir
+    for i in pcTplEnv.list_templates(filter_func=filter_func):
+        if i.split('/')[-1] == tplPath:
+            tplPath = i
+
+    return tplPath
+
+
+def get_global_template(name):
+    tplPath = get_global_template_path(name)
+    tpl = pcTplEnv.get_template(tplPath)
+    return tpl
+
+
+def get_global_template_source(name):
+    tplPath = get_global_template_path(name)
+    tpl_source = pcTplEnv.loader.get_source(pcTplEnv, tplPath)[0]
+    return tpl_source
+
+
+def get_template_undef(tpl_source):
+    parsed_content = pcTplEnv.parse(tpl_source)
+    undef = meta.find_undeclared_variables(parsed_content)
+    return undef

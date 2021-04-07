@@ -26,80 +26,37 @@ __maintainer__ = "Carmen Tawalika"
 
 
 import json
-from jinja2 import meta
 import re
 
-from actinia_module_plugin.core.common import filter_func
+# from actinia_module_plugin.core.common import filter_func
 from actinia_module_plugin.core.modules.processor import run_process_chain
 from actinia_module_plugin.core.modules.parser import ParseInterfaceDescription
 from actinia_module_plugin.model.modules import Module
-from actinia_module_plugin.resources.templating import pcTplEnv
 from actinia_module_plugin.core.modules.actinia_global_templates import \
      createProcessChainTemplateListFromFileSystem
-
-
-def get_path_from_pc_name(pc_name):
-    """Find out path of a template
-
-    Parameters
-    ----------
-    pc_name : string
-        Name of template.
-
-    Returns
-    -------
-    tplPath : string
-        Path of template
-
-    """
-
-    tplPath = pc_name + '.json'
-
-    # change path to template if in subdir
-    for i in pcTplEnv.list_templates(filter_func=filter_func):
-        if i.split('/')[-1] == tplPath:
-            tplPath = i
-
-    return tplPath
-
-
-def get_template_undef(pc_name):
-    """Find out placeholders of a template
-
-    Parameters
-    ----------
-    pc_name : string
-        Name of template.
-
-    Returns
-    -------
-    undef : list
-        List of placeholders of template
-
-    """
-    tplPath = get_path_from_pc_name(pc_name)
-
-    # find variables from processchain and render template with variables
-    tpl_source = pcTplEnv.loader.get_source(pcTplEnv, tplPath)[0]
-    parsed_content = pcTplEnv.parse(tpl_source)
-    # {'column_name', 'name'}
-    undef = meta.find_undeclared_variables(parsed_content)
-    return undef
+from actinia_module_plugin.core.common import \
+    get_user_template, get_user_template_source, \
+    get_global_template, get_global_template_source,\
+    get_template_undef
 
 
 def render_template(pc):
 
-    tplPath = get_path_from_pc_name(pc)
+    # first see if a user template exists
+    tpl = get_user_template(pc)
+    tpl_source = get_user_template_source(pc)
+    if tpl is False:
+        # then fall back to global filesystem template
+        tpl = get_global_template(pc)
+        tpl_source = get_global_template_source(pc)
 
-    undef = get_template_undef(pc)
+    undef = get_template_undef(tpl_source)
 
     kwargs = {}
     for i in undef:
         kwargs[i] = '{{ ' + i + ' }}'
 
-    tpl = pcTplEnv.get_template(tplPath)
     pc_template = json.loads(tpl.render(**kwargs).replace('\n', ''))
-
     return pc_template
 
 

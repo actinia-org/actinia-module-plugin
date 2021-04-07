@@ -24,7 +24,7 @@ __copyright__ = "Copyright 2021, mundialis"
 __maintainer__ = "Carmen Tawalika"
 
 from actinia_module_plugin.resources.templating import pcTplEnv
-from actinia_module_plugin.core.modules.actinia_common import filter_func
+from actinia_module_plugin.core.common import filter_func
 from actinia_module_plugin.core.modules.actinia_common import render_template
 
 
