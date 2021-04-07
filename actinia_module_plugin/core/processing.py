@@ -26,14 +26,14 @@ __maintainer__ = "Carmen Tawalika"
 
 
 import json
-from jinja2 import meta, nodes
+from jinja2 import nodes
 
-from actinia_module_plugin.resources.templating import pcTplEnv
-from actinia_module_plugin.resources.logging import log
 from actinia_module_plugin.core.common import \
-    get_user_template, get_user_template_source, \
-    get_global_template, get_global_template_source, \
-    get_template_undef
+     get_user_template, get_user_template_source, \
+     get_global_template, get_global_template_source, \
+     get_template_undef
+from actinia_module_plugin.resources.logging import log
+from actinia_module_plugin.resources.templating import pcTplEnv
 
 
 def find_filters(ast):

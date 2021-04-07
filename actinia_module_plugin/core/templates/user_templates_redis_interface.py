@@ -16,7 +16,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-Redis server actinia_template interface
+Process Chain Template Management
+Redis interface
 """
 
 __license__ = "Apache-2.0"
@@ -25,8 +26,9 @@ __copyright__ = "Copyright 2021, mundialis"
 __maintainer__ = "Carmen Tawalika"
 
 
-from actinia_core.resources.common.redis_base import RedisBaseInterface
 import pickle
+
+from actinia_core.resources.common.redis_base import RedisBaseInterface
 
 
 class RedisActiniaTemplateInterface(RedisBaseInterface):

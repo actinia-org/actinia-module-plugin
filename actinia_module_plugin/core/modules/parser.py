@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-Module management to parser GRASS xml response
+Module viewer to parser GRASS xml response
 """
 
 __license__ = "Apache-2.0"

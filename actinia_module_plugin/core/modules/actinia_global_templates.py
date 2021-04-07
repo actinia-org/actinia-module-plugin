@@ -16,7 +16,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-Module management related to process chain templates
+actinia-module viewer
+Module for file based templates which are global
 """
 
 __license__ = "Apache-2.0"
@@ -27,10 +28,10 @@ __maintainer__ = "Carmen Tawalika"
 
 import json
 
+from actinia_module_plugin.core.common import filter_func
 from actinia_module_plugin.model.modules import Module
 from actinia_module_plugin.resources.templating import pcTplEnv
 from actinia_module_plugin.resources.logging import log
-from actinia_module_plugin.core.common import filter_func
 
 
 def createProcessChainTemplateListFromFileSystem():

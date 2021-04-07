@@ -25,8 +25,7 @@ __license__ = "Apache-2.0"
 
 
 import json
-from jinja2 import meta
-from jinja2 import Template, DictLoader, Environment
+from jinja2 import meta, Template, DictLoader, Environment
 
 from actinia_module_plugin.core.templates.user_templates import readTemplate
 from actinia_module_plugin.resources.templating import pcTplEnv

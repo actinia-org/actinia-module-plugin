@@ -16,10 +16,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-Module management and Process chain template management
+actinia-module + grass-module viewer
+Templates can be stored file based and in redis
 
-* List all modules + List all process chains templates
-* Describe single module + Describe single process chain template
+* List all GRASS GIS modules and actinia-modules
+* Describe single module
 """
 
 __license__ = "Apache-2.0"
@@ -35,10 +36,11 @@ from actinia_core.resources.resource_base import ResourceBase
 from actinia_module_plugin.apidocs import modules
 from actinia_module_plugin.core.filter import filter
 from actinia_module_plugin.core.modules.actinia_global_templates import \
-    createProcessChainTemplateListFromFileSystem
+     createProcessChainTemplateListFromFileSystem
 from actinia_module_plugin.core.modules.actinia_user_templates import \
-    createProcessChainTemplateListFromRedis
-from actinia_module_plugin.core.modules.actinia_common import createActiniaModule
+     createProcessChainTemplateListFromRedis
+from actinia_module_plugin.core.modules.actinia_common import \
+     createActiniaModule
 from actinia_module_plugin.core.modules.grass import createModuleList
 from actinia_module_plugin.core.modules.grass import createGrassModule
 from actinia_module_plugin.model.modules import ModuleList

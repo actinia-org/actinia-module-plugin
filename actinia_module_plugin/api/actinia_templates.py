@@ -34,8 +34,6 @@ __maintainer__ = "Carmen Tawalika"
 from flask import jsonify, make_response, request
 from actinia_core.resources.resource_base import ResourceBase
 
-from actinia_module_plugin.model.responseModels import \
-    SimpleStatusCodeResponseModel
 from actinia_module_plugin.core.templates.user_templates import readAll
 from actinia_module_plugin.core.templates.user_templates import createTemplate
 from actinia_module_plugin.core.templates.user_templates import readTemplate
@@ -43,6 +41,8 @@ from actinia_module_plugin.core.templates.user_templates import updateTemplate
 from actinia_module_plugin.core.templates.user_templates import deleteTemplate
 from actinia_module_plugin.core.templates.global_templates import getAll
 from actinia_module_plugin.core.templates.global_templates import getTemplate
+from actinia_module_plugin.model.responseModels import \
+     SimpleStatusCodeResponseModel
 
 
 class ActiniaTemplate(ResourceBase):

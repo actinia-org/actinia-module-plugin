@@ -16,8 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-Module and template filter
-
+Filter for module and template viewer
 """
 
 __license__ = "Apache-2.0"

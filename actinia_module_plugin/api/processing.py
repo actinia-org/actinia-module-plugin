@@ -48,30 +48,29 @@ __copyright__ = "Copyright 2016-2019, Sören Gebbert, mundialis GmbH & Co. KG"
 __maintainer__ = "mundialis"
 
 
-import pickle
-from flask import jsonify, make_response
-
 from copy import deepcopy
-from flask_restful_swagger_2 import swagger
+import pickle
 
-from actinia_core.resources.resource_base import ResourceBase
+from flask import jsonify, make_response
+from flask_restful_swagger_2 import swagger
 from actinia_core.resources.common.redis_interface import enqueue_job
-from actinia_core.resources.ephemeral_processing_with_export import \
-    start_job as start_job_ephemeral_processing_with_export, \
-    SCHEMA_DOC as SCHEMA_DOC_EPHEMERAL_PROCESSING_WITH_EXPORT
-from actinia_core.resources.persistent_processing import \
-    start_job as start_job_persistent_processing, \
-    SCHEMA_DOC as SCHEMA_DOC_PERSISTENT_PROCESSING
 from actinia_core.resources.common.response_models import \
-    create_response_from_model
+     create_response_from_model
+from actinia_core.resources.ephemeral_processing_with_export import \
+     start_job as start_job_ephemeral_processing_with_export, \
+     SCHEMA_DOC as SCHEMA_DOC_EPHEMERAL_PROCESSING_WITH_EXPORT
+from actinia_core.resources.persistent_processing import \
+     start_job as start_job_persistent_processing, \
+     SCHEMA_DOC as SCHEMA_DOC_PERSISTENT_PROCESSING
+from actinia_core.resources.resource_base import ResourceBase
 
 from actinia_module_plugin.core.modules.actinia_global_templates import \
-    createProcessChainTemplateListFromFileSystem
+     createProcessChainTemplateListFromFileSystem
 from actinia_module_plugin.core.modules.actinia_user_templates import \
-    createProcessChainTemplateListFromRedis
-from actinia_module_plugin.core.processing import \
-    fillTemplateFromProcessChain
+     createProcessChainTemplateListFromRedis
 from actinia_module_plugin.core.modules.grass import createModuleList
+from actinia_module_plugin.core.processing import \
+     fillTemplateFromProcessChain
 
 
 def log_error_to_resource_logger(self, msg, rdc):

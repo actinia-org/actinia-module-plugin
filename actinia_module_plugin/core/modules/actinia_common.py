@@ -16,7 +16,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-Module management related to process chain templates
+actinia-module viewer
+Common module for file based and redis templates
 """
 
 __license__ = "Apache-2.0"
@@ -29,15 +30,15 @@ import json
 import re
 
 # from actinia_module_plugin.core.common import filter_func
-from actinia_module_plugin.core.modules.processor import run_process_chain
-from actinia_module_plugin.core.modules.parser import ParseInterfaceDescription
-from actinia_module_plugin.model.modules import Module
 from actinia_module_plugin.core.modules.actinia_global_templates import \
      createProcessChainTemplateListFromFileSystem
 from actinia_module_plugin.core.common import \
-    get_user_template, get_user_template_source, \
-    get_global_template, get_global_template_source,\
-    get_template_undef
+     get_user_template, get_user_template_source, \
+     get_global_template, get_global_template_source,\
+     get_template_undef
+from actinia_module_plugin.core.modules.processor import run_process_chain
+from actinia_module_plugin.core.modules.parser import ParseInterfaceDescription
+from actinia_module_plugin.model.modules import Module
 
 
 def render_template(pc):

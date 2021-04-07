@@ -38,7 +38,7 @@ Code based on actinia_core: github.com/mundialis/actinia_core
 #
 
 
-Module management to run GRASS tasks
+Module viewer to run GRASS tasks
 """
 
 __license__ = "Apache-2.0"
@@ -55,7 +55,7 @@ import uuid
 from actinia_core.resources.common.config import global_config
 from actinia_core.resources.ephemeral_processing import EphemeralProcessing
 from actinia_core.resources.common.response_models import \
-    StringListProcessingResultResponseModel
+     StringListProcessingResultResponseModel
 
 from actinia_module_plugin.core.common import start_job
 

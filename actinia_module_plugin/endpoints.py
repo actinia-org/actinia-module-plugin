@@ -32,13 +32,13 @@ __license__ = "Apache-2.0"
 from actinia_module_plugin.api.modules.grass import ListModules
 from actinia_module_plugin.api.modules.grass import DescribeModule
 from actinia_module_plugin.api.modules.actinia import \
-    ListProcessChainTemplates
+     ListProcessChainTemplates
 from actinia_module_plugin.api.modules.actinia import \
-    DescribeProcessChainTemplate
+     DescribeProcessChainTemplate
 from actinia_module_plugin.api.modules.combined import ListVirtualModules
 from actinia_module_plugin.api.modules.combined import DescribeVirtualModule
 from actinia_module_plugin.api.processing import \
-    GdiAsyncEphemeralExportResource, GdiAsyncPersistentResource
+     GdiAsyncEphemeralExportResource, GdiAsyncPersistentResource
 
 from actinia_module_plugin.api.actinia_templates import ActiniaTemplate
 from actinia_module_plugin.api.actinia_templates import ActiniaTemplateId

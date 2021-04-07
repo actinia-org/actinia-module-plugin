@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-Module management
+GRASS GIS module viewer
 
 * List all modules
 * Describe single module
@@ -38,7 +38,7 @@ from actinia_module_plugin.core.modules.grass import createModuleList
 from actinia_module_plugin.core.modules.grass import createGrassModule
 from actinia_module_plugin.model.modules import ModuleList
 from actinia_module_plugin.model.responseModels import \
-    SimpleStatusCodeResponseModel
+     SimpleStatusCodeResponseModel
 
 
 class ListModules(ResourceBase):

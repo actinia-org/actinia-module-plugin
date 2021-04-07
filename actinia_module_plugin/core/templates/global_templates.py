@@ -15,7 +15,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Process Chain Template File reader related to process chain templates
+
+Process Chain Template Management
+File reader for global templates
 """
 
 __license__ = "Apache-2.0"
@@ -23,9 +25,10 @@ __author__ = "Carmen Tawalika"
 __copyright__ = "Copyright 2021, mundialis"
 __maintainer__ = "Carmen Tawalika"
 
-from actinia_module_plugin.resources.templating import pcTplEnv
+
 from actinia_module_plugin.core.common import filter_func
 from actinia_module_plugin.core.modules.actinia_common import render_template
+from actinia_module_plugin.resources.templating import pcTplEnv
 
 
 def getAll():

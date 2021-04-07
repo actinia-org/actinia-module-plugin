@@ -15,7 +15,9 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Process Chain Template management related to process chain templates
+
+Process Chain Template Management
+Redis CRUD for user templates
 """
 
 __license__ = "Apache-2.0"
@@ -24,9 +26,10 @@ __copyright__ = "Copyright 2021, mundialis"
 __maintainer__ = "Carmen Tawalika"
 
 
-from actinia_module_plugin.core.templates.user_templates_redis_interface \
-    import redis_actinia_template_interface
 from actinia_core.resources.common.config import Configuration
+
+from actinia_module_plugin.core.templates.user_templates_redis_interface \
+     import redis_actinia_template_interface
 
 
 def connect():

@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-Module management related to GRASS modules
+GRASS GIS module viewer
 """
 
 __license__ = "Apache-2.0"
@@ -29,7 +29,7 @@ import json
 import time
 
 from actinia_core.resources.common.response_models import \
-    create_response_from_model
+     create_response_from_model
 
 from actinia_module_plugin.core.modules.processor import run_process_chain
 from actinia_module_plugin.core.modules.parser import ParseInterfaceDescription

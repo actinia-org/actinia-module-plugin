@@ -16,7 +16,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-Module management related to process chain templates
+actinia-module viewer
+Module for templates stored in redis which are user defined
 """
 
 __license__ = "Apache-2.0"

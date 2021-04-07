@@ -16,12 +16,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-Process chain template management
-For now we only support read. In the future we want a whole CRUD.
-For now the templates are stored file based.
+actinia-module viewer
+Templates can be stored file based and in redis
 
-* List all process chains templates
-* Describe single process chain template
+* List all actinia-modules
+* Describe single actinia-module
 """
 
 __license__ = "Apache-2.0"
@@ -38,14 +37,14 @@ from actinia_core.resources.resource_base import ResourceBase
 from actinia_module_plugin.apidocs import modules
 from actinia_module_plugin.core.filter import filter
 from actinia_module_plugin.core.modules.actinia_global_templates import \
-    createProcessChainTemplateListFromFileSystem
+     createProcessChainTemplateListFromFileSystem
 from actinia_module_plugin.core.modules.actinia_user_templates import \
-    createProcessChainTemplateListFromRedis
+     createProcessChainTemplateListFromRedis
 from actinia_module_plugin.core.modules.actinia_common import \
-    createActiniaModule
+     createActiniaModule
 from actinia_module_plugin.model.modules import ModuleList
 from actinia_module_plugin.model.responseModels import \
-    SimpleStatusCodeResponseModel
+     SimpleStatusCodeResponseModel
 
 
 class ListProcessChainTemplates(Resource):
