@@ -34,6 +34,8 @@ from actinia_module_plugin.core.modules.processor import run_process_chain
 from actinia_module_plugin.core.modules.parser import ParseInterfaceDescription
 from actinia_module_plugin.model.modules import Module
 from actinia_module_plugin.resources.templating import pcTplEnv
+from actinia_module_plugin.core.modules.actinia_global_templates import \
+     createProcessChainTemplateListFromFileSystem
 
 
 def get_path_from_pc_name(pc_name):
@@ -161,7 +163,7 @@ class PlaceholderCollector(object):
         self.nested_modules = []
         self.actiniamodules_list = []
 
-        actiniamodules = createProcessChainTemplateList()
+        actiniamodules = createProcessChainTemplateListFromFileSystem()
         for k in actiniamodules:
             self.actiniamodules_list.append(k['id'])
 

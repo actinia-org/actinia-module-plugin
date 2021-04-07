@@ -30,7 +30,7 @@ import json
 from actinia_module_plugin.model.modules import Module
 from actinia_module_plugin.resources.templating import pcTplEnv
 from actinia_module_plugin.resources.logging import log
-from actinia_module_plugin.core.modules.actinia_common import filter_func
+from actinia_module_plugin.core.common import filter_func
 
 
 def createProcessChainTemplateListFromFileSystem():
