@@ -39,6 +39,20 @@ listModules_get_docs = {
     'tags': ['Module Viewer'],
     'description': 'Get a list of modules. '
                    'Minimum required user role: user.',
+    "parameters": [
+       {
+           "in": "path",
+           "name": "tag",
+           "type": "string",
+           "description": "Filter for categories"
+       },
+       {
+           "in": "path",
+           "name": "category",
+           "type": "string",
+           "description": "Another filter for categories"
+       }
+    ],
     'responses': {
         '200': {
             'description': 'This response returns a list of module names and '
