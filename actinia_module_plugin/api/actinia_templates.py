@@ -77,45 +77,54 @@ class ActiniaTemplateId(ResourceBase):
     def get(self, template_id):
         """Read an actinia template (process chain template).
         """
-        actinia_template = readTemplate(template_id)
-        if actinia_template is not False:
-            return make_response(jsonify(actinia_template), 200)
 
-        actinia_template = getTemplate(template_id)
-        if actinia_template is not False:
-            return make_response(jsonify(actinia_template), 200)
-        else:
+        msg = 'Error looking for actinia module "' + template_id + '".'
+        res = (jsonify(SimpleStatusCodeResponseModel(
+            status=404, message=msg)))
+
+        try:
+            actinia_template = readTemplate(template_id)
+            if actinia_template is not False:
+                return make_response(jsonify(actinia_template), 200)
+
+            actinia_template = getTemplate(template_id)
+            if actinia_template is not False:
+                return make_response(jsonify(actinia_template), 200)
+            else:
+                return make_response(res, 404)
+        except Exception:
+            msg = 'Error looking for actinia module "' + template_id + '".'
             res = (jsonify(SimpleStatusCodeResponseModel(
-                        status=400,
-                        message='Error'
-                   )))
-            return make_response(res, 400)
+                status=404, message=msg)))
+            return make_response(res, 404)
 
     @swagger.doc(templates.updateTemplate_put_docs)
     def put(self, template_id):
         """Update an actinia template (process chain template).
         """
-        actinia_template = updateTemplate(
-            template_id, request.get_json(force=True))
-        if actinia_template is not False:
-            return make_response(jsonify(actinia_template), 201)
-        else:
-            res = (jsonify(SimpleStatusCodeResponseModel(
-                        status=400,
-                        message='Error'
-                   )))
-            return make_response(res, 400)
+        res = (jsonify(SimpleStatusCodeResponseModel(
+            status=404, message='Error')))
+        try:
+            actinia_template = updateTemplate(
+                template_id, request.get_json(force=True))
+            if actinia_template is not False:
+                return make_response(jsonify(actinia_template), 201)
+            else:
+                return make_response(res, 404)
+        except Exception:
+            return make_response(res, 404)
 
     @swagger.doc(templates.deleteTemplate_delete_docs)
     def delete(self, template_id):
         """Delete an actinia template (process chain template).
         """
-        resp = deleteTemplate(template_id)
-        if resp is True:
-            return make_response(jsonify(resp), 200)
-        else:
-            res = (jsonify(SimpleStatusCodeResponseModel(
-                        status=400,
-                        message='Error'
-                   )))
-            return make_response(res, 400)
+        res = (jsonify(SimpleStatusCodeResponseModel(
+            status=404, message='Error')))
+        try:
+            resp = deleteTemplate(template_id)
+            if resp is True:
+                return make_response(jsonify(resp), 200)
+            else:
+                return make_response(res, 404)
+        except Exception:
+            return make_response(res, 404)

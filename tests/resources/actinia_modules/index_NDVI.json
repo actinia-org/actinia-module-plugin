@@ -1,5 +1,5 @@
 {
-	"categories": ["actinia-module"],
+	"categories": ["actinia-module", "global-template"],
 	"description": "Normalised Difference Vegetation Index (NDVI)",
 	"id": "index_NDVI",
 	"parameters": [{

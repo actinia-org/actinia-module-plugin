@@ -37,6 +37,7 @@
 		"default": "False",
 		"description": "Allow output files to overwrite existing files. ",
 		"name": "overwrite",
+		"optional": true,
 		"schema": {
 			"type": "boolean"
 		}
@@ -44,6 +45,7 @@
 		"default": "False",
 		"description": "Print usage summary. ",
 		"name": "help",
+		"optional": true,
 		"schema": {
 			"type": "boolean"
 		}
@@ -51,6 +53,7 @@
 		"default": "False",
 		"description": "Verbose module output. ",
 		"name": "verbose",
+		"optional": true,
 		"schema": {
 			"type": "boolean"
 		}
@@ -58,6 +61,7 @@
 		"default": "False",
 		"description": "Quiet module output. ",
 		"name": "quiet",
+		"optional": true,
 		"schema": {
 			"type": "boolean"
 		}

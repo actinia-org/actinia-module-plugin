@@ -38,7 +38,7 @@ someActiniaModules = [
 
 class ActiniaModulesTest(ActiniaTestCase):
 
-    def test_list_process_chain_templates_get(self):
+    def test_list_modules_get(self):
         global someActiniaModules
 
         respStatusCode = 200
@@ -53,6 +53,24 @@ class ActiniaModulesTest(ActiniaTestCase):
 
         for i in someActiniaModules:
             assert i in respModules
+
+    def test_filter_list_modules_get(self):
+        respStatusCode = 200
+        resp = self.app.get(URL_PREFIX + '/actinia_modules?tag=global')
+
+        assert type(resp) is Response
+        assert resp.status_code == respStatusCode
+        assert hasattr(resp, 'json')
+        assert len(resp.json['processes']) == 7
+
+    def test_describe_modules_not_found(self):
+        respStatusCode = 404
+        resp = self.app.get(URL_PREFIX + '/actinia_modules/not_exist',
+                            headers=self.user_auth_header)
+
+        assert type(resp) is Response
+        assert resp.status_code == respStatusCode
+        assert hasattr(resp, 'json')
 
 
 for i in someActiniaModules:

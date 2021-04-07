@@ -1,5 +1,5 @@
 {
-	"categories": ["actinia-module"],
+	"categories": ["actinia-module", "global-template"],
 	"description": "Copies vector and computes the areas in h.",
 	"id": "vector_area",
 	"parameters": [{

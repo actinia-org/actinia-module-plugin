@@ -1,5 +1,5 @@
 {
-	"categories": ["actinia-module"],
+	"categories": ["actinia-module", "global-template"],
 	"description": "Calculates slope and aspect of elevation map.",
 	"id": "slope_aspect",
 	"parameters": [{

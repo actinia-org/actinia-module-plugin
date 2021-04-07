@@ -23,47 +23,41 @@ __license__ = "Apache-2.0"
 __author__ = "Carmen Tawalika"
 __copyright__ = "Copyright 2021, mundialis"
 
-
-# import unittest
-
+import json
 from flask import Response
 
 from actinia_core.resources.common.app import URL_PREFIX
 
-from testsuite import ActiniaTestCase, compare_module_to_file
+from testsuite import ActiniaTestCase, import_user_template, \
+     delete_user_template
+
+someActiniaModules = [
+    'add_enumeration', 'default_value', 'nested_modules_test',
+    'point_in_polygon', 'slope_aspect', 'vector_area', 'index_NDVI']
 
 
-someGrassModules = ['r.slope.aspect', 'importer', 'exporter']
+class ActiniaModulesTest(ActiniaTestCase):
 
-
-class GmodulesTest(ActiniaTestCase):
-
-    # @unittest.skip("demonstrating skipping")
-    def test_list_modules_get(self):
-        global someGrassModules
+    def test_read_user_module_get(self):
+        import_user_template(self, 'user_point_in_polygon')
 
         respStatusCode = 200
-        resp = self.app.get(URL_PREFIX + '/grass_modules',
+        json_path = 'tests/resources/actinia_modules/point_in_polygon.json'
+        url_path = '/actinia_modules/user_point_in_polygon'
+
+        with open(json_path) as file:
+            expectedResp = json.load(file)
+        expectedResp['id'] = 'user_point_in_polygon'
+        curr = expectedResp['categories']
+        new = [s.replace('global-template', 'user-template') for s in curr]
+        expectedResp['categories'] = new
+
+        resp = self.app.get(URL_PREFIX + url_path,
                             headers=self.user_auth_header)
 
         assert type(resp) is Response
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
+        assert resp.json == expectedResp
 
-        assert len(resp.json['processes']) > 500
-        assert 'categories' in resp.json['processes'][0]
-        assert 'description' in resp.json['processes'][0]
-        assert 'id' in resp.json['processes'][0]
-
-        respModules = [i['id'] for i in resp.json['processes']]
-
-        for i in someGrassModules:
-            assert i in respModules
-
-
-for i in someGrassModules:
-    # create method for every grass-module to have a better overview in
-    # test summary
-    def_name = "test_describe_module_get_" + i
-    compare_module_to_file.__defaults__ = ('grass_modules', i,)
-    setattr(GmodulesTest, def_name, compare_module_to_file)
+        delete_user_template(self, 'user_point_in_polygon')

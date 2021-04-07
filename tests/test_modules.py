@@ -62,6 +62,67 @@ class VirtualModulesTest(ActiniaTestCase):
         for i in someVirtualModules:
             assert i in respModules
 
+    def test_filter_list_modules_get_1(self):
+        respStatusCode = 200
+        resp = self.app.get(URL_PREFIX + '/modules?category=slope',
+                            headers=self.user_auth_header)
+
+        assert type(resp) is Response
+        assert resp.status_code == respStatusCode
+        assert hasattr(resp, 'json')
+        # WARNING: this depends on existing GRASS GIS modules and possible
+        # installed GRASS GIS Addons
+        assert len(resp.json['processes']) == 2
+
+    def test_filter_list_modules_get_2(self):
+        respStatusCode = 200
+        resp = self.app.get(URL_PREFIX + '/modules?category=slope&tag=grass',
+                            headers=self.user_auth_header)
+
+        assert type(resp) is Response
+        assert resp.status_code == respStatusCode
+        assert hasattr(resp, 'json')
+        # WARNING: this depends on existing GRASS GIS modules and possible
+        # installed GRASS GIS Addons
+        assert len(resp.json['processes']) == 2
+
+    def test_filter_list_modules_get_3(self):
+        respStatusCode = 200
+        resp = self.app.get(URL_PREFIX + '/modules?tag=actinia',
+                            headers=self.user_auth_header)
+
+        assert type(resp) is Response
+        assert resp.status_code == respStatusCode
+        assert hasattr(resp, 'json')
+        # WARNING: this depends on existing GRASS GIS modules and possible
+        # installed GRASS GIS Addons
+        assert len(resp.json['processes']) > 9
+
+    def test_filter_list_modules_get_4(self):
+        respStatusCode = 200
+        resp = self.app.get(URL_PREFIX + '/modules?tag=actinia&category=grass',
+                            headers=self.user_auth_header)
+
+        assert type(resp) is Response
+        assert resp.status_code == respStatusCode
+        assert hasattr(resp, 'json')
+        # WARNING: this depends on existing GRASS GIS modules and possible
+        # installed GRASS GIS Addons
+        assert len(resp.json['processes']) == 2
+
+    def test_filter_list_modules_get_5(self):
+        respStatusCode = 200
+        resp = self.app.get(URL_PREFIX
+                            + '/modules?tag=actinia&category=global-template',
+                            headers=self.user_auth_header)
+
+        assert type(resp) is Response
+        assert resp.status_code == respStatusCode
+        assert hasattr(resp, 'json')
+        # WARNING: this depends on existing GRASS GIS modules and possible
+        # installed GRASS GIS Addons
+        assert len(resp.json['processes']) == 7
+
 
 for i in someVirtualModules:
     # create method for every actinia-module to have a better overview in

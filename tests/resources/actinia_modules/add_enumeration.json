@@ -1,5 +1,5 @@
 {
-	"categories": ["actinia-module"],
+	"categories": ["actinia-module", "global-template"],
 	"description": "Example PC to add possible values",
 	"id": "add_enumeration",
 	"parameters": [{

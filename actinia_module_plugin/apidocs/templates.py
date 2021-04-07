@@ -80,11 +80,7 @@ listTemplates_get_docs = {
                    'Minimum required user role: user.',
     'responses': {
         '200': {
-            'description': 'This response returns a list of module names'},
-        '400': {
-            'description': 'The error message and a detailed log why listing '
-                           'of process chain templates did not succeeded',
-            'schema': SimpleStatusCodeResponseModel
+            'description': 'This response returns a list of module names'
         }
     }
 }
@@ -107,7 +103,7 @@ readTemplate_get_docs = {
             'description': 'This response returns a process chain template.',
             'schema': ProcessChainTemplate
         },
-        '400': {
+        '404': {
             'description': 'The error message and a detailed log why '
                            'describing did not succeeded',
             'schema': SimpleStatusCodeResponseModel
@@ -134,7 +130,7 @@ createTemplate_post_docs = {
         '201': {
             'description': 'This response returns True if creation was'
                            ' successfull.'},
-        '400': {
+        '404': {
             'description': 'The error message and a detailed log why '
                            'creation did not succeeded',
             'schema': SimpleStatusCodeResponseModel
@@ -159,7 +155,7 @@ updateTemplate_put_docs = {
         '201': {
             'description': 'This response returns True if update was'
                            ' successfull.'},
-        '400': {
+        '404': {
             'description': 'The error message and a detailed log why '
                            'update did not succeeded',
             'schema': SimpleStatusCodeResponseModel
@@ -184,7 +180,7 @@ deleteTemplate_delete_docs = {
         '200': {
             'description': 'This response returns True if deletion was'
                            ' successfull.'},
-        '400': {
+        '404': {
             'description': 'The error message and a detailed log why '
                            'deletion did not succeeded',
             'schema': SimpleStatusCodeResponseModel

@@ -1,5 +1,5 @@
 {
-	"categories": ["actinia-module"],
+	"categories": ["actinia-module", "global-template"],
 	"description": "PC makes no sense but includes a lot of cases for testing self-description",
 	"id": "nested_modules_test",
 	"parameters": [{

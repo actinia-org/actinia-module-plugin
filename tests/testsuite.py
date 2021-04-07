@@ -59,6 +59,8 @@ from actinia_core.resources.common import redis_interface
 from actinia_core.resources.common.app import flask_app, URL_PREFIX
 from actinia_core.resources.common.config import global_config
 from actinia_core.resources.common.user import ActiniaUser
+from actinia_core.resources.common.response_models import \
+     ProcessingResponseModel
 
 
 # actinia-module-plugin endpoints are included as defined in actinia_core
@@ -169,3 +171,39 @@ def compare_module_to_file(self, uri_path='modules', module=None):
 
     assert resp.status_code == respStatusCode
     assert currentResp == expectedResp
+
+
+def import_user_template(testCase, name):
+    json_path = 'tests/resources/actinia_templates/' + name + '.json'
+    with open(json_path) as file:
+        pc_template = json.load(file)
+    resp = testCase.app.post(URL_PREFIX + '/actinia_templates',
+                             headers=testCase.user_auth_header,
+                             data=json.dumps(pc_template),
+                             content_type="application/json")
+    assert resp.json is True
+
+
+def delete_user_template(testCase, name):
+    resp = testCase.app.get(URL_PREFIX
+                            + '/actinia_templates/' + name,
+                            headers=testCase.user_auth_header)
+    if resp.status_code != 404:
+        resp = testCase.app.delete(URL_PREFIX
+                                   + '/actinia_templates/' + name,
+                                   headers=testCase.user_auth_header)
+        assert resp.status_code == 200
+
+
+def check_started_process(testCase, resp):
+    if type(resp.json['process_results']) == dict:
+        resp.json['process_results'] = str(resp.json['process_results'])
+    resp_class = ProcessingResponseModel(**resp.json)
+    assert resp_class['status'] == 'accepted'
+    status_url = resp_class['urls']['status']
+
+    # poll status_url
+    # TODO: status stays in accepted
+    status_resp = testCase.app.get(
+        status_url, headers=testCase.user_auth_header)
+    assert status_resp.json['urls']['status'] == status_url
