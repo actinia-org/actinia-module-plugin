@@ -39,7 +39,8 @@ from actinia_module_plugin.resources.templating import pcTplEnv
 def find_filters(ast):
     """Find all the nodes of a given type.  If the type is a tuple,
     the check is performed for any of the tuple items.
-    Function from: https://stackoverflow.com/questions/55275399/how-to-get-variables-along-with-their-filter-name-from-jinja2-template
+    Function from: https://stackoverflow.com/questions/55275399/how-to-get
+    -variables-along-with-their-filter-name-from-jinja2-template
     """
     for child in ast.iter_child_nodes():
         if isinstance(child, nodes.Filter):
@@ -52,7 +53,8 @@ def find_filters(ast):
 def filtered_variables(ast):
     """Return variables that have filters, along with their filters. might
     return duplicate variable names with different filters
-    Function from: https://stackoverflow.com/questions/55275399/how-to-get-variables-along-with-their-filter-name-from-jinja2-template
+    Function from: https://stackoverflow.com/questions/55275399/how-to-get
+    -variables-along-with-their-filter-name-from-jinja2-template
     """
     results = []
     for i, node in enumerate(find_filters(ast)):

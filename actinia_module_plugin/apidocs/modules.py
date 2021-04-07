@@ -46,8 +46,8 @@ listModules_get_docs = {
             'schema': ModuleList
         },
         '400': {
-            'description': 'The error message and a detailed log why listing of'
-                           ' modules did not succeeded',
+            'description': 'The error message and a detailed log why listing '
+                           'of modules did not succeeded',
             'schema': SimpleStatusCodeResponseModel
         }
     }

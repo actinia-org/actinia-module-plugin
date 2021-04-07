@@ -60,7 +60,11 @@ class ModuleParameterSchema(Schema):
             'description': ''
         }
     }
-    description = 'A schema object according to the specification of JSON Schema draft-07. Additional values for format are defined centrally in the API documentation, e.g. bbox or crs. Callback parameters are defined with the custom schema keyword parameters.'
+    description = 'A schema object according to the specification of JSON '
+    ' Schema draft-07. Additional values for format are defined '
+    ' centrally in the API documentation, e.g. bbox or crs. '
+    ' Callback parameters are defined with the custom schema '
+    ' keyword parameters.'
 
 
 class ModuleParameter(Schema):
@@ -79,7 +83,8 @@ class ModuleParameter(Schema):
         },
         'optional': {
             'type': 'boolean',
-            'description': 'Determines whether this parameter is mandatory. Default: true'
+            'description': 'Determines whether this parameter is mandatory. '
+                           ' Default: true'
         },
         'default': {
             'type': 'string',
@@ -113,7 +118,7 @@ class ModuleExportDescription(ModuleParameter):
     properties = ModuleParameter.properties
     required = ModuleParameter.required
     type = ModuleParameter.type
-    description = "Export parameters to export returned data from this process."
+    description = "Export parameters to export returned data from this process"
 
 
 class Module(Schema):
@@ -136,7 +141,9 @@ class Module(Schema):
         'categories': {
             'type': 'array',
             'items': {'type': 'string'},
-            'description': 'A list of categories. GRASS GIS addons have the category "grass-module" and the actinia core modules are identified with "actinia-module"'
+            'description': 'A list of categories. GRASS GIS addons have the '
+                           'category "grass-module" and the actinia core '
+                           'modules are identified with "actinia-module"'
         },
         'parameters': ModuleParameter,
         'returns': ModuleReturns,
@@ -151,16 +158,19 @@ class Module(Schema):
 
 class ModuleList(Schema):
     """Response schema for module lists
-    the answer bases on openeo v0.4: https://open-eo.github.io/openeo-api/v/0.4.0/apireference/#tag/Process-Discovery/paths/~1processes/get
-       module name is set to id
-       the keywords to the categories
-       description is set to the required description and not to the optional summary
+    The answer bases on openeo v0.4: https://open-eo.github.io/openeo-api/v
+    /0.4.0/apireference/#tag/Process-Discovery/paths/~1processes/get
+    Differences:
+    * module name is set to id
+    * keywords to categories
+    * description is set to required description and not to optional summary
     """
     type = 'object'
     properties = {
         'status': {
             'type': 'string',
-            'description': 'The status of the resource, values: accepted, running, finished, terminated, error'
+            'description': 'The status of the resource, values: accepted, '
+                           'running, finished, terminated, error'
         },
         'processes': {
             'type': 'array',
@@ -171,6 +181,8 @@ class ModuleList(Schema):
     example = {"processes": [{
         "id": "v.random",
         "description": "Generates random 2D/3D vector points.",
-        "categories": ["vector", "sampling", "statistics", "random", "point pattern", "stratified random sampling", "level1"]}
+        "categories": ["vector", "sampling", "statistics", "random",
+                       "point pattern", "stratified random sampling",
+                       "level1"]}
     ], "status": "success"}
     required = ["status", "processes"]
