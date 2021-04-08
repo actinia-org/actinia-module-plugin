@@ -37,7 +37,7 @@ from actinia_module_plugin.resources.templating import pcTplEnv
 
 
 def find_filters(ast):
-    """Find all the nodes of a given type.  If the type is a tuple,
+    """Find all the nodes of a given type. If the type is a tuple,
     the check is performed for any of the tuple items.
     Function from: https://stackoverflow.com/questions/55275399/how-to-get
     -variables-along-with-their-filter-name-from-jinja2-template
@@ -51,7 +51,7 @@ def find_filters(ast):
 
 
 def filtered_variables(ast):
-    """Return variables that have filters, along with their filters. might
+    """Return variables that have filters, along with their filters. Might
     return duplicate variable names with different filters
     Function from: https://stackoverflow.com/questions/55275399/how-to-get
     -variables-along-with-their-filter-name-from-jinja2-template
@@ -70,6 +70,10 @@ def filtered_variables(ast):
 
 
 def build_kwargs_for_template_rendering(module):
+    """This method receives a process chain for an actinia module, isolates
+    the received values and returns them so they can be filled into the
+    process chain template.
+    """
     kwargs = {}
     inOrOutputs = []
 
@@ -90,6 +94,10 @@ def build_kwargs_for_template_rendering(module):
 
 
 def check_for_errors(undef, parsed_content, kwargs):
+    """This method checks if all placeholders are filled with values and
+    returns the placeholder if missing. Exceptions are default values for which
+    the given default value can be used.
+    """
     # find default variables from processchain
     default_vars = []
     filtered_vars = filtered_variables(parsed_content)

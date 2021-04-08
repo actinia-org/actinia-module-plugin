@@ -39,6 +39,7 @@ someActiniaModules = [
 class ActiniaModulesTest(ActiniaTestCase):
 
     def test_read_user_module_get(self):
+        """Test HTTP GET /actinia_modules/<module> for redis based templates"""
         import_user_template(self, 'user_point_in_polygon')
 
         respStatusCode = 200

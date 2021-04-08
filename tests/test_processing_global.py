@@ -40,6 +40,7 @@ global templateUUID
 class ActiniaProcessingTest(ActiniaTestCase):
 
     def test_processing(self):
+        """Test Usage of global templates persistent processing"""
         respStatusCode = 200
         json_path = 'tests/resources/processing/global_default_value.json'
         url_path = '/locations/nc_spm_08/mapsets/test/processing'
@@ -62,6 +63,7 @@ class ActiniaProcessingTest(ActiniaTestCase):
                                headers=self.user_auth_header)
 
     def test_processing_export(self):
+        """Test Usage of global templates ephemeral processing"""
         respStatusCode = 200
         json_path = 'tests/resources/processing/global_point_in_polygon.json'
         url_path = '/locations/nc_spm_08/processing_export'

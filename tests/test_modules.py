@@ -40,6 +40,7 @@ someVirtualModules = GrassModules + someActiniaModules
 class VirtualModulesTest(ActiniaTestCase):
 
     def test_list_virtual_modules_get(self):
+        """Test HTTP GET /modules"""
         global someVirtualModules
 
         respStatusCode = 200
@@ -63,6 +64,7 @@ class VirtualModulesTest(ActiniaTestCase):
             assert i in respModules
 
     def test_filter_list_modules_get_1(self):
+        """Test HTTP GET /modules with filter"""
         respStatusCode = 200
         resp = self.app.get(URL_PREFIX + '/modules?category=slope',
                             headers=self.user_auth_header)
@@ -75,6 +77,7 @@ class VirtualModulesTest(ActiniaTestCase):
         assert len(resp.json['processes']) == 2
 
     def test_filter_list_modules_get_2(self):
+        """Test HTTP GET /modules with filter"""
         respStatusCode = 200
         resp = self.app.get(URL_PREFIX + '/modules?category=slope&tag=grass',
                             headers=self.user_auth_header)
@@ -87,6 +90,7 @@ class VirtualModulesTest(ActiniaTestCase):
         assert len(resp.json['processes']) == 2
 
     def test_filter_list_modules_get_3(self):
+        """Test HTTP GET /modules with filter"""
         respStatusCode = 200
         resp = self.app.get(URL_PREFIX + '/modules?tag=actinia',
                             headers=self.user_auth_header)
@@ -99,6 +103,7 @@ class VirtualModulesTest(ActiniaTestCase):
         assert len(resp.json['processes']) > 9
 
     def test_filter_list_modules_get_4(self):
+        """Test HTTP GET /modules with filter"""
         respStatusCode = 200
         resp = self.app.get(URL_PREFIX + '/modules?tag=actinia&category=grass',
                             headers=self.user_auth_header)
@@ -111,6 +116,7 @@ class VirtualModulesTest(ActiniaTestCase):
         assert len(resp.json['processes']) == 2
 
     def test_filter_list_modules_get_5(self):
+        """Test HTTP GET /modules with filter"""
         respStatusCode = 200
         resp = self.app.get(URL_PREFIX
                             + '/modules?tag=actinia&category=global-template',
@@ -125,6 +131,10 @@ class VirtualModulesTest(ActiniaTestCase):
 
 
 for i in someVirtualModules:
+    """Test HTTP GET /modules/<module> for file based templates and GRASS GIS
+    modules in loop for all examples in someVirtualModules above and compares
+    response to file
+    """
     # create method for every actinia-module to have a better overview in
     # test summary
     def_name = "test_describe_virtual_module_get_" + i

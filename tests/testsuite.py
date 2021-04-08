@@ -157,6 +157,7 @@ class ActiniaTestCase(unittest.TestCase):
 # import unittest
 # @unittest.skip("compare response to file")
 def compare_module_to_file(self, uri_path='modules', module=None):
+    """Compares response of API call to file"""
     # Won't run with module=None but ensures, that "passing of arguments"
     # below is successful.
 
@@ -174,6 +175,7 @@ def compare_module_to_file(self, uri_path='modules', module=None):
 
 
 def import_user_template(testCase, name):
+    """Imports user template to redis database (Create)"""
     json_path = 'tests/resources/actinia_templates/' + name + '.json'
     with open(json_path) as file:
         pc_template = json.load(file)
@@ -185,6 +187,7 @@ def import_user_template(testCase, name):
 
 
 def delete_user_template(testCase, name):
+    """Deletes user template from redis database (Delete) if exists"""
     resp = testCase.app.get(URL_PREFIX
                             + '/actinia_templates/' + name,
                             headers=testCase.user_auth_header)
@@ -196,6 +199,7 @@ def delete_user_template(testCase, name):
 
 
 def check_started_process(testCase, resp):
+    """Checks response of started process - TODO: can be enhanced"""
     if type(resp.json['process_results']) == dict:
         resp.json['process_results'] = str(resp.json['process_results'])
     resp_class = ProcessingResponseModel(**resp.json)

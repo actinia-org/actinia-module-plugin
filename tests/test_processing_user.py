@@ -40,6 +40,7 @@ global templateUUID
 class ActiniaProcessingTest(ActiniaTestCase):
 
     def test_processing(self):
+        """Test Usage of user templates persistent processing"""
         import_user_template(self, 'user_default_value')
 
         respStatusCode = 200
@@ -66,6 +67,7 @@ class ActiniaProcessingTest(ActiniaTestCase):
         delete_user_template(self, 'user_default_value')
 
     def test_processing_export(self):
+        """Test Usage of user templates ephemeral processing"""
         import_user_template(self, 'user_point_in_polygon')
 
         respStatusCode = 200

@@ -93,9 +93,6 @@ class ActiniaTemplateId(ResourceBase):
             else:
                 return make_response(res, 404)
         except Exception:
-            msg = 'Error looking for actinia module "' + template_id + '".'
-            res = (jsonify(SimpleStatusCodeResponseModel(
-                status=404, message=msg)))
             return make_response(res, 404)
 
     @swagger.doc(templates.updateTemplate_put_docs)

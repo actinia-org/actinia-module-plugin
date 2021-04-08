@@ -36,6 +36,7 @@ from testsuite import ActiniaTestCase
 class AppTest(ActiniaTestCase):
 
     def test_app_running(self):
+        """Test if app responds"""
         resp = self.app.get('/')
         assert type(resp) is Response
 
@@ -46,6 +47,7 @@ class AppTest(ActiniaTestCase):
     #     assert resp.status_code == respStatusCode
 
     def test_app_static(self):
+        """Test if index cannot be found (see above)"""
         respStatusCode = 404
         resp = self.app.get('/index.html')
         assert resp.status_code == respStatusCode
@@ -54,6 +56,7 @@ class AppTest(ActiniaTestCase):
 class InitTest(unittest.TestCase):
 
     def test_init(self):
+        """Test if version can be detected"""
         # TODO: apply to __init__.py
         pkg_version = get_distribution('actinia_module_plugin.wsgi').version
         assert actinia_module_plugin.__version__ == pkg_version

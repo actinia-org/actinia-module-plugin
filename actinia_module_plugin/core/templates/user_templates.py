@@ -33,6 +33,8 @@ from actinia_module_plugin.core.templates.user_templates_redis_interface \
 
 
 def connect():
+    """This method initializes the connection with redis.
+    """
     conf = Configuration()
     try:
         conf.read()

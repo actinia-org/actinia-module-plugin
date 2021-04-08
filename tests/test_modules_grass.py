@@ -40,6 +40,7 @@ class GmodulesTest(ActiniaTestCase):
 
     # @unittest.skip("demonstrating skipping")
     def test_list_modules_get(self):
+        """Test HTTP GET /grass_modules"""
         global someGrassModules
 
         respStatusCode = 200
@@ -61,6 +62,7 @@ class GmodulesTest(ActiniaTestCase):
             assert i in respModules
 
     def test_filter_list_modules_get(self):
+        """Test HTTP GET /grass_modules with filter"""
         respStatusCode = 200
         resp = self.app.get(URL_PREFIX + '/grass_modules?category=slope',
                             headers=self.user_auth_header)
@@ -74,6 +76,9 @@ class GmodulesTest(ActiniaTestCase):
 
 
 for i in someGrassModules:
+    """Test HTTP GET /grass_modules/<module> for GRASS GIS modules in loop
+    for all examples in someGrassModules above and compares response to file
+    """
     # create method for every grass-module to have a better overview in
     # test summary
     def_name = "test_describe_module_get_" + i

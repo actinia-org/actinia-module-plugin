@@ -39,6 +39,7 @@ someActiniaModules = [
 class ActiniaModulesTest(ActiniaTestCase):
 
     def test_list_modules_get(self):
+        """Test HTTP GET /actinia_modules"""
         global someActiniaModules
 
         respStatusCode = 200
@@ -55,6 +56,7 @@ class ActiniaModulesTest(ActiniaTestCase):
             assert i in respModules
 
     def test_filter_list_modules_get(self):
+        """Test HTTP GET /actinia_modules with filter"""
         respStatusCode = 200
         resp = self.app.get(URL_PREFIX + '/actinia_modules?tag=global')
 
@@ -64,6 +66,7 @@ class ActiniaModulesTest(ActiniaTestCase):
         assert len(resp.json['processes']) == 7
 
     def test_describe_modules_not_found(self):
+        """Test HTTP GET /actinia_modules/<not-existing-module>"""
         respStatusCode = 404
         resp = self.app.get(URL_PREFIX + '/actinia_modules/not_exist',
                             headers=self.user_auth_header)
@@ -74,6 +77,9 @@ class ActiniaModulesTest(ActiniaTestCase):
 
 
 for i in someActiniaModules:
+    """Test HTTP GET /actinia_modules/<module> for file based templates in loop
+    for all examples in someActiniaModules above and compares response to file
+    """
     # create method for every actinia-module to have a better overview in
     # test summary
     def_name = "test_describe_process_chain_template_get_" + i
