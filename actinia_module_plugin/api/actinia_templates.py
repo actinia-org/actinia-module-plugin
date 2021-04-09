@@ -130,9 +130,9 @@ class ActiniaTemplateId(ResourceBase):
         res = (jsonify(SimpleStatusCodeResponseModel(
             status=404, message='Error')))
         try:
-            resp = deleteTemplate(template_id)
-            if resp is True:
-                return make_response(jsonify(resp), 200)
+            actinia_template = deleteTemplate(template_id)
+            if actinia_template is True:
+                return make_response(jsonify(actinia_template), 200)
             else:
                 return make_response(res, 404)
         except Exception:

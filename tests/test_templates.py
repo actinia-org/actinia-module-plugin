@@ -39,7 +39,7 @@ global templateUUID
 
 class ActiniaTemplatesTest(ActiniaTestCase):
 
-    def test_1_read_all(self):
+    def test_1001_read_all(self):
         """Test HTTP GET /actinia_templates and rememberes number of templates
         """
         global allTemplatesCount
@@ -55,7 +55,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         assert type(resp.json) is list
         allTemplatesCount = len(resp.json)
 
-    def test_2_create(self):
+    def test_1002_create(self):
         """Test HTTP POST /actinia_templates (template creation)"""
         global templateUUID
 
@@ -76,7 +76,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         assert hasattr(resp, 'json')
         assert "Success" in resp.json['message']
 
-    def test_3_create_fail(self):
+    def test_1003_create_fail(self):
         """Test HTTP POST /actinia_templates (template creation) of already
         existing template
         """
@@ -97,7 +97,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 
-    def test_4_read_single(self):
+    def test_1004_read_single(self):
         """Test HTTP GET /actinia_templates/<template_id> of new created
         template
         """
@@ -117,7 +117,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         pc_template['id'] = templateUUID
         assert resp.json == pc_template
 
-    def test_5_update(self):
+    def test_1005_update(self):
         """Test HTTP PUT /actinia_templates/<template_id> (update)"""
         global templateUUID
 
@@ -136,7 +136,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         assert hasattr(resp, 'json')
         assert resp.json is True
 
-    def test_6_read_update(self):
+    def test_1006_read_update(self):
         """Test HTTP GET /actinia_templates/<template_id> of updated template
         """
         global templateUUID
@@ -155,7 +155,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         pc_template['id'] = templateUUID
         assert resp.json == pc_template
 
-    def test_7_read_all_after_create(self):
+    def test_1007_read_all_after_create(self):
         """Test HTTP GET /actinia_templates and compares number of templates
         from before (+1)
         """
@@ -172,7 +172,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         assert type(resp.json) is list
         assert len(resp.json) == (allTemplatesCount + 1)
 
-    def test_8_delete(self):
+    def test_1008_delete(self):
         """Test HTTP DELETE /actinia_templates/<template_id> (deletion)"""
         global templateUUID
 
@@ -186,7 +186,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         assert hasattr(resp, 'json')
         assert resp.json is True
 
-    def test_9_read_all_after_delete(self):
+    def test_1009_read_all_after_delete(self):
         """Test HTTP GET /actinia_templates and compares number of templates
         from before (-1)
         """
@@ -203,7 +203,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         assert type(resp.json) is list
         assert len(resp.json) == allTemplatesCount
 
-    def test_91_read_fail(self):
+    def test_1010_read_fail(self):
         """Test HTTP GET /actinia_templates/<template_id> of non-existing
         template
         """
@@ -215,19 +215,27 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 
-    def test_10_update_fail(self):
+    def test_1011_update_fail(self):
         """Test HTTP PUT /actinia_templates/<template_id> (update) of
         non-existing template
         """
+        global templateUUID
         respStatusCode = 404
+
+        with open('tests/resources/actinia_templates/pc_tpl.json') as file:
+            pc_template = json.load(file)
+        pc_template['id'] = templateUUID
+
         resp = self.app.put(URL_PREFIX + '/actinia_templates/not_exist',
-                            headers=self.user_auth_header)
+                            headers=self.user_auth_header,
+                            data=json.dumps(pc_template),
+                            content_type="application/json")
 
         assert type(resp) is Response
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 
-    def test_11_delete_fail(self):
+    def test_1012_delete_fail(self):
         """Test HTTP DELETE /actinia_templates/<template_id> (deletion) of
         non-existing template
         """
@@ -239,7 +247,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 
-    def test_12_read_global_template(self):
+    def test_1013_read_global_template(self):
         """Test HTTP GET /actinia_templates/<template_id> of global template"""
         respStatusCode = 200
         # path = 'tests/resources/actinia_templates/user_default_value.json'
