@@ -65,7 +65,8 @@ class RedisActiniaTemplateInterface(RedisBaseInterface):
         actinia_template_id = actinia_template['id']
 
         keyname = self.actinia_template_id_hash_prefix + actinia_template_id
-        if self.redis_server.exists(keyname) is True:
+        exists = self.redis_server.exists(keyname)
+        if exists == 1 or exists is True:
             return False
 
         actinia_template_bytes = pickle.dumps(actinia_template)

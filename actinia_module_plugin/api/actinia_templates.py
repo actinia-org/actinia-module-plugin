@@ -65,8 +65,20 @@ class ActiniaTemplate(ResourceBase):
     def post(self):
         """Create an actinia template (process chain template).
         """
-        actinia_templates = createTemplate(request.get_json(force=True))
-        return make_response(jsonify(actinia_templates), 201)
+        template_id = request.get_json(force=True)['id']
+        actinia_template = createTemplate(request.get_json(force=True))
+        if actinia_template is True:
+            msg = ('Successfully created template "' + template_id + '".')
+            status_code = 201
+        elif actinia_template is False:
+            msg = ('Error creating template "' + template_id + '", it already '
+                   + 'exists. Please delete it before or use HTTP PUT to '
+                   + 'update.')
+            status_code = 400
+
+        res = (jsonify(SimpleStatusCodeResponseModel(
+            status=status_code, message=msg)))
+        return make_response(res, status_code)
 
 
 class ActiniaTemplateId(ResourceBase):

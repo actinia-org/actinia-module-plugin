@@ -183,7 +183,7 @@ def import_user_template(testCase, name):
                              headers=testCase.user_auth_header,
                              data=json.dumps(pc_template),
                              content_type="application/json")
-    assert resp.json is True
+    assert resp.status == '201 CREATED'
 
 
 def delete_user_template(testCase, name):

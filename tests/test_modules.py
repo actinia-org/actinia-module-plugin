@@ -99,8 +99,10 @@ class VirtualModulesTest(ActiniaTestCase):
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         # WARNING: this depends on existing GRASS GIS modules and possible
-        # installed GRASS GIS Addons
-        assert len(resp.json['processes']) > 9
+        # installed GRASS GIS Addons. If redis db is empty, it should include
+        # all pc_templates from templates/pc_templates including subdirs and
+        # importer and exporter.
+        assert len(resp.json['processes']) >= 9
 
     def test_filter_list_modules_get_4(self):
         """Test HTTP GET /modules with filter"""
