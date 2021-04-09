@@ -127,7 +127,8 @@ class RedisActiniaTemplateInterface(RedisBaseInterface):
 
         """
         keyname = self.actinia_template_id_hash_prefix + actinia_template_id
-        if self.redis_server.exists(keyname) is False:
+        exists = self.redis_server.exists(keyname)
+        if exists == 0 or exists is False:
             return False
 
         actinia_template_bytes = pickle.dumps(actinia_template)
@@ -156,7 +157,8 @@ class RedisActiniaTemplateInterface(RedisBaseInterface):
             bool:
             True is actinia_template exists, False otherwise
         """
-        if self.exists(actinia_template_id) == 0:
+        exists = self.exists(actinia_template_id)
+        if exists == 0 or exists is False:
             return False
 
         lock = self.redis_server.lock(
@@ -185,8 +187,7 @@ class RedisActiniaTemplateInterface(RedisBaseInterface):
         values = []
         list = self.redis_server.hkeys(self.actinia_template_id_db)
         for entry in list:
-            if entry:
-                entry = entry.decode()
+            entry = entry.decode()
             values.append(entry)
 
         return values
