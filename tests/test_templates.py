@@ -97,7 +97,6 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 
-
     def test_4_read_single(self):
         """Test HTTP GET /actinia_templates/<template_id> of new created
         template
