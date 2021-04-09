@@ -28,7 +28,7 @@ __copyright__ = "Copyright 2019, mundialis"
 __maintainer__ = "Anika Bettge, Carmen Tawalika"
 
 
-from flask import jsonify, make_response
+from flask import jsonify, make_response, request
 from flask_restful_swagger_2 import swagger
 from actinia_core.resources.resource_base import ResourceBase
 
@@ -36,6 +36,7 @@ from actinia_module_plugin.apidocs import modules
 from actinia_module_plugin.core.filter import filter
 from actinia_module_plugin.core.modules.grass import createModuleList
 from actinia_module_plugin.core.modules.grass import createGrassModule
+from actinia_module_plugin.core.modules.grass import createFullModuleList
 from actinia_module_plugin.model.modules import ModuleList
 from actinia_module_plugin.model.responseModels import \
      SimpleStatusCodeResponseModel
@@ -52,6 +53,10 @@ class ListModules(ResourceBase):
 
         module_list = createModuleList(self)
         module_list = filter(module_list)
+
+        if 'record' in request.args:
+            if request.args['record'] == "full":
+                module_list = createFullModuleList(self, module_list)
 
         return make_response(jsonify(ModuleList(
             status="success",

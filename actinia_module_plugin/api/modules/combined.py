@@ -29,7 +29,7 @@ __copyright__ = "Copyright 2019, mundialis"
 __maintainer__ = "Carmen Tawalika"
 
 
-from flask import jsonify, make_response
+from flask import jsonify, make_response, request
 from flask_restful_swagger_2 import swagger
 from actinia_core.resources.resource_base import ResourceBase
 
@@ -43,6 +43,7 @@ from actinia_module_plugin.core.modules.actinia_common import \
      createActiniaModule
 from actinia_module_plugin.core.modules.grass import createModuleList
 from actinia_module_plugin.core.modules.grass import createGrassModule
+from actinia_module_plugin.core.modules.grass import createFullModuleList
 from actinia_module_plugin.model.modules import ModuleList
 from actinia_module_plugin.model.responseModels import \
     SimpleStatusCodeResponseModel
@@ -58,6 +59,12 @@ class ListVirtualModules(ResourceBase):
         """
 
         grass_list = createModuleList(self)
+        grass_list = filter(grass_list)
+
+        if 'record' in request.args:
+            if request.args['record'] == "full":
+                grass_list = createFullModuleList(self, grass_list)
+
         pc_list_fs = createProcessChainTemplateListFromFileSystem()
         pc_list_redis = createProcessChainTemplateListFromRedis()
         module_list = grass_list + pc_list_fs + pc_list_redis

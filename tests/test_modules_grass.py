@@ -74,6 +74,37 @@ class GmodulesTest(ActiniaTestCase):
         # installed GRASS GIS Addons
         assert len(resp.json['processes']) == 2
 
+    def test_filter_list_modules_get_2(self):
+        """Test HTTP GET /grass_modules with filter"""
+        respStatusCode = 200
+        url_path = '/grass_modules?record=full&family=ps'
+        resp = self.app.get(URL_PREFIX + url_path,
+                            headers=self.user_auth_header)
+
+        assert type(resp) is Response
+        assert resp.status_code == respStatusCode
+        assert hasattr(resp, 'json')
+        # WARNING: this depends on existing GRASS GIS modules and possible
+        # installed GRASS GIS Addons
+        assert len(resp.json['processes']) == 1
+        assert resp.json['processes'][0]['categories'] != 0
+        assert resp.json['processes'][0]['parameters'] != 0
+
+    def test_filter_list_modules_get_3(self):
+        """Test HTTP GET /grass_modules with filter"""
+        respStatusCode = 200
+        resp = self.app.get(URL_PREFIX + '/grass_modules?family=test',
+                            headers=self.user_auth_header)
+
+        assert type(resp) is Response
+        assert resp.status_code == respStatusCode
+        assert hasattr(resp, 'json')
+        # WARNING: this depends on existing GRASS GIS modules and possible
+        # installed GRASS GIS Addons
+        assert len(resp.json['processes']) == 2
+        assert resp.json['processes'][0]['categories'] != 0
+        assert hasattr(resp.json['processes'][0], 'parameters') is False
+
 
 for i in someGrassModules:
     """Test HTTP GET /grass_modules/<module> for GRASS GIS modules in loop
