@@ -32,9 +32,11 @@ from actinia_module_plugin.resources.cli import name, about
 class CliTest(unittest.TestCase):
 
     def test_cli_name(self):
+        """Test basic cli command"""
         assert name() == "actinia-module-plugin"
 
     def test_cli_about(self):
+        """Test basic cli command"""
         text = "actinia-module-plugin"
         text = text + "\n This package communicates via HTTP"
         text = text + "\n To start application, run "

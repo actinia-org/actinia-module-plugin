@@ -474,14 +474,14 @@ TODO discuss
 
 List / Describe only GRASS Modules
 
-* GET /grassmodules
-* GET /grassmodules/d.barscale
-* GET /grassmodules/d.barscale3
+* GET /grass_modules
+* GET /grass_modules/d.barscale
+* GET /grass_modules/d.barscale3
 
 List / Describe only Modules (process-chain templates)
 
-* GET /actiniamodules
-* GET /actiniamodules/vector_area
+* GET /actinia_modules
+* GET /actinia_modules/vector_area
 
 List / Describe combined
 
@@ -492,8 +492,8 @@ List / Describe combined
 
 Execute module
 
-* POST /locations/{location_name}/gdi_processing_async_export
-* POST /locations/{location_name}/mapsets/{mapset_name}/gdi_processing_async (TODO)
+* POST /locations/{location_name}/processing_export
+* POST /locations/{location_name}/mapsets/{mapset_name}/processing (TODO)
 
 Full API docs
 
