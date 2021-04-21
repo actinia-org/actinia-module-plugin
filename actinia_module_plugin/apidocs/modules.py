@@ -51,6 +51,24 @@ listModules_get_docs = {
            "name": "category",
            "type": "string",
            "description": "Another filter for categories"
+       },
+       {
+           "in": "path",
+           "name": "family",
+           "type": "string",
+           "description": "Type of GRASS GIS module",
+           "enum": ["d", "db", "g", "i", "m", "ps", "r", "r3",
+                    "t", "test", "v"]
+       },
+       {
+           "in": "path",
+           "name": "record",
+           "type": "string",
+           "description": "If set to 'full', all information about the "
+                          "returned modules are given like in the single "
+                          "module description. Depending on active cache, "
+                          "this response might run into a timeout. A filter "
+                          "can prevent this."
        }
     ],
     'responses': {

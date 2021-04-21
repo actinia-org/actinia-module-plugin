@@ -34,6 +34,7 @@ from actinia_core.resources.common.response_models import \
 from actinia_module_plugin.core.modules.processor import run_process_chain
 from actinia_module_plugin.core.modules.parser import ParseInterfaceDescription
 from actinia_module_plugin.model.modules import Module
+from actinia_module_plugin.resources.logging import log
 
 
 def createModuleList(self):
@@ -87,3 +88,30 @@ def createGrassModule(self, module):
     grass_module = ParseInterfaceDescription(xml_string)
 
     return grass_module
+
+
+def createFullModuleList(self, module_list):
+    # all_modules = createModuleList(self)
+    pc = {"version": 1,
+          "list": []}
+
+    process_chain_items = []
+    count = 1
+    for module in module_list:
+        process_chain_items.append(
+            {"id": count, "module": module['id'],
+             "interface-description": True})
+        count = count + 1
+
+    pc['list'] = process_chain_items
+    response = run_process_chain(self, pc)
+
+    detailed_module_list = []
+    for desc in response['process_log']:
+        try:
+            grass_module = ParseInterfaceDescription(desc['stdout'])
+            detailed_module_list.append(grass_module)
+        except Exception:
+            log.error('error parsing module %s' % desc['executable'])
+
+    return detailed_module_list

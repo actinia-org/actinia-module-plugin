@@ -131,6 +131,21 @@ class VirtualModulesTest(ActiniaTestCase):
         # installed GRASS GIS Addons
         assert len(resp.json['processes']) == 7
 
+    def test_filter_list_modules_get_6(self):
+        """Test HTTP GET /grass_modules with filter"""
+        respStatusCode = 200
+        resp = self.app.get(URL_PREFIX + '/modules?record=full&family=ps',
+                            headers=self.user_auth_header)
+
+        assert type(resp) is Response
+        assert resp.status_code == respStatusCode
+        assert hasattr(resp, 'json')
+        # WARNING: this depends on existing GRASS GIS modules and possible
+        # installed GRASS GIS Addons
+        assert len(resp.json['processes']) == 1
+        assert resp.json['processes'][0]['categories'] != 0
+        assert resp.json['processes'][0]['parameters'] != 0
+
 
 for i in someVirtualModules:
     """Test HTTP GET /modules/<module> for file based templates and GRASS GIS
