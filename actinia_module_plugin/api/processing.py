@@ -96,6 +96,7 @@ def log_error_to_resource_logger(self, msg, rdc):
     self.resource_logger.commit(
         user_id=self.user_id,
         resource_id=self.resource_id,
+        iteration=1,
         document=data,
         expiration=rdc.config.REDIS_RESOURCE_EXPIRE_TIME
     )

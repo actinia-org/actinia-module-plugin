@@ -59,8 +59,8 @@ def createModuleList(self):
         message=''
     )
     self.resource_logger.commit(
-        user_id=self.user_id, resource_id=self.resource_id, document=data,
-        expiration=1)
+        user_id=self.user_id, resource_id=self.resource_id, iteration=1,
+        document=data, expiration=1)
 
     module_list = []
     for data in j_data:
@@ -99,7 +99,7 @@ def createFullModuleList(self, module_list):
     count = 1
     for module in module_list:
         process_chain_items.append(
-            {"id": count, "module": module['id'],
+            {"id": str(count), "module": module['id'],
              "interface-description": True})
         count = count + 1
 
