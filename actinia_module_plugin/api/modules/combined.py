@@ -31,7 +31,7 @@ __maintainer__ = "Carmen Tawalika"
 
 from flask import jsonify, make_response, request
 from flask_restful_swagger_2 import swagger
-from actinia_core.resources.resource_base import ResourceBase
+from actinia_core.rest.resource_base import ResourceBase
 
 from actinia_module_plugin.apidocs import modules
 from actinia_module_plugin.core.filter import filter

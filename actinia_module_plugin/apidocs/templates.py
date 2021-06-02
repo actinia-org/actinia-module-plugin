@@ -28,7 +28,7 @@ import os
 import json
 
 from flask_restful_swagger_2 import Schema
-from actinia_core.resources.common.process_chain import GrassModule
+from actinia_core.core.common.process_chain import GrassModule
 
 from actinia_module_plugin.model.responseModels import \
      SimpleStatusCodeResponseModel

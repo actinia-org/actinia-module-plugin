@@ -28,7 +28,7 @@ __maintainer__ = "Anika Bettge, Carmen Tawalika"
 import json
 import time
 
-from actinia_core.resources.common.response_models import \
+from actinia_core.core.common.response_models import \
      create_response_from_model
 
 from actinia_module_plugin.core.modules.processor import run_process_chain

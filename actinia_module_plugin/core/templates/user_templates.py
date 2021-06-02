@@ -26,7 +26,7 @@ __copyright__ = "Copyright 2021, mundialis"
 __maintainer__ = "Carmen Tawalika"
 
 
-from actinia_core.resources.common.config import Configuration
+from actinia_core.core.common.config import Configuration
 
 from actinia_module_plugin.core.templates.user_templates_redis_interface \
      import redis_actinia_template_interface
