@@ -54,7 +54,7 @@ import pickle
 from flask import jsonify, make_response
 from flask_restful_swagger_2 import swagger
 from actinia_core.core.common.redis_interface import enqueue_job
-from actinia_core.core.common.response_models import \
+from actinia_core.models.response_models import \
      create_response_from_model
 from actinia_core.rest.ephemeral_processing_with_export import \
      start_job as start_job_ephemeral_processing_with_export, \

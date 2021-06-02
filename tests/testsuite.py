@@ -55,11 +55,11 @@ import pwgen
 from werkzeug.datastructures import Headers
 
 from actinia_core.endpoints import create_endpoints
-from actinia_core.resources.common import redis_interface
-from actinia_core.resources.common.app import flask_app, URL_PREFIX
-from actinia_core.resources.common.config import global_config
-from actinia_core.resources.common.user import ActiniaUser
-from actinia_core.resources.common.response_models import \
+from actinia_core.core.common import redis_interface
+from actinia_core.core.common.app import flask_app, URL_PREFIX
+from actinia_core.core.common.config import global_config
+from actinia_core.core.common.user import ActiniaUser
+from actinia_core.models.response_models import \
      ProcessingResponseModel
 
 
@@ -110,7 +110,7 @@ class ActiniaTestCase(unittest.TestCase):
             process_time_limit=4, accessible_datasets=accessible_datasets)
 
         # # create process queue
-        # from actinia_core.resources.common.process_queue import \
+        # from actinia_core.core.common.process_queue import \
         #    create_process_queue
         # create_process_queue(config=global_config)
 

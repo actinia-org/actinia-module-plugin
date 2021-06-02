@@ -27,7 +27,7 @@ __copyright__ = "Copyright 2021, mundialis"
 from flask import Response
 import json
 
-from actinia_core.resources.common.app import URL_PREFIX
+from actinia_core.core.common.app import URL_PREFIX
 
 from testsuite import ActiniaTestCase, import_user_template, \
      delete_user_template,  check_started_process

@@ -54,7 +54,7 @@ import uuid
 
 from actinia_core.core.common.config import global_config
 from actinia_core.rest.ephemeral_processing import EphemeralProcessing
-from actinia_core.core.common.response_models import \
+from actinia_core.models.response_models import \
      StringListProcessingResultResponseModel
 
 from actinia_module_plugin.core.common import start_job
