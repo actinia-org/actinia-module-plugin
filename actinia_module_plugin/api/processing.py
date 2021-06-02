@@ -53,16 +53,16 @@ import pickle
 
 from flask import jsonify, make_response
 from flask_restful_swagger_2 import swagger
-from actinia_core.resources.common.redis_interface import enqueue_job
-from actinia_core.resources.common.response_models import \
+from actinia_core.core.common.redis_interface import enqueue_job
+from actinia_core.models.response_models import \
      create_response_from_model
-from actinia_core.resources.ephemeral_processing_with_export import \
+from actinia_core.rest.ephemeral_processing_with_export import \
      start_job as start_job_ephemeral_processing_with_export, \
      SCHEMA_DOC as SCHEMA_DOC_EPHEMERAL_PROCESSING_WITH_EXPORT
-from actinia_core.resources.persistent_processing import \
+from actinia_core.rest.persistent_processing import \
      start_job as start_job_persistent_processing, \
      SCHEMA_DOC as SCHEMA_DOC_PERSISTENT_PROCESSING
-from actinia_core.resources.resource_base import ResourceBase
+from actinia_core.rest.resource_base import ResourceBase
 
 from actinia_module_plugin.core.modules.actinia_global_templates import \
      createProcessChainTemplateListFromFileSystem

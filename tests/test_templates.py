@@ -28,7 +28,7 @@ from flask import Response
 import json
 import uuid
 
-from actinia_core.resources.common.app import URL_PREFIX
+from actinia_core.core.common.app import URL_PREFIX
 
 from testsuite import ActiniaTestCase
 

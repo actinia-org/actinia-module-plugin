@@ -28,7 +28,7 @@ __maintainer__ = "Carmen Tawalika"
 
 import pickle
 
-from actinia_core.resources.common.redis_base import RedisBaseInterface
+from actinia_core.core.common.redis_base import RedisBaseInterface
 
 
 class RedisActiniaTemplateInterface(RedisBaseInterface):
