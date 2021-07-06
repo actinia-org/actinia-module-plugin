@@ -30,11 +30,14 @@ import time
 
 from actinia_core.models.response_models import \
      create_response_from_model
+from actinia_core.core.common.config import Configuration
 
 from actinia_module_plugin.core.modules.processor import run_process_chain
 from actinia_module_plugin.core.modules.parser import ParseInterfaceDescription
 from actinia_module_plugin.model.modules import Module
 from actinia_module_plugin.resources.logging import log
+from actinia_module_plugin.core.modules.grass_modules_redis_interface import \
+     redis_grass_module_interface
 
 
 def createModuleList(self):
@@ -79,39 +82,111 @@ def createModuleList(self):
     return module_list
 
 
-def createGrassModule(self, module):
-    process_chain = {"1": {"module": module,
-                           "interface-description": True}}
-    response = run_process_chain(self, process_chain)
-
-    xml_string = response['process_log'][0]['stdout']
-    grass_module = ParseInterfaceDescription(xml_string)
-
-    return grass_module
-
-
-def createFullModuleList(self, module_list):
-    # all_modules = createModuleList(self)
+def build_and_run_iface_description_pc(self, module_list):
     pc = {"version": 1,
           "list": []}
 
     process_chain_items = []
     count = 1
     for module in module_list:
+        if type(module) is str:
+            module_id = module
+        else:
+            module_id = module['id']
         process_chain_items.append(
-            {"id": str(count), "module": module['id'],
+            {"id": str(count), "module": module_id,
              "interface-description": True})
         count = count + 1
 
     pc['list'] = process_chain_items
+
+    if len(module_list) == 1 and module in ["exporter", "importer"]:
+        # old style process chain was used before by createGrassModule
+        # as for importer and exporter new style fails, overwrite pc
+        # see https://github.com/mundialis/actinia_core/issues/227
+        pc = {"1": {"module": module, "interface-description": True}}
+
     response = run_process_chain(self, pc)
 
+    return response['process_log']
+
+
+def connect():
+    """This method initializes the connection with redis.
+    """
+    conf = Configuration()
+    try:
+        conf.read()
+    except Exception:
+        pass
+
+    server = conf.REDIS_SERVER_URL
+    port = conf.REDIS_SERVER_PORT
+    if conf.REDIS_SERVER_PW:
+        redis_password = conf.REDIS_SERVER_PW
+    else:
+        redis_password = None
+
+    redis_grass_module_interface.connect(
+        host=server, port=port, password=redis_password)
+
+    return redis_grass_module_interface
+
+
+def cacheGrassModule(grass_module):
+    '''
+    Insert grass_module into database
+    '''
+    redis_grass_module_interface = connect()
+    cached_module = redis_grass_module_interface.create(grass_module)
+
+    return cached_module
+
+
+def createGrassModule(self, module):
+    module_list = [module]
+    process_log = build_and_run_iface_description_pc(self, module_list)
+
+    xml_string = process_log[0]['stdout']
+    grass_module = ParseInterfaceDescription(xml_string)
+
+    # Check if cached module exists, then update if it has changed
+    # This is currently the only mechanism to update a cached
+    # module via API call.
+    # If not, then cache it
+    redis_grass_module_interface = connect()
+    if redis_grass_module_interface.exists(module):
+        redis_grass_module_interface.update(module, grass_module)
+    else:
+        cacheGrassModule(grass_module)
+
+    return grass_module
+
+
+def createFullModuleList(self, module_list):
     detailed_module_list = []
-    for desc in response['process_log']:
-        try:
-            grass_module = ParseInterfaceDescription(desc['stdout'])
+    request_module_list = []
+
+    # Check if modules are already cached, then use them
+    for module in module_list:
+        redis_grass_module_interface = connect()
+        grass_module = redis_grass_module_interface.read(module['id'])
+        if grass_module:
             detailed_module_list.append(grass_module)
-        except Exception:
-            log.error('error parsing module %s' % desc['executable'])
+        else:
+            request_module_list.append(module)
+
+    # If they are not in cache, request and cache them
+    if len(request_module_list) > 0:
+        process_log = build_and_run_iface_description_pc(
+            self, request_module_list)
+
+        for desc in process_log:
+            try:
+                grass_module = ParseInterfaceDescription(desc['stdout'])
+                cacheGrassModule(grass_module)
+                detailed_module_list.append(grass_module)
+            except Exception:
+                log.error('error parsing module %s' % desc['executable'])
 
     return detailed_module_list
