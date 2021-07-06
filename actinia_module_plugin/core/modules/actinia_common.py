@@ -179,6 +179,7 @@ class PlaceholderCollector(object):
         item_key = str(self.count)
         pc_item = {item_key: {"module": vp.module,
                               "interface-description": True}}
+        # TODO make use of module in redis cache if exists
         response = run_process_chain(self.resourceBaseSelf, pc_item)
         xml_strings = response['process_log']
         self.count = self.count + 1

@@ -97,7 +97,9 @@ describeModule_get_docs = {
         }
     ],
     'description': 'Get the description of a module. '
-                   'Minimum required user role: user.',
+                   'Minimum required user role: user.'
+                   'Can be also used to reload cache for a certain module'
+                   'for the full module description in listModules.',
     'responses': {
         '200': {
             'description': 'This response returns a description of a module.',
