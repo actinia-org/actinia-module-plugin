@@ -4,7 +4,7 @@ You can run actinia-module-plugin in multiple ways (see README.md). If actinia-m
 
 Most of these actinia-modules are stored as process-chain template. Process-chains are a way to tell actinia-core what needs to be processed and are mostly a list of GRASS commands in a defined JSON format.
 
-This readme explains the module self-description which actinia provides as well as process-chain templates and the combination of self-description for temlpates. Last but not least conventions for template creation are listed.
+This readme explains the module self-description which actinia provides as well as process-chain templates and the combination of self-description for templates. Last but not least conventions for template creation are listed.
 
 Content:
 1. Module self-description
