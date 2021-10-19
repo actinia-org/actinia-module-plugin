@@ -42,6 +42,7 @@ from actinia_module_plugin.core.modules.actinia_user_templates import \
 from actinia_module_plugin.core.modules.actinia_common import \
      createActiniaModule
 from actinia_module_plugin.core.modules.grass import createModuleList
+from actinia_module_plugin.core.modules.grass import createModuleUserList
 from actinia_module_plugin.core.modules.grass import createGrassModule
 from actinia_module_plugin.core.modules.grass import createFullModuleList
 from actinia_module_plugin.model.modules import ModuleList
@@ -59,15 +60,19 @@ class ListVirtualModules(ResourceBase):
         """
 
         grass_list = createModuleList(self)
-        grass_list = filter(grass_list)
+        user_list = createModuleUserList(self)
+        final_grass_list = [m for m in grass_list if m["id"] in user_list]
+        final_grass_list = filter(final_grass_list)
 
         if 'record' in request.args:
             if request.args['record'] == "full":
                 grass_list = createFullModuleList(self, grass_list)
+                final_grass_list = [m for m in grass_list
+                                    if m["id"] in user_list]
 
         pc_list_fs = createProcessChainTemplateListFromFileSystem()
         pc_list_redis = createProcessChainTemplateListFromRedis()
-        module_list = grass_list + pc_list_fs + pc_list_redis
+        module_list = final_grass_list + pc_list_fs + pc_list_redis
 
         module_list = filter(module_list)
 
