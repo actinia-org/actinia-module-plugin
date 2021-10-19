@@ -30,11 +30,12 @@ __maintainer__ = "Anika Bettge, Carmen Tawalika"
 
 from flask import jsonify, make_response, request
 from flask_restful_swagger_2 import swagger
-from actinia_core.rest.resource_base import ResourceBase
 
+from actinia_core.rest.resource_base import ResourceBase
 from actinia_module_plugin.apidocs import modules
 from actinia_module_plugin.core.filter import filter
 from actinia_module_plugin.core.modules.grass import createModuleList
+from actinia_module_plugin.core.modules.grass import createModuleUserList
 from actinia_module_plugin.core.modules.grass import createGrassModule
 from actinia_module_plugin.core.modules.grass import createFullModuleList
 from actinia_module_plugin.model.modules import ModuleList
@@ -58,6 +59,19 @@ class ListModules(ResourceBase):
             if request.args['record'] == "full":
                 module_list = createFullModuleList(self, module_list)
 
+        return make_response(jsonify(ModuleList(
+            status="success",
+            processes=module_list)), 200)
+
+
+class ListUserModules(ResourceBase):
+    """List all GRASS modules permitted to the authenticated user
+    """
+
+    def get(self):
+        """ Get a list of all GRASS modules permitted to the authenticated user
+        """
+        module_list = createModuleUserList(self, type="grass")
         return make_response(jsonify(ModuleList(
             status="success",
             processes=module_list)), 200)

@@ -42,6 +42,7 @@ from actinia_module_plugin.core.modules.actinia_user_templates import \
      createProcessChainTemplateListFromRedis
 from actinia_module_plugin.core.modules.actinia_common import \
      createActiniaModule
+from actinia_module_plugin.core.modules.grass import createModuleUserList
 from actinia_module_plugin.model.modules import ModuleList
 from actinia_module_plugin.model.responseModels import \
      SimpleStatusCodeResponseModel
@@ -64,6 +65,20 @@ class ListProcessChainTemplates(Resource):
 
         return make_response(jsonify(
             ModuleList(status="success", processes=pc_list)), 200)
+
+
+class ListProcessChainTemplatesUser(ResourceBase):
+    """List all actinia modules permitted to the authenticated user
+    """
+
+    def get(self):
+        """ Get a list of all actinia modules permitted to the authenticated
+            user
+        """
+        module_list = createModuleUserList(self, type="actinia")
+        return make_response(jsonify(ModuleList(
+            status="success",
+            processes=module_list)), 200)
 
 
 class DescribeProcessChainTemplate(ResourceBase):

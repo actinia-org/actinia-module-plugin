@@ -29,13 +29,15 @@ __license__ = "Apache-2.0"
 
 # from actinia_module_plugin.resources.logging import log
 
-from actinia_module_plugin.api.modules.grass import ListModules
+from actinia_module_plugin.api.modules.grass import \
+    ListModules, ListUserModules
 from actinia_module_plugin.api.modules.grass import DescribeModule
 from actinia_module_plugin.api.modules.actinia import \
-     ListProcessChainTemplates
+     ListProcessChainTemplates, ListProcessChainTemplatesUser
 from actinia_module_plugin.api.modules.actinia import \
      DescribeProcessChainTemplate
-from actinia_module_plugin.api.modules.combined import ListVirtualModules
+from actinia_module_plugin.api.modules.combined import \
+    ListVirtualModules, ListUserVirtualModules
 from actinia_module_plugin.api.modules.combined import DescribeVirtualModule
 from actinia_module_plugin.api.processing import \
      GdiAsyncEphemeralExportResource, GdiAsyncPersistentResource
@@ -65,13 +67,16 @@ def create_endpoints(flask_api):
     #     return send_from_directory(app.static_folder, filename)
 
     apidoc.add_resource(ListModules, '/grass_modules')
+    apidoc.add_resource(ListUserModules, '/grass_modules_user')
     apidoc.add_resource(DescribeModule, '/grass_modules/<grassmodule>')
 
     apidoc.add_resource(ListProcessChainTemplates, '/actinia_modules')
+    apidoc.add_resource(ListProcessChainTemplatesUser, '/actinia_modules_user')
     apidoc.add_resource(DescribeProcessChainTemplate,
                         '/actinia_modules/<actiniamodule>')
 
     apidoc.add_resource(ListVirtualModules, '/modules')
+    apidoc.add_resource(ListUserVirtualModules, '/modules_user')
     apidoc.add_resource(DescribeVirtualModule, '/modules/<module>')
 
     apidoc.add_resource(

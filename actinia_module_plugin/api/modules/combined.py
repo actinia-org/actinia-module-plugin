@@ -41,7 +41,8 @@ from actinia_module_plugin.core.modules.actinia_user_templates import \
      createProcessChainTemplateListFromRedis
 from actinia_module_plugin.core.modules.actinia_common import \
      createActiniaModule
-from actinia_module_plugin.core.modules.grass import createModuleList
+from actinia_module_plugin.core.modules.grass import \
+    createModuleList, createModuleUserList
 from actinia_module_plugin.core.modules.grass import createGrassModule
 from actinia_module_plugin.core.modules.grass import createFullModuleList
 from actinia_module_plugin.model.modules import ModuleList
@@ -73,6 +74,20 @@ class ListVirtualModules(ResourceBase):
 
         return make_response(jsonify(
             ModuleList(status="success", processes=module_list)), 200)
+
+
+class ListUserVirtualModules(ResourceBase):
+    """List all modules permitted to the authenticated user
+    """
+
+    def get(self):
+        """ Get a list of all modules permitted to the authenticated
+            user
+        """
+        module_list = createModuleUserList(self, type="combined")
+        return make_response(jsonify(ModuleList(
+            status="success",
+            processes=module_list)), 200)
 
 
 class DescribeVirtualModule(ResourceBase):
