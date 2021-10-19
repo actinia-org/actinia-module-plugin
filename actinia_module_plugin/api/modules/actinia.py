@@ -59,6 +59,7 @@ class ListProcessChainTemplates(Resource):
         pc_list_fs = createProcessChainTemplateListFromFileSystem()
         pc_list_redis = createProcessChainTemplateListFromRedis()
         pc_list = pc_list_fs + pc_list_redis
+
         pc_list = filter(pc_list)
 
         return make_response(jsonify(

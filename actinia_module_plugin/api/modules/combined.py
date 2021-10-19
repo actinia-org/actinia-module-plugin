@@ -41,8 +41,7 @@ from actinia_module_plugin.core.modules.actinia_user_templates import \
      createProcessChainTemplateListFromRedis
 from actinia_module_plugin.core.modules.actinia_common import \
      createActiniaModule
-from actinia_module_plugin.core.modules.grass import \
-    createModuleList
+from actinia_module_plugin.core.modules.grass import createModuleList
 from actinia_module_plugin.core.modules.grass import createGrassModule
 from actinia_module_plugin.core.modules.grass import createFullModuleList
 from actinia_module_plugin.model.modules import ModuleList
