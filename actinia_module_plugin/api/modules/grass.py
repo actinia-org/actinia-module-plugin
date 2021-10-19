@@ -53,15 +53,18 @@ class ListModules(ResourceBase):
         """
 
         module_list = createModuleList(self)
-        module_list = filter(module_list)
+        user_list = createModuleUserList(self)
+        final_list = [m for m in module_list if m["id"] in user_list]
+        final_list = filter(final_list)
 
         if 'record' in request.args:
             if request.args['record'] == "full":
+                # module_list = createFullModuleList(self, module_list)
                 module_list = createFullModuleList(self, module_list)
-
+                final_list = [m for m in module_list if m["id"] in user_list]
         return make_response(jsonify(ModuleList(
             status="success",
-            processes=module_list)), 200)
+            processes=final_list)), 200)
 
 
 class ListUserModules(ResourceBase):

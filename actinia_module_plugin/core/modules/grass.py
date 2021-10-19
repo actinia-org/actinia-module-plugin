@@ -31,7 +31,7 @@ import time
 from actinia_core.core.redis_user import RedisUserInterface
 from actinia_core.models.response_models import \
      create_response_from_model
-from actinia_core.core.common.config import Configuration, global_config
+from actinia_core.core.common.config import Configuration
 
 from actinia_module_plugin.core.modules.processor import run_process_chain
 from actinia_module_plugin.core.modules.parser import ParseInterfaceDescription
@@ -83,27 +83,26 @@ def createModuleList(self):
     return module_list
 
 
-def createModuleUserList(self, type="combined"):
+def createModuleUserList(self):
     redis_interface = RedisUserInterface()
-    kwargs = dict()
-    kwargs["host"] = global_config.REDIS_SERVER_URL
-    kwargs["port"] = global_config.REDIS_SERVER_PORT
-    if (global_config.REDIS_SERVER_PW
-            and global_config.REDIS_SERVER_PW is not None):
-        kwargs["password"] = global_config.REDIS_SERVER_PW
-    redis_interface.connect(**kwargs)
+    conf = Configuration()
+    try:
+        conf.read()
+    except Exception:
+        pass
+
+    server = conf.REDIS_SERVER_URL
+    port = conf.REDIS_SERVER_PORT
+    if conf.REDIS_SERVER_PW:
+        redis_password = conf.REDIS_SERVER_PW
+    else:
+        redis_password = None
+    redis_interface.connect(host=server, port=port, password=redis_password)
     user = self.user.get_id()
     all_modules = (redis_interface.get_credentials(user)["permissions"]
                    ["accessible_modules"])
     redis_interface.disconnect()
-    if type == "combined":
-        return all_modules
-    elif type == "grass":
-        grass_modules = [m for m in all_modules if "." in m]
-        return grass_modules
-    elif type == "actinia":
-        actinia_modules = [m for m in all_modules if "." not in m]
-        return actinia_modules
+    return all_modules
 
 
 def build_and_run_iface_description_pc(self, module_list):
