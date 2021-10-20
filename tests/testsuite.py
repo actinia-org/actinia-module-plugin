@@ -105,8 +105,18 @@ class ActiniaTestCase(unittest.TestCase):
                                              "user1",
                                              "modis_lst"]}
         password = pwgen.pwgen()
-        self.user_id, self.user_group, self.user_auth_header = self.createUser(
+        (self.user_id, self.user_group,
+         self.user_auth_header) = self.createUser(
             name="user", role="user", password=password, process_num_limit=3,
+            process_time_limit=4, accessible_datasets=accessible_datasets)
+        (self.restricted_user_id, self.restricuted_user_group,
+         self.restricted_user_auth_header) = self.createUser(
+            name="user2", role="user", password=password, process_num_limit=3,
+            process_time_limit=4, accessible_datasets=accessible_datasets,
+            accessible_modules=["v.db.select", "importer", "r.mapcalc"])
+        (self.admin_id, self.admin_group,
+         self.admin_auth_header) = self.createUser(
+            name="admin", role="admin", password=password, process_num_limit=3,
             process_time_limit=4, accessible_datasets=accessible_datasets)
 
         # # create process queue
@@ -126,11 +136,12 @@ class ActiniaTestCase(unittest.TestCase):
 
     def createUser(self, name="guest", role="guest",
                    group="group", password="abcdefgh",
-                   accessible_datasets=None, process_num_limit=1000,
+                   accessible_datasets=None,
+                   accessible_modules=global_config.MODULE_WHITE_LIST,
+                   process_num_limit=1000,
                    process_time_limit=6000):
 
         auth = bytes('%s:%s' % (name, password), "utf-8")
-
         # We need to create an HTML basic authorization header
         self.auth_header[role] = Headers()
         self.auth_header[role].add('Authorization',
@@ -146,6 +157,7 @@ class ActiniaTestCase(unittest.TestCase):
                                        password,
                                        user_role=role,
                                        accessible_datasets=accessible_datasets,
+                                       accessible_modules=accessible_modules,
                                        process_num_limit=process_num_limit,
                                        process_time_limit=process_time_limit)
         user.add_accessible_modules(["uname", "sleep"])

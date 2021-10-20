@@ -63,7 +63,7 @@ class ActiniaModulesTest(ActiniaTestCase):
         assert type(resp) is Response
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
-        assert len(resp.json['processes']) == 7
+        assert len(resp.json['processes']) >= 7
 
     def test_describe_modules_not_found(self):
         """Test HTTP GET /actinia_modules/<not-existing-module>"""
