@@ -28,7 +28,6 @@ __maintainer__ = "Anika Bettge, Carmen Tawalika"
 import json
 import time
 
-from actinia_core.core.redis_user import RedisUserInterface
 from actinia_core.models.response_models import \
      create_response_from_model
 from actinia_core.core.common.config import Configuration
@@ -39,6 +38,8 @@ from actinia_module_plugin.model.modules import Module
 from actinia_module_plugin.resources.logging import log
 from actinia_module_plugin.core.modules.grass_modules_redis_interface import \
      redis_grass_module_interface
+from actinia_module_plugin.core.modules.accessible_modules_redis_interface \
+     import getAccessibleModuleListRedis
 
 
 def createModuleList(self):
@@ -84,25 +85,7 @@ def createModuleList(self):
 
 
 def createModuleUserList(self):
-    redis_interface = RedisUserInterface()
-    conf = Configuration()
-    try:
-        conf.read()
-    except Exception:
-        pass
-
-    server = conf.REDIS_SERVER_URL
-    port = conf.REDIS_SERVER_PORT
-    if conf.REDIS_SERVER_PW:
-        redis_password = conf.REDIS_SERVER_PW
-    else:
-        redis_password = None
-    redis_interface.connect(host=server, port=port, password=redis_password)
-    user = self.user.get_id()
-    all_modules = (redis_interface.get_credentials(user)["permissions"]
-                   ["accessible_modules"])
-    redis_interface.disconnect()
-    return all_modules
+    return getAccessibleModuleListRedis(self)
 
 
 def build_and_run_iface_description_pc(self, module_list):
