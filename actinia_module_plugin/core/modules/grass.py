@@ -38,6 +38,8 @@ from actinia_module_plugin.model.modules import Module
 from actinia_module_plugin.resources.logging import log
 from actinia_module_plugin.core.modules.grass_modules_redis_interface import \
      redis_grass_module_interface
+from actinia_module_plugin.core.modules.accessible_modules_redis_interface \
+     import getAccessibleModuleListRedis
 
 
 def createModuleList(self):
@@ -80,6 +82,10 @@ def createModuleList(self):
         module_list.append(module_response)
 
     return module_list
+
+
+def createModuleUserList(self):
+    return getAccessibleModuleListRedis(self)
 
 
 def build_and_run_iface_description_pc(self, module_list):

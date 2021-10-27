@@ -35,6 +35,7 @@ from actinia_core.rest.resource_base import ResourceBase
 from actinia_module_plugin.apidocs import modules
 from actinia_module_plugin.core.filter import filter
 from actinia_module_plugin.core.modules.grass import createModuleList
+from actinia_module_plugin.core.modules.grass import createModuleUserList
 from actinia_module_plugin.core.modules.grass import createGrassModule
 from actinia_module_plugin.core.modules.grass import createFullModuleList
 from actinia_module_plugin.model.modules import ModuleList
@@ -52,15 +53,21 @@ class ListModules(ResourceBase):
         """
 
         module_list = createModuleList(self)
-        module_list = filter(module_list)
+        if self.user_role == "user" or self.user_role == "guest":
+            # admins have access to all modules
+            user_list = createModuleUserList(self)
+            final_list = [m for m in module_list if m["id"] in user_list]
+        else:
+            final_list = module_list
+        final_list = filter(final_list)
 
         if 'record' in request.args:
             if request.args['record'] == "full":
-                module_list = createFullModuleList(self, module_list)
+                final_list = createFullModuleList(self, final_list)
 
         return make_response(jsonify(ModuleList(
             status="success",
-            processes=module_list)), 200)
+            processes=final_list)), 200)
 
 
 class DescribeModule(ResourceBase):
