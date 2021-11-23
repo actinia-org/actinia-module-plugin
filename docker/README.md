@@ -8,25 +8,27 @@ Mind that it needs to be registered in the actinia-core config under API.plugins
 
 __test endpoints__
 ```
-http://127.0.0.1:8088/api/v1/grassmodules
-http://127.0.0.1:8088/api/v1/grassmodules/d.barscale
-http://127.0.0.1:8088/api/v1/grassmodules/d.barscale3
+ACTINIA_URL="http://127.0.0.1:8088"
+ACTINIA_VERSION="v2"
+${ACTINIA_URL}/api/${ACTINIA_VERSION}/grass_modules
+${ACTINIA_URL}/api/${ACTINIA_VERSION}/grass_modules/d.barscale
+${ACTINIA_URL}/api/${ACTINIA_VERSION}/grass_modules/d.barscale3
 
-http://127.0.0.1:8088/api/v1/actiniamodules
-http://127.0.0.1:8088/api/v1/actiniamodules/vector_area
+${ACTINIA_URL}/api/${ACTINIA_VERSION}/actinia_modules
+${ACTINIA_URL}/api/${ACTINIA_VERSION}/actinia_modules/vector_area
 
-http://127.0.0.1:8088/api/v1/modules
-http://127.0.0.1:8088/api/v1/modules/d.barscale
-http://127.0.0.1:8088/api/v1/modules/vector_area
-http://127.0.0.1:8088/api/v1/modules/vector_area5
+${ACTINIA_URL}/api/${ACTINIA_VERSION}/modules
+${ACTINIA_URL}/api/${ACTINIA_VERSION}/modules/d.barscale
+${ACTINIA_URL}/api/${ACTINIA_VERSION}/modules/vector_area
+${ACTINIA_URL}/api/${ACTINIA_VERSION}/modules/vector_area5
 
-http://127.0.0.1:8088/api/v1/swagger.json
+${ACTINIA_URL}/api/${ACTINIA_VERSION}/swagger.json
 
 ```
 
 ## Create API docs
 ```
-wget -O /tmp/actinia-module.json http://127.0.0.1:8088/api/v1/swagger.json
+wget -O /tmp/actinia-module.json ${ACTINIA_URL}/api/${ACTINIA_VERSION}/swagger.json
 ```
 Run spectacle docker image to generate the HTML documentation
 ```
@@ -48,5 +50,5 @@ sed -i 's+<link rel="stylesheet" href="stylesheets/spectacle.min.css" />+<link r
 
 ## Copy&Paste one-liner:
 ```
-wget -O /tmp/actinia-module.json http://127.0.0.1:8088/api/v1/swagger.json && spectacle /tmp/actinia-module.json -t . && mv public/index.html index.html && rm -r public && sed -i 's+<link rel="stylesheet" href="stylesheets/spectacle.min.css" />+<link rel="stylesheet" href="stylesheets/spectacle.min.css" />\n    <link rel="stylesheet" href="stylesheets/actinia.css" />+g' index.html
+wget -O /tmp/actinia-module.json ${ACTINIA_URL}/api/${ACTINIA_VERSION}/swagger.json && spectacle /tmp/actinia-module.json -t . && mv public/index.html index.html && rm -r public && sed -i 's+<link rel="stylesheet" href="stylesheets/spectacle.min.css" />+<link rel="stylesheet" href="stylesheets/spectacle.min.css" />\n    <link rel="stylesheet" href="stylesheets/actinia.css" />+g' index.html
 ```
