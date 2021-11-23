@@ -19,7 +19,7 @@ Content:
 
 One grass-module self-description can be requested as follows:
 
-`curl -X GET http://127.0.0.1:8088/api/v1/modules/v.buffer`
+`curl -X GET http://127.0.0.1:8088/api/v2/modules/v.buffer`
 
 One example response to describe the GRASS GIS module "v.buffer" looks like this:
 
