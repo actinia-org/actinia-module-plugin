@@ -172,6 +172,8 @@ def isOutput(parameter):
             return False
     except KeyError:
         return False
+    except AttributeError:
+        return False
 
 
 def createModuleParameterFromGrassParam(module_id, key, parameter):
@@ -196,7 +198,7 @@ def createModuleParameterFromGrassParam(module_id, key, parameter):
     return param_object
 
 
-def createModuleParameterFromGrassFlag(module_id, key, parameter):
+def createModuleParameterFromGrassFlag(module_id, parameter):
 
     kwargs = dict()
     kwargs['default'] = 'False'
@@ -237,9 +239,12 @@ def ParseInterfaceDescription(xml_string, keys=None):
     # if a GRASS GIS module has only one parameter, xml2dict does not transform
     # parameters to an array but only assigns this one parameter. For our
     # parser to get along, we transform in this case to array as well.
-    if (type(xmltodict.parse(xml_string)['task']['parameter'])
-            == collections.OrderedDict):
+    if (hasattr(xmltodict.parse(xml_string)['task'], 'parameter') and
+       (type(xmltodict.parse(xml_string)['task']['parameter'])
+            == collections.OrderedDict)):
         gm_dict['parameter'] = [gm_dict['parameter']]
+    else:
+        gm_dict['parameter'] = []
 
     try:
         grass_params = gm_dict['parameter']
@@ -252,6 +257,7 @@ def ParseInterfaceDescription(xml_string, keys=None):
     except KeyError:
         logstring(module_id, "", "has no flags")
         flags = []
+
 
     for parameter in grass_params:
         if keys:
@@ -281,7 +287,7 @@ def ParseInterfaceDescription(xml_string, keys=None):
         if keys:
             continue
         param_object = createModuleParameterFromGrassFlag(
-            module_id, key, parameter)
+            module_id, parameter)
 
         parameters.append(param_object)
 
