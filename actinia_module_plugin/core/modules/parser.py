@@ -258,7 +258,6 @@ def ParseInterfaceDescription(xml_string, keys=None):
         logstring(module_id, "", "has no flags")
         flags = []
 
-
     for parameter in grass_params:
         if keys:
             # case for actinia modules
