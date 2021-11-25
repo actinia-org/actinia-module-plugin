@@ -239,12 +239,14 @@ def ParseInterfaceDescription(xml_string, keys=None):
     # if a GRASS GIS module has only one parameter, xml2dict does not transform
     # parameters to an array but only assigns this one parameter. For our
     # parser to get along, we transform in this case to array as well.
-    if (hasattr(xmltodict.parse(xml_string)['task'], 'parameter') and
-       (type(xmltodict.parse(xml_string)['task']['parameter'])
-            == collections.OrderedDict)):
+    if 'parameter' not in xmltodict.parse(xml_string)['task']:
+        gm_dict['parameter'] = []
+    elif (type(xmltodict.parse(xml_string)['task']['parameter'])
+            == collections.OrderedDict):
         gm_dict['parameter'] = [gm_dict['parameter']]
     else:
-        gm_dict['parameter'] = []
+        # keep as is
+        pass
 
     try:
         grass_params = gm_dict['parameter']
