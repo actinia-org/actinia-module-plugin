@@ -49,15 +49,19 @@ def createProcessChainTemplateListFromFileSystem():
         except Exception:
             log.error('Error parsing template ' + tpl_string)
 
-        tpl_id = pc_template['id']
-        description = pc_template['description']
-        categories = ['actinia-module', 'global-template']
+        try:
+            tpl_id = pc_template['id']
+            description = pc_template['description']
+            categories = ['actinia-module', 'global-template']
 
-        pc_response = (Module(
-            id=tpl_id,
-            description=description,
-            categories=categories
-        ))
-        pc_list.append(pc_response)
+            pc_response = (Module(
+                id=tpl_id,
+                description=description,
+                categories=categories
+            ))
+            pc_list.append(pc_response)
+
+        except KeyError:
+            log.warning('Could not read template %s' % pc_template)
 
     return pc_list
