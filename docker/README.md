@@ -9,7 +9,7 @@ Mind that it needs to be registered in the actinia-core config under API.plugins
 __test endpoints__
 ```
 ACTINIA_URL="http://127.0.0.1:8088"
-ACTINIA_VERSION="v2"
+ACTINIA_VERSION="v3"
 ${ACTINIA_URL}/api/${ACTINIA_VERSION}/grass_modules
 ${ACTINIA_URL}/api/${ACTINIA_VERSION}/grass_modules/d.barscale
 ${ACTINIA_URL}/api/${ACTINIA_VERSION}/grass_modules/d.barscale3
