@@ -56,13 +56,15 @@ from flask_restful_swagger_2 import swagger
 from actinia_core.core.common.redis_interface import enqueue_job
 from actinia_core.models.response_models import \
      create_response_from_model
+from actinia_core.processing.common.ephemeral_processing_with_export import \
+     start_job as start_job_ephemeral_processing_with_export
 from actinia_core.rest.ephemeral_processing_with_export import \
-     start_job as start_job_ephemeral_processing_with_export, \
      SCHEMA_DOC as SCHEMA_DOC_EPHEMERAL_PROCESSING_WITH_EXPORT
+from actinia_core.processing.common.persistent_processing import \
+     start_job as start_job_persistent_processing
 from actinia_core.rest.persistent_processing import \
-     start_job as start_job_persistent_processing, \
      SCHEMA_DOC as SCHEMA_DOC_PERSISTENT_PROCESSING
-from actinia_core.rest.resource_base import ResourceBase
+from actinia_core.rest.base.resource_base import ResourceBase
 
 from actinia_module_plugin.core.modules.actinia_global_templates import \
      createProcessChainTemplateListFromFileSystem

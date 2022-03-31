@@ -53,7 +53,8 @@ import pickle
 import uuid
 
 from actinia_core.core.common.config import global_config
-from actinia_core.rest.ephemeral_processing import EphemeralProcessing
+from actinia_core.processing.actinia_processing.ephemeral_processing \
+     import EphemeralProcessing
 from actinia_core.models.response_models import \
      StringListProcessingResultResponseModel
 
