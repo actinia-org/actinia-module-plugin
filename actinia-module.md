@@ -503,7 +503,7 @@ Full API docs
 
 ### 6. Additional Notes
 
-#### The self-description tries to comply the [openEO API](https://open-eo.github.io/openeo-api/apireference/#tag/Process-Discovery/paths/~1processes/get) where applicable.
+#### The self-description tries to comply the [openEO API](https://api.openeo.org/#tag/Process-Discovery) where applicable.
 At some points, however, we have to divert from their API:
 
 * `returns` section may contain multiple outputs and has the same structure
