@@ -55,7 +55,7 @@ import pwgen
 from werkzeug.datastructures import Headers
 
 from actinia_core.endpoints import create_endpoints
-from actinia_core.core.common import redis_interface
+from actinia_core.core.common.redis_interface import connect, disconnect
 from actinia_core.core.common.app import flask_app, URL_PREFIX
 from actinia_core.core.common.config import global_config
 from actinia_core.core.common.user import ActiniaUser
@@ -98,7 +98,7 @@ class ActiniaTestCase(unittest.TestCase):
         if (global_config.REDIS_SERVER_PW
                 and global_config.REDIS_SERVER_PW is not None):
             redis_args = (*redis_args, global_config.REDIS_SERVER_PW)
-        redis_interface.connect(*redis_args)
+        connect(*redis_args)
 
         # create test user for roles user (more to come)
         accessible_datasets = {"nc_spm_08": ["PERMANENT",
@@ -132,7 +132,7 @@ class ActiniaTestCase(unittest.TestCase):
         # remove test user; disconnect redis
         for user in self.users_list:
             user.delete()
-        redis_interface.disconnect()
+        disconnect()
 
     def createUser(self, name="guest", role="guest",
                    group="group", password="abcdefgh",
