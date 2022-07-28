@@ -80,7 +80,7 @@ class Configfile:
                 LOGCONFIG.level = config.get("LOGCONFIG", "level")
             if config.has_option("LOGCONFIG", "type"):
                 LOGCONFIG.type = config.get("LOGCONFIG", "type")
-        
+
         # TEMPLATE PATH
         if os.getenv("PCTEMPLATES") is not None:
             PCTEMPLATECONFIG.pathfile = os.getenv("PCTEMPLATES")
