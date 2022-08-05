@@ -20,9 +20,9 @@ GRASS GIS module viewer
 """
 
 __license__ = "Apache-2.0"
-__author__ = "Anika Bettge, Carmen Tawalika"
-__copyright__ = "Copyright 2019, mundialis"
-__maintainer__ = "Anika Bettge, Carmen Tawalika"
+__author__ = "Anika Weinmann, Carmen Tawalika, Julia Haas"
+__copyright__ = "Copyright 2019 - 2022, mundialis GmbH & Co. KG"
+__maintainer__ = "mundialis GmbH & Co. KG"
 
 
 import json
