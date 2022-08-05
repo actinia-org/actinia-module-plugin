@@ -38,6 +38,9 @@ from actinia_module_plugin.core.modules.grass import createModuleList
 from actinia_module_plugin.core.modules.grass import createModuleUserList
 from actinia_module_plugin.core.modules.grass import createGrassModule
 from actinia_module_plugin.core.modules.grass import createFullModuleList
+from actinia_module_plugin.core.modules.grass import installGrassAddon
+from actinia_module_plugin.core.modules.accessible_modules_redis_interface \
+    import addGrassAddonToModuleListRedis
 from actinia_module_plugin.model.modules import ModuleList
 from actinia_module_plugin.model.responseModels import \
      SimpleStatusCodeResponseModel
@@ -91,3 +94,21 @@ class DescribeModule(ResourceBase):
                 message='Error looking for module "' + grassmodule + '".'
             )))
             return make_response(res, 404)
+
+    def post(self, grassmodule):
+        """Install an official GRASS GIS Addon.
+        """
+
+        response = installGrassAddon(self, grassmodule)
+        addGrassAddonToModuleListRedis(self, grassmodule)
+
+        if response['status'] == "finished":
+            msg = ('Successfully installed GRASS addon ' + grassmodule + '.')
+            status_code = 201
+        else:
+            msg = ('Error installing GRASS addon ' + grassmodule + '.')
+            status_code = 400
+
+        res = (jsonify(SimpleStatusCodeResponseModel(
+            status=status_code, message=msg)))
+        return make_response(res, status_code)
