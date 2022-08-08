@@ -20,9 +20,9 @@ Accessible Modules Redis Interface
 """
 
 __license__ = "Apache-2.0"
-__author__ = "Anika Weinmann, Carmen Tawalika, Guido Riembauer"
-__copyright__ = "Copyright 2021, mundialis"
-__maintainer__ = "Anika Weinmann, Carmen Tawalika, Guido Riembauer"
+__author__ = "Anika Weinmann, Carmen Tawalika, Guido Riembauer, Julia Haas"
+__copyright__ = "Copyright 2021 - 2022, mundialis GmbH & Co. KG"
+__maintainer__ = "mundialis GmbH & Co. KGr"
 
 from actinia_core.core.redis_user import RedisUserInterface
 from actinia_core.core.common.config import Configuration
@@ -48,3 +48,11 @@ def getAccessibleModuleListRedis(self):
                       ["accessible_modules"])
     redis_interface.disconnect()
     return access_modules
+
+
+def addGrassAddonToModuleListRedis(self, grassmodule):
+    """This function adds installed GRASS addon to the user's module list
+    in redis.
+    """
+    self.user.add_accessible_modules([grassmodule, ])
+    self.user.update()

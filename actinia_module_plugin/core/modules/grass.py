@@ -20,9 +20,9 @@ GRASS GIS module viewer
 """
 
 __license__ = "Apache-2.0"
-__author__ = "Anika Bettge, Carmen Tawalika"
-__copyright__ = "Copyright 2019, mundialis"
-__maintainer__ = "Anika Bettge, Carmen Tawalika"
+__author__ = "Anika Weinmann, Carmen Tawalika, Julia Haas"
+__copyright__ = "Copyright 2019 - 2022, mundialis GmbH & Co. KG"
+__maintainer__ = "mundialis GmbH & Co. KG"
 
 
 import json
@@ -36,10 +36,29 @@ from actinia_module_plugin.core.modules.processor import run_process_chain
 from actinia_module_plugin.core.modules.parser import ParseInterfaceDescription
 from actinia_module_plugin.model.modules import Module
 from actinia_module_plugin.resources.logging import log
-from actinia_module_plugin.core.modules.grass_modules_redis_interface import \
-     redis_grass_module_interface
+from actinia_module_plugin.core.modules.grass_modules_redis_interface \
+     import redis_grass_module_interface
 from actinia_module_plugin.core.modules.accessible_modules_redis_interface \
      import getAccessibleModuleListRedis
+
+
+def installGrassAddon(self, addon_name):
+    """This function installs an official GRASS addon.
+    """
+    process_chain = {
+        "version": 1,
+        "list": [{
+            "id": "1",
+            "module": "g.extension",
+            "inputs": [{"param": "extension", "value": addon_name}],
+            "flags": "s"
+            }
+        ]
+    }
+
+    response = run_process_chain(self, process_chain)
+
+    return response
 
 
 def createModuleList(self):
