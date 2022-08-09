@@ -53,7 +53,7 @@ class VirtualModulesTest(ActiniaTestCase):
         assert 'grass-module' in resp.json['processes'][0]['categories']
         assert 'actinia-module' in resp.json['processes'][-1]['categories']
 
-        assert len(resp.json['processes']) > 200
+        assert len(resp.json['processes']) > 150
         assert 'categories' in resp.json['processes'][0]
         assert 'description' in resp.json['processes'][0]
         assert 'id' in resp.json['processes'][0]
@@ -133,7 +133,11 @@ class VirtualModulesTest(ActiniaTestCase):
         # installed GRASS GIS Addons. If redis db is empty, it should include
         # all pc_templates from templates/pc_templates including subdirs and
         # importer and exporter.
-        assert len(resp.json['processes']) >= 9
+        num_of_actinia_modules = len([
+            x for x in resp.json['processes']
+            if x["id"] not in ["exporter", "importer"]
+        ])
+        assert num_of_actinia_modules >= 7
 
     def test_filter_list_modules_get_user_3(self):
         """Test HTTP GET /modules with filter.
@@ -173,7 +177,11 @@ class VirtualModulesTest(ActiniaTestCase):
         assert type(resp) is Response
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
-        assert len(resp.json['processes']) >= 9
+        num_of_actinia_modules = len([
+            x for x in resp.json['processes']
+            if x["id"] not in ["exporter", "importer"]
+        ])
+        assert num_of_actinia_modules >= 7
 
 
 for i in someVirtualModules:

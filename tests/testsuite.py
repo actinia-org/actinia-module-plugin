@@ -137,7 +137,7 @@ class ActiniaTestCase(unittest.TestCase):
     def createUser(self, name="guest", role="guest",
                    group="group", password="abcdefgh",
                    accessible_datasets=None,
-                   accessible_modules=global_config.MODULE_WHITE_LIST,
+                   accessible_modules=global_config.MODULE_ALLOW_LIST,
                    process_num_limit=1000,
                    process_time_limit=6000):
 
