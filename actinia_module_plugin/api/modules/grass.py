@@ -100,9 +100,9 @@ class DescribeModule(ResourceBase):
         """
 
         response = installGrassAddon(self, grassmodule)
-        addGrassAddonToModuleListRedis(self, grassmodule)
 
         if response['status'] == "finished":
+            addGrassAddonToModuleListRedis(self, grassmodule)
             msg = ('Successfully installed GRASS addon ' + grassmodule + '.')
             status_code = 201
         else:
