@@ -27,6 +27,7 @@ __license__ = "Apache-2.0"
 import configparser
 import glob
 from pathlib import Path
+import os
 
 # config can be overwritten by mounting *.ini files into folders inside
 # the config folder.
@@ -34,6 +35,12 @@ DEFAULT_CONFIG_PATH = "config"
 CONFIG_FILES = [str(f) for f in Path(
     DEFAULT_CONFIG_PATH).glob('**/*.ini') if f.is_file()]
 GENERATED_CONFIG = DEFAULT_CONFIG_PATH + '/actinia-module-plugin.cfg'
+
+
+class PCTEMPLATECONFIG:
+    """ Default path for 'templates/pc_templates'
+    """
+    pathfile = '/src/actinia-module-plugin/config/templates/pc_templates'
 
 
 class LOGCONFIG:
@@ -73,6 +80,14 @@ class Configfile:
                 LOGCONFIG.level = config.get("LOGCONFIG", "level")
             if config.has_option("LOGCONFIG", "type"):
                 LOGCONFIG.type = config.get("LOGCONFIG", "type")
+
+        # TEMPLATE PATH
+        if os.getenv("PCTEMPLATES") is not None:
+            PCTEMPLATECONFIG.pathfile = os.getenv("PCTEMPLATES")
+        elif config.has_section("PCTEMPLATECONFIG"):
+            if config.has_option("PCTEMPLATECONFIG", "pathfile"):
+                PCTEMPLATECONFIG.pathfile = config.get("PCTEMPLATECONFIG",
+                                                       "pathfile")
 
 
 init = Configfile()
