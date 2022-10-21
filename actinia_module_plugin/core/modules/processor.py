@@ -158,7 +158,7 @@ class EphemeralModuleLister(EphemeralProcessing):
 
         self._setup()
 
-        # Create the temporary database and link all available mapsets into is
+        # Create the temporary database and link all available mapsets into it
         self._create_temp_database()
 
         process_list = self._validate_process_chain(
@@ -192,6 +192,7 @@ def run_process_chain(self, process_chain):
     rdc = self.preprocess(has_json=False, has_xml=False,
                           location_name=location_name,
                           mapset_name="PERMANENT")
+
 
     def list_modules(*args, process_chain=process_chain):
         processing = EphemeralModuleLister(*args, pc=process_chain)

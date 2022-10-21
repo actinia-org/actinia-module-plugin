@@ -133,12 +133,6 @@ def build_and_run_iface_description_pc(self, module_list):
 
     pc['list'] = process_chain_items
 
-    if len(module_list) == 1 and module in ["exporter", "importer"]:
-        # old style process chain was used before by createGrassModule
-        # as for importer and exporter new style fails, overwrite pc
-        # see https://github.com/mundialis/actinia_core/issues/227
-        pc = {"1": {"module": module, "interface-description": True}}
-
     response = run_process_chain(self, pc)
 
     return response['process_log']
