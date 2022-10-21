@@ -193,7 +193,6 @@ def run_process_chain(self, process_chain):
                           location_name=location_name,
                           mapset_name="PERMANENT")
 
-
     def list_modules(*args, process_chain=process_chain):
         processing = EphemeralModuleLister(*args, pc=process_chain)
         processing.run()
