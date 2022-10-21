@@ -22,7 +22,7 @@ Accessible Modules Redis Interface
 __license__ = "Apache-2.0"
 __author__ = "Anika Weinmann, Carmen Tawalika, Guido Riembauer, Julia Haas"
 __copyright__ = "Copyright 2021 - 2022, mundialis GmbH & Co. KG"
-__maintainer__ = "mundialis GmbH & Co. KGr"
+__maintainer__ = "mundialis GmbH & Co. KG"
 
 from actinia_core.core.redis_user import RedisUserInterface
 from actinia_core.core.common.config import Configuration

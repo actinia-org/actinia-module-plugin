@@ -74,8 +74,8 @@ class ListModules(ResourceBase):
 
 
 class DescribeModule(ResourceBase):
-    """ Definition for endpoint @app.route('grassmodules/<grassmodule>') to
-        desctibe one module
+    """ Definition for endpoint @app.route('grass_modules/<grassmodule>') to
+        describe one module
 
     Contains HTTP GET endpoint
     Contains swagger documentation
