@@ -50,3 +50,6 @@ config/*.cfg
 actinia_module_plugin/templates/pc_templates/assets/
 actinia_module_plugin/templates/pc_templates/examples/assets/
 resp.json
+
+# docker
+!docker/actinia-module-plugin-test/actinia-module-plugin-test.cfg

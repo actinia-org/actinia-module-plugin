@@ -26,3 +26,17 @@ https://semver.org/ (MAJOR.MINOR.PATCH)
 
 #### Logging:
 in any module, import `from actinia_module_plugin.resources.logging import log` and call logger with `log.info("my info i want to log")`
+
+
+### Running tests
+You can run the tests in the actinia docker:
+```
+docker build -f docker/actinia-module-plugin-test/Dockerfile -t actinia-module-plugin-test .
+
+docker run -it actinia-module-plugin-test -i
+
+cd /src/actinia-module-plugin/
+
+# run all tests
+./tests_with_redis.sh
+```
