@@ -116,6 +116,7 @@ class VirtualModulesTest(ActiniaTestCase):
         # WARNING: this depends on existing GRASS GIS modules and possible
         # installed GRASS GIS Addons. Both importer and exporter are
         # whitelisted and should be found
+        import pdb; pdb.set_trace()
         assert len(resp.json['processes']) == 2
 
     def test_filter_list_modules_get_user_2(self):
@@ -137,6 +138,7 @@ class VirtualModulesTest(ActiniaTestCase):
             x for x in resp.json['processes']
             if x["id"] not in ["exporter", "importer"]
         ])
+        import pdb; pdb.set_trace()
         assert num_of_actinia_modules >= 7
 
     def test_filter_list_modules_get_user_3(self):
@@ -177,11 +179,7 @@ class VirtualModulesTest(ActiniaTestCase):
         assert type(resp) is Response
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
-        num_of_actinia_modules = len([
-            x for x in resp.json['processes']
-            if x["id"] not in ["exporter", "importer"]
-        ])
-        assert num_of_actinia_modules >= 7
+        assert len(resp.json['processes']) == 1
 
 
 for i in someVirtualModules:
