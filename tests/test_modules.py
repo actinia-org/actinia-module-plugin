@@ -137,7 +137,7 @@ class VirtualModulesTest(ActiniaTestCase):
             x for x in resp.json['processes']
             if x["id"] not in ["exporter", "importer"]
         ])
-        assert num_of_actinia_modules >= 100
+        assert num_of_actinia_modules >= 7
 
     def test_filter_list_modules_get_user_3(self):
         """Test HTTP GET /modules with filter.
