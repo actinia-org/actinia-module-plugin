@@ -8,3 +8,4 @@ docker
 .pytest_cache
 build
 dist
+!docker/actinia-module-plugin-test/actinia-module-plugin-test.cfg
