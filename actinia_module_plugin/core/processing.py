@@ -27,6 +27,7 @@ __maintainer__ = "Carmen Tawalika"
 
 import json
 from jinja2 import nodes
+from re import findall as re_findall
 
 from actinia_module_plugin.core.common import \
      get_user_template, get_user_template_source, \
@@ -93,7 +94,7 @@ def build_kwargs_for_template_rendering(module):
     return kwargs
 
 
-def check_for_errors(undef, parsed_content, kwargs):
+def check_for_errors(undef, parsed_content, tpl_source, kwargs):
     """This method checks if all placeholders are filled with values and
     returns the placeholder if missing. Exceptions are default values for which
     the given default value can be used.
@@ -105,8 +106,27 @@ def check_for_errors(undef, parsed_content, kwargs):
         if 'default' in filtered_var[1]:
             default_vars.append(filtered_var[0])
 
+    # find variables which are only in an if statement and has not to be set
+    not_needed_vars = default_vars
+    if "{% if" in tpl_source:
+        for i in undef:
+            if i not in not_needed_vars:
+                r_str = rf"{{% if {i} is defined %}}[\S\n\t\v ]+{{% endif %}}"
+                regex_m = re_findall(r_str, tpl_source)
+                if len(regex_m) > 0:
+                    tpl_source_mod = tpl_source
+                    for if_part in regex_m:
+                        tpl_source_mod = tpl_source_mod.replace(if_part, "")
+                    # check if the variable is still a variable in modified
+                    # template
+                    undef_mod = get_template_undef(tpl_source_mod)
+                    for var in undef:
+                        if var not in not_needed_vars and var not in undef_mod:
+                            not_needed_vars.append(var)
+
     for i in undef:
-        if i not in kwargs.keys() and i not in default_vars:
+        # check if
+        if i not in kwargs.keys() and i not in not_needed_vars:
             log.error('Required parameter "' + i + '" not in process chain!')
             return i
 
@@ -136,7 +156,7 @@ def fillTemplateFromProcessChain(module):
     undef = get_template_undef(tpl_source)
     parsed_content = pcTplEnv.parse(tpl_source)
 
-    errors = check_for_errors(undef, parsed_content, kwargs)
+    errors = check_for_errors(undef, parsed_content, tpl_source, kwargs)
     if errors is not None:
         return errors
 
