@@ -88,7 +88,8 @@ class ActiniaProcessingTest(ActiniaTestCase):
         """Test Usage of global templates ephemeral processing with if
         statement where all variables are set"""
         respStatusCode = 200
-        json_path = 'tests/resources/processing/global_if_statement_filled_all.json'
+        json_path = "tests/resources/processing/" \
+            "global_if_statement_filled_all.json"
         url_path = '/locations/nc_spm_08/processing_export'
 
         with open(json_path) as file:
@@ -129,7 +130,8 @@ class ActiniaProcessingTest(ActiniaTestCase):
         """Test Usage of global templates ephemeral processing with if
         statement where the variable in the if statement is not set"""
         respStatusCode = 200
-        json_path = 'tests/resources/processing/global_if_statement_not_all.json'
+        json_path = "tests/resources/processing/" \
+            "global_if_statement_not_all.json"
         url_path = '/locations/nc_spm_08/processing_export'
 
         with open(json_path) as file:

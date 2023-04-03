@@ -9,3 +9,7 @@ per-file-ignores =
     ./actinia_module_plugin/endpoints.py: E501
     ./actinia_module_plugin/core/modules/actinia_common.py: E501
     ./actinia_module_plugin/api/processing.py: E501
+
+exclude =
+    ./build
+    ./.eggs

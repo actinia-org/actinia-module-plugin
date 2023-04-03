@@ -122,8 +122,13 @@ class ActiniaTestCase(unittest.TestCase):
             accessible_modules=["v.db.select", "importer", "r.mapcalc"])
         (self.admin_id, self.admin_group,
          self.admin_auth_header) = self.createUser(
-            name="admin", role="admin", password=password, process_num_limit=30,
-            process_time_limit=4, accessible_datasets=accessible_datasets)
+            name="admin",
+            role="admin",
+            password=password,
+            process_num_limit=30,
+            process_time_limit=4,
+            accessible_datasets=accessible_datasets,
+        )
 
         # create process queue
         create_process_queue(config=global_config)

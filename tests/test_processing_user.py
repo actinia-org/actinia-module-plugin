@@ -26,7 +26,6 @@ __copyright__ = "Copyright 2021, mundialis"
 
 from flask import Response
 import json
-from time import sleep
 
 from actinia_api import URL_PREFIX
 
