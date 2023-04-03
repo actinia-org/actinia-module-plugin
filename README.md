@@ -8,7 +8,7 @@ For installation or DEV setup, see docker/README.md.
 ## actinia-core process-chain templating
 see actinia-module.md
 
-## DEV notes:
+## DEV notes
 
 ### Build
 
@@ -20,11 +20,11 @@ pip3 install --upgrade pip pep517
 python3 -m pep517.build .
 ```
 
-#### Versioning:
+#### Versioning
 
 https://semver.org/ (MAJOR.MINOR.PATCH)
 
-#### Logging:
+#### Logging
 in any module, import `from actinia_module_plugin.resources.logging import log` and call logger with `log.info("my info i want to log")`
 
 
