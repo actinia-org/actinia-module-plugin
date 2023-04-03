@@ -39,7 +39,8 @@ global templateUUID
 
 class ActiniaTemplatesTest(ActiniaTestCase):
     def test_1001_read_all(self):
-        """Test HTTP GET /actinia_templates and rememberes number of templates"""
+        """Test HTTP GET /actinia_templates and rememberes number of
+        templates"""
         global allTemplatesCount
 
         respStatusCode = 200
@@ -144,7 +145,8 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         assert resp.json is True
 
     def test_1006_read_update(self):
-        """Test HTTP GET /actinia_templates/<template_id> of updated template"""
+        """Test HTTP GET /actinia_templates/<template_id> of updated
+        template"""
         global templateUUID
 
         respStatusCode = 200
