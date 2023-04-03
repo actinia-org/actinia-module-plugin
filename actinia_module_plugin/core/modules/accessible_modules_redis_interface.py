@@ -44,8 +44,9 @@ def getAccessibleModuleListRedis(self):
         redis_password = None
     redis_interface.connect(host=server, port=port, password=redis_password)
     user = self.user.get_id()
-    access_modules = (redis_interface.get_credentials(user)["permissions"]
-                      ["accessible_modules"])
+    access_modules = redis_interface.get_credentials(user)["permissions"][
+        "accessible_modules"
+    ]
     redis_interface.disconnect()
     return access_modules
 
@@ -54,5 +55,9 @@ def addGrassAddonToModuleListRedis(self, grassmodule):
     """This function adds installed GRASS addon to the user's module list
     in redis.
     """
-    self.user.add_accessible_modules([grassmodule, ])
+    self.user.add_accessible_modules(
+        [
+            grassmodule,
+        ]
+    )
     self.user.update()

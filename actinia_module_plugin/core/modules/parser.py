@@ -43,20 +43,20 @@ def logstring(module_id, param, key):
 
 def setParameterKey(module_id, parameter):
     try:
-        key = parameter['@name']
+        key = parameter["@name"]
     except KeyError:
         key = None
         logstring(module_id, key, "name")
     except TypeError:
         logstring(module_id, key, "name")
-        log.error('Yet unknown error occured')
+        log.error("Yet unknown error occured")
 
     return key
 
 
 def setVirtualParameterKey(module_id, parameter):
     try:
-        key = module_id + '_' + parameter['@name']
+        key = module_id + "_" + parameter["@name"]
     except KeyError:
         key = None
         logstring(module_id, key, "name")
@@ -69,37 +69,39 @@ def setParameterDescription(module_id, key, parameter, kwargs):
     label = False
 
     try:
-        param_descr = parameter['label'] + ". "
-        kwargs['description'] = param_descr
+        param_descr = parameter["label"] + ". "
+        kwargs["description"] = param_descr
         label = True
     except KeyError:
         # logstring(module_id, key, "label")
         pass
     try:
-        param_descr += parameter['description'] + ". "
-        kwargs['description'] = param_descr
+        param_descr += parameter["description"] + ". "
+        kwargs["description"] = param_descr
     except KeyError:
         if label:
             logstring(module_id, key, "description")
             pass
-        log.warning('Neither label nor description set for param %s' %
-                    parameter['@name'])
+        log.warning(
+            "Neither label nor description set for param %s"
+            % parameter["@name"]
+        )
 
     return kwargs
 
 
 def setParameterName(key, kwargs):
-    kwargs['name'] = key
+    kwargs["name"] = key
     return kwargs
 
 
 def setParameterOptional(parameter, kwargs):
     try:
-        required = parameter['@required']
-        if required == 'yes':
-            kwargs['optional'] = False
+        required = parameter["@required"]
+        if required == "yes":
+            kwargs["optional"] = False
         else:
-            kwargs['optional'] = True
+            kwargs["optional"] = True
     except KeyError:
         required = "False"
 
@@ -108,9 +110,9 @@ def setParameterOptional(parameter, kwargs):
 
 def setParameterDefault(parameter, kwargs):
     try:
-        kwargs['default'] = parameter['default']
-        if parameter['default'] is None:
-            kwargs['default'] = ''
+        kwargs["default"] = parameter["default"]
+        if parameter["default"] is None:
+            kwargs["default"] = ""
     except KeyError:
         pass
 
@@ -120,23 +122,23 @@ def setParameterDefault(parameter, kwargs):
 def setParamType(module_id, key, parameter, schema_kwargs):
     try:
         # grass parameter types can only be string, double or integer
-        gtype = parameter['@type']
-        if gtype in ('float', 'double'):
-            gtype = 'number'
-        schema_kwargs['type'] = gtype
+        gtype = parameter["@type"]
+        if gtype in ("float", "double"):
+            gtype = "number"
+        schema_kwargs["type"] = gtype
     except KeyError:
         logstring(module_id, key, "type")
     try:
-        multiple = parameter['@multiple']
-        if multiple == 'yes':
-            gtype = 'array'
-        schema_kwargs['type'] = gtype
+        multiple = parameter["@multiple"]
+        if multiple == "yes":
+            gtype = "array"
+        schema_kwargs["type"] = gtype
     except KeyError:
         logstring(module_id, key, "multiple")
     try:
-        for subtype_key, val in parameter['gisprompt'].items():
+        for subtype_key, val in parameter["gisprompt"].items():
             if subtype_key == "@element":
-                schema_kwargs['subtype'] = val
+                schema_kwargs["subtype"] = val
     except Exception:
         pass
 
@@ -146,13 +148,13 @@ def setParamType(module_id, key, parameter, schema_kwargs):
 def setParameterEnum(parameter, schema_kwargs):
     try:
         enum = []
-        for enum_key, val in parameter['values'].items():
+        for enum_key, val in parameter["values"].items():
             for item in val:
                 for i in item:
                     if i == "name":
                         enum.append(item[i])
         if len(enum) > 0:
-            schema_kwargs['enum'] = enum
+            schema_kwargs["enum"] = enum
     except KeyError:
         pass
 
@@ -160,14 +162,14 @@ def setParameterEnum(parameter, schema_kwargs):
 
 
 def isOutput(parameter):
-    """ Checks if parameter is output parameter.
+    """Checks if parameter is output parameter.
     Returns True if parameter has key
     'gisprompt.age' == 'new',
     False otherwise.
     """
     try:
-        if '@age' in parameter['gisprompt'].keys():
-            return (parameter['gisprompt']['@age'] == 'new')
+        if "@age" in parameter["gisprompt"].keys():
+            return parameter["gisprompt"]["@age"] == "new"
         else:
             return False
     except KeyError:
@@ -188,8 +190,7 @@ def createModuleParameterFromGrassParam(module_id, key, parameter):
     schema_kwargs = setParameterEnum(parameter, schema_kwargs)
 
     param_object = ModuleParameter(
-        **kwargs,
-        schema=ModuleParameterSchema(**schema_kwargs)
+        **kwargs, schema=ModuleParameterSchema(**schema_kwargs)
     )
 
     del kwargs
@@ -199,12 +200,11 @@ def createModuleParameterFromGrassParam(module_id, key, parameter):
 
 
 def createModuleParameterFromGrassFlag(module_id, parameter):
-
     kwargs = dict()
-    kwargs['default'] = 'False'
-    kwargs['optional'] = True
+    kwargs["default"] = "False"
+    kwargs["optional"] = True
     schema_kwargs = dict()
-    schema_kwargs['type'] = 'boolean'
+    schema_kwargs["type"] = "boolean"
 
     key = setParameterKey(module_id, parameter)
 
@@ -212,8 +212,7 @@ def createModuleParameterFromGrassFlag(module_id, parameter):
     kwargs = setParameterName(key, kwargs)
 
     param_object = ModuleParameter(
-        **kwargs,
-        schema=ModuleParameterSchema(**schema_kwargs)
+        **kwargs, schema=ModuleParameterSchema(**schema_kwargs)
     )
     del kwargs
     del schema_kwargs
@@ -226,12 +225,12 @@ def ParseInterfaceDescription(xml_string, keys=None):
     and returns openEO process object
     """
 
-    gm_dict = xmltodict.parse(xml_string)['task']
+    gm_dict = xmltodict.parse(xml_string)["task"]
 
-    module_id = gm_dict['@name']
-    description = gm_dict['description']
-    categories = gm_dict['keywords'].replace(' ', '').split(',')
-    categories.append('grass-module')
+    module_id = gm_dict["@name"]
+    description = gm_dict["description"]
+    categories = gm_dict["keywords"].replace(" ", "").split(",")
+    categories.append("grass-module")
     parameters = []
     returns = []
     extrakwargs = dict()
@@ -239,23 +238,25 @@ def ParseInterfaceDescription(xml_string, keys=None):
     # if a GRASS GIS module has only one parameter, xml2dict does not transform
     # parameters to an array but only assigns this one parameter. For our
     # parser to get along, we transform in this case to array as well.
-    if 'parameter' not in xmltodict.parse(xml_string)['task']:
-        gm_dict['parameter'] = []
-    elif (type(xmltodict.parse(xml_string)['task']['parameter'])
-            == collections.OrderedDict):
-        gm_dict['parameter'] = [gm_dict['parameter']]
+    if "parameter" not in xmltodict.parse(xml_string)["task"]:
+        gm_dict["parameter"] = []
+    elif (
+        type(xmltodict.parse(xml_string)["task"]["parameter"])
+        == collections.OrderedDict
+    ):
+        gm_dict["parameter"] = [gm_dict["parameter"]]
     else:
         # keep as is
         pass
 
     try:
-        grass_params = gm_dict['parameter']
+        grass_params = gm_dict["parameter"]
     except KeyError:
         logstring(module_id, "", "has no parameter")
         grass_params = []
 
     try:
-        flags = gm_dict['flag']
+        flags = gm_dict["flag"]
     except KeyError:
         logstring(module_id, "", "has no flags")
         flags = []
@@ -277,7 +278,8 @@ def ParseInterfaceDescription(xml_string, keys=None):
             # case for GRASS modules
             key = setParameterKey(module_id, parameter)
         param_object = createModuleParameterFromGrassParam(
-            module_id, key, parameter)
+            module_id, key, parameter
+        )
         if isOutput(parameter):
             returns.append(param_object)
         else:
@@ -287,16 +289,15 @@ def ParseInterfaceDescription(xml_string, keys=None):
         # not possible to specify flag values via template at the moment
         if keys:
             continue
-        param_object = createModuleParameterFromGrassFlag(
-            module_id, parameter)
+        param_object = createModuleParameterFromGrassFlag(module_id, parameter)
 
         parameters.append(param_object)
 
     # custom extention for importer + exporter from actinia_core
     # Runs when viewing importer/exporter as module and when used in template.
     try:
-        tpl = tplEnv.get_template('gmodules/' + module_id + '.json')
-        pc_template = json.loads(tpl.render().replace('\n', ''))
+        tpl = tplEnv.get_template("gmodules/" + module_id + ".json")
+        pc_template = json.loads(tpl.render().replace("\n", ""))
         for key in [*pc_template]:
             extrakwargs[key] = []
             for param in pc_template[key]:

@@ -40,6 +40,7 @@ def start_job(timeout, func, *args):
     """
     # Just starting the process
     from multiprocessing import Process
+
     p = Process(target=func, args=args)
     p.start()
 
@@ -47,8 +48,7 @@ def start_job(timeout, func, *args):
 
 
 def filter_func(name):
-    ''' filter examples out of template folder
-    '''
+    """filter examples out of template folder"""
 
     if "example" not in name:
         return True
@@ -73,11 +73,11 @@ def get_user_template_source(name):
 
 
 def get_global_template_path(name):
-    tplPath = name + '.json'
+    tplPath = name + ".json"
 
     # change path to template if in subdir
     for i in pcTplEnv.list_templates(filter_func=filter_func):
-        if i.split('/')[-1] == tplPath:
+        if i.split("/")[-1] == tplPath:
             tplPath = i
 
     return tplPath

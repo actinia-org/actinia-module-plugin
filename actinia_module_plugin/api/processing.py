@@ -54,29 +54,33 @@ import pickle
 from flask import jsonify, make_response
 from flask_restful_swagger_2 import swagger
 from actinia_core.core.common.redis_interface import enqueue_job
-from actinia_core.models.response_models import \
-     create_response_from_model
-from actinia_core.processing.common.ephemeral_processing_with_export import \
-     start_job as start_job_ephemeral_processing_with_export
-from actinia_core.processing.common.persistent_processing import \
-     start_job as start_job_persistent_processing
+from actinia_core.models.response_models import create_response_from_model
+from actinia_core.processing.common.ephemeral_processing_with_export import (
+    start_job as start_job_ephemeral_processing_with_export,
+)
+from actinia_core.processing.common.persistent_processing import (
+    start_job as start_job_persistent_processing,
+)
 from actinia_core.rest.base.resource_base import ResourceBase
-from actinia_api.swagger2.actinia_core.apidocs.ephemeral_processing_with_export \
-    import post_doc as SCHEMA_DOC_EPHEMERAL_PROCESSING_WITH_EXPORT
-from actinia_api.swagger2.actinia_core.apidocs.persistent_processing \
-    import post_doc as SCHEMA_DOC_PERSISTENT_PROCESSING
+from actinia_api.swagger2.actinia_core.apidocs.ephemeral_processing_with_export import (
+    post_doc as SCHEMA_DOC_EPHEMERAL_PROCESSING_WITH_EXPORT,
+)
+from actinia_api.swagger2.actinia_core.apidocs.persistent_processing import (
+    post_doc as SCHEMA_DOC_PERSISTENT_PROCESSING,
+)
 
-from actinia_module_plugin.core.modules.actinia_global_templates import \
-     createProcessChainTemplateListFromFileSystem
-from actinia_module_plugin.core.modules.actinia_user_templates import \
-     createProcessChainTemplateListFromRedis
+from actinia_module_plugin.core.modules.actinia_global_templates import (
+    createProcessChainTemplateListFromFileSystem,
+)
+from actinia_module_plugin.core.modules.actinia_user_templates import (
+    createProcessChainTemplateListFromRedis,
+)
 from actinia_module_plugin.core.modules.grass import createModuleList
-from actinia_module_plugin.core.processing import \
-     fillTemplateFromProcessChain
+from actinia_module_plugin.core.processing import fillTemplateFromProcessChain
 
 
 def log_error_to_resource_logger(self, msg, rdc):
-    """ Logs error which occurs during translation of actinia-module to process
+    """Logs error which occurs during translation of actinia-module to process
     chain. This case is not handled by EphemeralProcessing from actinia-core as
     _send_resource_error method is used if the error occurs during processing.
     Here a process (g.search.modules) by createModuleList was already processed
@@ -93,19 +97,20 @@ def log_error_to_resource_logger(self, msg, rdc):
         message=msg,
         http_code=400,
         status_url=self.status_url,
-        api_info=self.api_info
+        api_info=self.api_info,
     )
     self.resource_logger.commit(
         user_id=self.user_id,
         resource_id=self.resource_id,
         iteration=1,
         document=data,
-        expiration=rdc.config.REDIS_RESOURCE_EXPIRE_TIME
+        expiration=rdc.config.REDIS_RESOURCE_EXPIRE_TIME,
     )
 
 
 def set_actinia_modules(
-        self, rdc, pc_list, grass_module_list, actinia_module_list):
+    self, rdc, pc_list, grass_module_list, actinia_module_list
+):
     new_pc = []
     for module in pc_list:
         if "module" in module:
@@ -118,8 +123,10 @@ def set_actinia_modules(
                 module_pc = fillTemplateFromProcessChain(module)
                 if isinstance(module_pc, str):
                     # then return value is a missing attribute
-                    msg = ("Required parameter '%s' missing in actinia-module "
-                           " '%s'." % (module_pc, name))
+                    msg = (
+                        "Required parameter '%s' missing in actinia-module "
+                        " '%s'." % (module_pc, name)
+                    )
                     log_error_to_resource_logger(self, msg, rdc)
                     return
                 elif module_pc is None:
@@ -128,13 +135,19 @@ def set_actinia_modules(
                     return
                 else:
                     ac_module_pc = set_actinia_modules(
-                        self, rdc, module_pc, grass_module_list,
-                        actinia_module_list)
+                        self,
+                        rdc,
+                        module_pc,
+                        grass_module_list,
+                        actinia_module_list,
+                    )
                     new_pc.extend(ac_module_pc)
 
             else:
-                msg = ("Module %s is not of type importer, exporter, "
-                       "grass-module or an actinia-module." % name)
+                msg = (
+                    "Module %s is not of type importer, exporter, "
+                    "grass-module or an actinia-module." % name
+                )
                 log_error_to_resource_logger(self, msg, rdc)
                 return
         else:
@@ -143,7 +156,7 @@ def set_actinia_modules(
 
 
 def preprocess_build_pc_and_enqueue(self, preprocess_kwargs, start_job):
-    """ This method looks up the lists of GRASS GIS and actinia modules to
+    """This method looks up the lists of GRASS GIS and actinia modules to
     parse the incoming process chain. If an actinia-module is found, it is
     translated to a process chain via the stored template. The process chain is
     then passed to actinia-core.
@@ -157,13 +170,13 @@ def preprocess_build_pc_and_enqueue(self, preprocess_kwargs, start_job):
     actinia_module_list = []
 
     for module in module_list:
-        grass_module_list.append(module['id'])
+        grass_module_list.append(module["id"])
 
     for module in pc_global_list:
-        actinia_module_list.append(module['id'])
+        actinia_module_list.append(module["id"])
 
     for module in pc_user_list:
-        actinia_module_list.append(module['id'])
+        actinia_module_list.append(module["id"])
 
     # run preprocess again after createModuleList
     rdc = self.preprocess(**preprocess_kwargs)
@@ -172,9 +185,13 @@ def preprocess_build_pc_and_enqueue(self, preprocess_kwargs, start_job):
         rdc.set_storage_model_to_file()
 
         new_pc = set_actinia_modules(
-            self, rdc, rdc.request_data['list'], grass_module_list,
-            actinia_module_list)
-        rdc.request_data['list'] = new_pc
+            self,
+            rdc,
+            rdc.request_data["list"],
+            grass_module_list,
+            actinia_module_list,
+        )
+        rdc.request_data["list"] = new_pc
 
         enqueue_job(self.job_timeout, start_job, rdc)
 
@@ -195,8 +212,8 @@ class GdiAsyncEphemeralExportResource(ResourceBase):
         """
 
         preprocess_kwargs = {}
-        preprocess_kwargs['has_json'] = True
-        preprocess_kwargs['location_name'] = location_name
+        preprocess_kwargs["has_json"] = True
+        preprocess_kwargs["location_name"] = location_name
 
         start_job = start_job_ephemeral_processing_with_export
 
@@ -222,9 +239,9 @@ class GdiAsyncPersistentResource(ResourceBase):
         """
 
         preprocess_kwargs = {}
-        preprocess_kwargs['has_json'] = True
-        preprocess_kwargs['location_name'] = location_name
-        preprocess_kwargs['mapset_name'] = mapset_name
+        preprocess_kwargs["has_json"] = True
+        preprocess_kwargs["location_name"] = location_name
+        preprocess_kwargs["mapset_name"] = mapset_name
 
         start_job = start_job_persistent_processing
 

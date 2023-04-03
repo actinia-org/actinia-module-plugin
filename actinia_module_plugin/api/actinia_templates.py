@@ -43,18 +43,17 @@ from actinia_module_plugin.core.templates.user_templates import updateTemplate
 from actinia_module_plugin.core.templates.user_templates import deleteTemplate
 from actinia_module_plugin.core.templates.global_templates import getAll
 from actinia_module_plugin.core.templates.global_templates import getTemplate
-from actinia_module_plugin.model.responseModels import \
-     SimpleStatusCodeResponseModel
+from actinia_module_plugin.model.responseModels import (
+    SimpleStatusCodeResponseModel,
+)
 
 
 class ActiniaTemplate(ResourceBase):
-    """List all actinia templates (process chain templates)
-    """
+    """List all actinia templates (process chain templates)"""
 
     @swagger.doc(templates.listTemplates_get_docs)
     def get(self):
-        """Get a list of all actinia templates (process chain templates).
-        """
+        """Get a list of all actinia templates (process chain templates)."""
         user_templates_list = readAll()
         global_templates_list = getAll()
         actinia_templates_list = user_templates_list + global_templates_list
@@ -63,36 +62,37 @@ class ActiniaTemplate(ResourceBase):
 
     @swagger.doc(templates.createTemplate_post_docs)
     def post(self):
-        """Create an actinia template (process chain template).
-        """
-        template_id = request.get_json(force=True)['id']
+        """Create an actinia template (process chain template)."""
+        template_id = request.get_json(force=True)["id"]
         actinia_template = createTemplate(request.get_json(force=True))
         if actinia_template is True:
-            msg = ('Successfully created template "' + template_id + '".')
+            msg = 'Successfully created template "' + template_id + '".'
             status_code = 201
         elif actinia_template is False:
-            msg = ('Error creating template "' + template_id + '", it already '
-                   + 'exists. Please delete it before or use HTTP PUT to '
-                   + 'update.')
+            msg = (
+                'Error creating template "'
+                + template_id
+                + '", it already '
+                + "exists. Please delete it before or use HTTP PUT to "
+                + "update."
+            )
             status_code = 400
 
-        res = (jsonify(SimpleStatusCodeResponseModel(
-            status=status_code, message=msg)))
+        res = jsonify(
+            SimpleStatusCodeResponseModel(status=status_code, message=msg)
+        )
         return make_response(res, status_code)
 
 
 class ActiniaTemplateId(ResourceBase):
-    """ Manage actinia templates (process chain templates)
-    """
+    """Manage actinia templates (process chain templates)"""
 
     @swagger.doc(templates.readTemplate_get_docs)
     def get(self, template_id):
-        """Read an actinia template (process chain template).
-        """
+        """Read an actinia template (process chain template)."""
 
         msg = 'Error looking for actinia module "' + template_id + '".'
-        res = (jsonify(SimpleStatusCodeResponseModel(
-            status=404, message=msg)))
+        res = jsonify(SimpleStatusCodeResponseModel(status=404, message=msg))
 
         try:
             actinia_template = readTemplate(template_id)
@@ -109,13 +109,14 @@ class ActiniaTemplateId(ResourceBase):
 
     @swagger.doc(templates.updateTemplate_put_docs)
     def put(self, template_id):
-        """Update an actinia template (process chain template).
-        """
-        res = (jsonify(SimpleStatusCodeResponseModel(
-            status=404, message='Error')))
+        """Update an actinia template (process chain template)."""
+        res = jsonify(
+            SimpleStatusCodeResponseModel(status=404, message="Error")
+        )
         try:
             actinia_template = updateTemplate(
-                template_id, request.get_json(force=True))
+                template_id, request.get_json(force=True)
+            )
             if actinia_template is not False:
                 return make_response(jsonify(actinia_template), 201)
             else:
@@ -125,10 +126,10 @@ class ActiniaTemplateId(ResourceBase):
 
     @swagger.doc(templates.deleteTemplate_delete_docs)
     def delete(self, template_id):
-        """Delete an actinia template (process chain template).
-        """
-        res = (jsonify(SimpleStatusCodeResponseModel(
-            status=404, message='Error')))
+        """Delete an actinia template (process chain template)."""
+        res = jsonify(
+            SimpleStatusCodeResponseModel(status=404, message="Error")
+        )
         try:
             actinia_template = deleteTemplate(template_id)
             if actinia_template is True:

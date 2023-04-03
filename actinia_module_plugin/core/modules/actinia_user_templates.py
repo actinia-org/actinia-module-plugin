@@ -32,9 +32,9 @@ from actinia_module_plugin.model.modules import Module
 
 
 def createProcessChainTemplateListFromRedis():
-    '''
-       list all stored templates and return as actinia-module list
-    '''
+    """
+    list all stored templates and return as actinia-module list
+    """
 
     pc_list = []
     tpl_list = readAll()
@@ -42,15 +42,13 @@ def createProcessChainTemplateListFromRedis():
     for tpl_string in tpl_list:
         tpl = readTemplate(tpl_string)
 
-        tpl_id = tpl['id']
-        description = tpl['description']
-        categories = ['actinia-module', 'user-template']
+        tpl_id = tpl["id"]
+        description = tpl["description"]
+        categories = ["actinia-module", "user-template"]
 
-        pc_response = (Module(
-            id=tpl_id,
-            description=description,
-            categories=categories
-        ))
+        pc_response = Module(
+            id=tpl_id, description=description, categories=categories
+        )
         pc_list.append(pc_response)
 
     return pc_list

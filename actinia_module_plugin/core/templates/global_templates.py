@@ -36,7 +36,7 @@ def getAll():
     to return the list to the api method listing all templates.
     """
     tpl_list = pcTplEnv.list_templates(filter_func=filter_func)
-    tpl_list = [i.replace('.json', '').split('/')[-1] for i in tpl_list]
+    tpl_list = [i.replace(".json", "").split("/")[-1] for i in tpl_list]
     return tpl_list
 
 
