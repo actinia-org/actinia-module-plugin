@@ -10,7 +10,7 @@ The `docker run` command creates the build and uploads the
 previously created wheel as asset.
 
 
-```
+```bash
 git clone git@github.com:mundialis/actinia-module-plugin.git
 cd actinia-module-plugin
 
