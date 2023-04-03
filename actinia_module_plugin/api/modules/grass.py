@@ -74,7 +74,6 @@ class ListModules(ResourceBase):
 
 
 class DescribeModule(ResourceBase):
-<<<<<<< HEAD
     """Definition for endpoint @app.route('grass_modules/<grassmodule>') to
         desctibe one module
 

@@ -63,7 +63,6 @@ def installGrassAddon(self, addon_name):
 
 
 def createModuleList(self):
-
     process_chain = {
         "version": 1,
         "list": [
@@ -71,9 +70,9 @@ def createModuleList(self):
                 "id": "g_search_modules_1",
                 "module": "g.search.modules",
                 "inputs": [{"param": "keyword", "value": ""}],
-                "flags": "j"
+                "flags": "j",
             }
-        ]
+        ],
     }
 
     response = run_process_chain(self, process_chain)
