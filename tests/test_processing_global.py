@@ -41,6 +41,7 @@ class ActiniaProcessingTest(ActiniaTestCase):
 
     def test_processing(self):
         """Test Usage of global templates persistent processing"""
+
         respStatusCode = 200
         json_path = 'tests/resources/processing/global_default_value.json'
         url_path = '/locations/nc_spm_08/mapsets/test/processing'
@@ -53,7 +54,7 @@ class ActiniaProcessingTest(ActiniaTestCase):
                              data=json.dumps(pc_template),
                              content_type="application/json")
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 
@@ -76,7 +77,49 @@ class ActiniaProcessingTest(ActiniaTestCase):
                              data=json.dumps(pc_template),
                              content_type="application/json")
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
+        assert resp.status_code == respStatusCode
+        assert hasattr(resp, 'json')
+
+        check_started_process(self, resp)
+
+    def test_processing_if_statement_1(self):
+        """Test Usage of global templates ephemeral processing with if
+        statement where all variables are set"""
+        respStatusCode = 200
+        json_path = 'tests/resources/processing/global_if_statement_filled_all.json'
+        url_path = '/locations/nc_spm_08/processing_export'
+
+        with open(json_path) as file:
+            pc_template = json.load(file)
+
+        resp = self.app.post(URL_PREFIX + url_path,
+                             headers=self.user_auth_header,
+                             data=json.dumps(pc_template),
+                             content_type="application/json")
+
+        assert isinstance(resp, Response)
+        assert resp.status_code == respStatusCode
+        assert hasattr(resp, 'json')
+
+        check_started_process(self, resp)
+
+    def test_processing_if_statement_2(self):
+        """Test Usage of global templates ephemeral processing with if
+        statement where the variable in the if statement is not set"""
+        respStatusCode = 200
+        json_path = 'tests/resources/processing/global_if_statement_not_all.json'
+        url_path = '/locations/nc_spm_08/processing_export'
+
+        with open(json_path) as file:
+            pc_template = json.load(file)
+
+        resp = self.app.post(URL_PREFIX + url_path,
+                             headers=self.user_auth_header,
+                             data=json.dumps(pc_template),
+                             content_type="application/json")
+
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 

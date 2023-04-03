@@ -56,7 +56,7 @@ class ActiniaModulesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + url_path,
                             headers=self.user_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         assert resp.json == expectedResp

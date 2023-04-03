@@ -47,7 +47,7 @@ class VirtualModulesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/modules',
                             headers=self.user_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         assert 'grass-module' in resp.json['processes'][0]['categories']
@@ -69,7 +69,7 @@ class VirtualModulesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/modules?category=slope',
                             headers=self.admin_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         # WARNING: this depends on existing GRASS GIS modules and possible
@@ -82,7 +82,7 @@ class VirtualModulesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/modules?category=slope&tag=grass',
                             headers=self.admin_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         # WARNING: this depends on existing GRASS GIS modules and possible
@@ -95,7 +95,7 @@ class VirtualModulesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/modules?record=full&family=ps',
                             headers=self.admin_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         # WARNING: this depends on existing GRASS GIS modules and possible
@@ -110,7 +110,7 @@ class VirtualModulesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/modules?tag=actinia&category=grass',
                             headers=self.user_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         # WARNING: this depends on existing GRASS GIS modules and possible
@@ -126,7 +126,7 @@ class VirtualModulesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/modules?tag=actinia',
                             headers=self.user_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         # WARNING: this depends on existing GRASS GIS modules and possible
@@ -147,7 +147,7 @@ class VirtualModulesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX
                             + '/modules?tag=actinia&category=global-template',
                             headers=self.user_auth_header)
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         # WARNING: this depends on existing GRASS GIS modules and possible
@@ -161,7 +161,7 @@ class VirtualModulesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/modules?tag=grass',
                             headers=self.restricted_user_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         assert len(resp.json['processes']) == 3
@@ -174,7 +174,7 @@ class VirtualModulesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/modules?tag=actinia',
                             headers=self.restricted_user_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         num_of_actinia_modules = len([

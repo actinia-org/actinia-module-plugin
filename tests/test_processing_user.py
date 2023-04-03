@@ -55,7 +55,7 @@ class ActiniaProcessingTest(ActiniaTestCase):
                              data=json.dumps(pc_template),
                              content_type="application/json")
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 
@@ -82,7 +82,7 @@ class ActiniaProcessingTest(ActiniaTestCase):
                              data=json.dumps(pc_template),
                              content_type="application/json")
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 

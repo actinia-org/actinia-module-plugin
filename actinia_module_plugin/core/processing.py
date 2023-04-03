@@ -125,7 +125,7 @@ def check_for_errors(undef, parsed_content, tpl_source, kwargs):
                             not_needed_vars.append(var)
 
     for i in undef:
-        # check if
+        # check if undef variables are needed or set in the kwargs
         if i not in kwargs.keys() and i not in not_needed_vars:
             log.error('Required parameter "' + i + '" not in process chain!')
             return i

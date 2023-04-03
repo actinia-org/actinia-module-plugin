@@ -48,6 +48,7 @@ __maintainer__ = "mundialis"
 
 
 import base64
+from copy import deepcopy
 import json
 import unittest
 
@@ -212,9 +213,11 @@ def delete_user_template(testCase, name):
 
 def check_started_process(testCase, resp):
     """Checks response of started process - TODO: can be enhanced"""
-    if type(resp.json['process_results']) == dict:
-        resp.json['process_results'] = str(resp.json['process_results'])
-    resp_class = ProcessingResponseModel(**resp.json)
+    if isinstance(resp.json['process_results'], dict):
+        resp_json = deepcopy(resp.json)
+        del resp_json["process_results"]
+        resp_json["process_results"] = str(resp.json['process_results'])
+    resp_class = ProcessingResponseModel(**resp_json)
     assert resp_class['status'] == 'accepted'
     status_url = resp_class['urls']['status']
 

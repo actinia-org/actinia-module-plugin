@@ -48,7 +48,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/actinia_templates',
                             headers=self.user_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 
@@ -71,7 +71,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
                              data=json.dumps(pc_template),
                              content_type="application/json")
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         assert "Success" in resp.json['message']
@@ -93,7 +93,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
                              data=json.dumps(pc_template),
                              content_type="application/json")
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 
@@ -108,7 +108,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/actinia_templates/' + templateUUID,
                             headers=self.user_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 
@@ -131,7 +131,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
                             data=json.dumps(pc_template),
                             content_type="application/json")
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         assert resp.json is True
@@ -146,7 +146,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/actinia_templates/' + templateUUID,
                             headers=self.user_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 
@@ -165,7 +165,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/actinia_templates',
                             headers=self.user_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 
@@ -181,7 +181,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
                                + templateUUID,
                                headers=self.user_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         assert resp.json is True
@@ -196,7 +196,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/actinia_templates',
                             headers=self.user_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 
@@ -211,7 +211,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/actinia_templates/not_exist',
                             headers=self.user_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 
@@ -231,7 +231,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
                             data=json.dumps(pc_template),
                             content_type="application/json")
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 
@@ -243,7 +243,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         resp = self.app.delete(URL_PREFIX + '/actinia_templates/not_exist',
                                headers=self.user_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 
@@ -255,7 +255,7 @@ class ActiniaTemplatesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/actinia_templates/default_value',
                             headers=self.user_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 

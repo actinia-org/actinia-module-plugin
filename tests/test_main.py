@@ -30,15 +30,15 @@ from pkg_resources import get_distribution, DistributionNotFound
 from flask import Response
 
 import actinia_module_plugin
-from testsuite import ActiniaTestCase
+from testsuite import ActiniaTestCase, URL_PREFIX
 
 
 class AppTest(ActiniaTestCase):
 
     def test_app_running(self):
         """Test if app responds"""
-        resp = self.app.get('/')
-        assert type(resp) is Response
+        resp = self.app.get(f'{URL_PREFIX}/version')
+        assert isinstance(resp, Response)
 
     # see endpoints.py why this is outcommented
     # def test_app_responding(self):

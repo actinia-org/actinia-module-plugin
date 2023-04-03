@@ -45,7 +45,7 @@ class ActiniaModulesTest(ActiniaTestCase):
         respStatusCode = 200
         resp = self.app.get(URL_PREFIX + '/actinia_modules')
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         assert 'actinia-module' in resp.json['processes'][0]['categories']
@@ -60,7 +60,7 @@ class ActiniaModulesTest(ActiniaTestCase):
         respStatusCode = 200
         resp = self.app.get(URL_PREFIX + '/actinia_modules?tag=global')
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         assert len(resp.json['processes']) >= 7
@@ -71,7 +71,7 @@ class ActiniaModulesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/actinia_modules/not_exist',
                             headers=self.user_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 

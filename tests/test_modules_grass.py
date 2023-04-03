@@ -47,7 +47,7 @@ class GmodulesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/grass_modules',
                             headers=self.user_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         assert len(resp.json['processes']) > 150
@@ -67,7 +67,7 @@ class GmodulesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/grass_modules',
                             headers=self.restricted_user_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         assert len(resp.json['processes']) == 3
@@ -81,7 +81,7 @@ class GmodulesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/grass_modules?category=slope',
                             headers=self.user_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         # WARNING: this depends on existing GRASS GIS modules and possible
@@ -95,7 +95,7 @@ class GmodulesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/grass_modules?category=slope',
                             headers=self.admin_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         # WARNING: this depends on existing GRASS GIS modules and possible
@@ -110,7 +110,7 @@ class GmodulesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + url_path,
                             headers=self.admin_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         # WARNING: this depends on existing GRASS GIS modules and possible
@@ -125,7 +125,7 @@ class GmodulesTest(ActiniaTestCase):
         resp = self.app.get(URL_PREFIX + '/grass_modules?family=test',
                             headers=self.admin_auth_header)
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
         # WARNING: this depends on existing GRASS GIS modules and possible
