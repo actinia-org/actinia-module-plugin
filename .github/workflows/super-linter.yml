@@ -1,8 +1,6 @@
 name: General linting
 
-on:
-  - push
-  - pull_request
+on: [push]
 
 # only one run per PR/branch happens at a time, cancelling the old run when a new one starts
 concurrency:
