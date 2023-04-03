@@ -1,0 +1,26 @@
+{
+	"id": "if_statement",
+	"description": "Placeholder json file with if statement",
+	"template": {
+		"version": "1",
+		"list": [
+			{
+				"module": "r.mapcalc",
+				"id": "r.mapcalc_test",
+				"inputs": [
+					{% if region_union is defined %}
+					{
+						"param": "region",
+						"value": "{{ region_union }}"
+					},
+					{% endif %}
+					{
+						"param": "expression",
+						"comment": "output = r.mapcalc result, string; value = raster value (default=0.428), float",
+						"value": "{{ output }} = {{ value|default(0.428) }}"
+					}
+			  ]
+			}
+		]
+	}
+}
