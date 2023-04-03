@@ -1,7 +1,7 @@
 # actinia-module-plugin
 
 You can run actinia-module-plugin as actinia-core plugin.
-To run actinia-module-plugin with actinia-core, see https://github.com/mundialis/actinia_core/blob/master/docker/README.md#Local-dev-setup-with-docker
+To run actinia-module-plugin with actinia-core, see [local dev setup with docker](https://github.com/mundialis/actinia_core/blob/master/docker/README.md#Local-dev-setup-with-docker)
 Mind that it needs to be registered in the actinia-core config under API.plugins
 
 ## DEV notes
@@ -48,7 +48,7 @@ sed -i 's+<link rel="stylesheet" href="stylesheets/spectacle.min.css" />+<link r
 ```
 
 
-## Copy&Paste one-liner:
-```
+## Copy&Paste one-liner
+```bash
 wget -O /tmp/actinia-module.json ${ACTINIA_URL}/api/${ACTINIA_VERSION}/swagger.json && spectacle /tmp/actinia-module.json -t . && mv public/index.html index.html && rm -r public && sed -i 's+<link rel="stylesheet" href="stylesheets/spectacle.min.css" />+<link rel="stylesheet" href="stylesheets/spectacle.min.css" />\n    <link rel="stylesheet" href="stylesheets/actinia.css" />+g' index.html
 ```
