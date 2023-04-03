@@ -63,9 +63,17 @@ def installGrassAddon(self, addon_name):
 
 def createModuleList(self):
 
-    process_chain = {"1": {"module": "g.search.modules",
-                           "inputs": {"keyword": ""},
-                           "flags": "j"}}
+    process_chain = {
+        "version": 1,
+        "list": [
+            {
+                "id": "g_search_modules_1",
+                "module": "g.search.modules",
+                "inputs": [{"param": "keyword", "value": ""}],
+                "flags": "j"
+            }
+        ]
+    }
 
     response = run_process_chain(self, process_chain)
 
@@ -124,12 +132,6 @@ def build_and_run_iface_description_pc(self, module_list):
         count = count + 1
 
     pc['list'] = process_chain_items
-
-    if len(module_list) == 1 and module in ["exporter", "importer"]:
-        # old style process chain was used before by createGrassModule
-        # as for importer and exporter new style fails, overwrite pc
-        # see https://github.com/mundialis/actinia_core/issues/227
-        pc = {"1": {"module": module, "interface-description": True}}
 
     response = run_process_chain(self, pc)
 
