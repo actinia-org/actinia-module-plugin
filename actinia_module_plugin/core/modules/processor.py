@@ -158,7 +158,7 @@ class EphemeralModuleLister(EphemeralProcessing):
 
         self._setup()
 
-        # Create the temporary database and link all available mapsets into is
+        # Create the temporary database and link all available mapsets into it
         self._create_temp_database()
 
         process_list = self._validate_process_chain(
