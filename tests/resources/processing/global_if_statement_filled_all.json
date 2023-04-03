@@ -1,0 +1,20 @@
+{
+	"version": "1",
+	"description": "Placeholder json file",
+	"list": [
+		{
+			"module": "if_statement",
+			"id": "if_statement_with_if",
+			"inputs": [
+				{
+					"param": "region_union",
+					"value": "union"
+				},
+				{
+					"param": "output",
+					"value": "test_output_mapcalc"
+				}
+			]
+		}
+	]
+}

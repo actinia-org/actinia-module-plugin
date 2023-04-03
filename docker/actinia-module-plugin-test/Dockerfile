@@ -17,7 +17,8 @@ CMD ["/src/start.sh"]
 
 RUN pip3 uninstall actinia-module-plugin.wsgi -y
 
-# # add data for tests
+# add data for tests
+RUN grass -e -c 'EPSG:3358' /actinia_core/grassdb/nc_spm_08
 # RUN wget --quiet https://grass.osgeo.org/sampledata/north_carolina/nc_spm_08_micro.zip && \
 #   unzip nc_spm_08_micro.zip && \
 #   rm -f nc_spm_08_micro.zip && \

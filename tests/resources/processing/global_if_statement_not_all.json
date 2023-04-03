@@ -1,0 +1,16 @@
+{
+	"version": "1",
+	"description": "Placeholder json file",
+	"list": [
+		{
+			"module": "if_statement",
+			"id": "if_statement_without_if",
+			"inputs": [
+				{
+					"param": "output",
+					"value": "test_output_mapcalc"
+				}
+			]
+		}
+	]
+}

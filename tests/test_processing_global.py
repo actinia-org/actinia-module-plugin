@@ -26,6 +26,7 @@ __copyright__ = "Copyright 2021, mundialis"
 
 from flask import Response
 import json
+from time import sleep
 
 from actinia_api import URL_PREFIX
 
@@ -93,16 +94,36 @@ class ActiniaProcessingTest(ActiniaTestCase):
         with open(json_path) as file:
             pc_template = json.load(file)
 
-        resp = self.app.post(URL_PREFIX + url_path,
-                             headers=self.user_auth_header,
-                             data=json.dumps(pc_template),
-                             content_type="application/json")
+        resp = self.app.post(
+            URL_PREFIX + url_path,
+            headers=self.user_auth_header,
+            data=json.dumps(pc_template),
+            content_type="application/json",
+        )
 
         assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
         assert hasattr(resp, 'json')
 
         check_started_process(self, resp)
+
+        # poll status until finished
+        status = resp.json["status"]
+        while status not in ["error", "finished"]:
+            sleep(3)
+            resp = self.app.get(
+                resp.json["urls"]["status"],
+                headers=self.user_auth_header
+            )
+            status = resp.json["status"]
+
+        # check if parameter is set
+        resp.json["process_chain_list"]
+        params = [
+            param["param"] for param in resp.json["process_chain_list"][0][
+                "list"][0]["inputs"]
+        ]
+        assert "region" in params, "Parameter 'region' is not set"
 
     def test_processing_if_statement_2(self):
         """Test Usage of global templates ephemeral processing with if
@@ -124,3 +145,21 @@ class ActiniaProcessingTest(ActiniaTestCase):
         assert hasattr(resp, 'json')
 
         check_started_process(self, resp)
+
+        # poll status until finished
+        status = resp.json["status"]
+        while status not in ["error", "finished"]:
+            sleep(3)
+            resp = self.app.get(
+                resp.json["urls"]["status"],
+                headers=self.user_auth_header
+            )
+            status = resp.json["status"]
+            print(status)
+        # check if parameter is set
+        resp.json["process_chain_list"]
+        params = [
+            param["param"] for param in resp.json["process_chain_list"][0][
+                "list"][0]["inputs"]
+        ]
+        assert "region" not in params, "Parameter 'region' is set"

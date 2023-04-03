@@ -59,9 +59,10 @@ from actinia_core.endpoints import create_endpoints
 from actinia_core.core.common.redis_interface import connect, disconnect
 from actinia_core.core.common.app import flask_app, URL_PREFIX
 from actinia_core.core.common.config import global_config
-from actinia_core.core.common.user import ActiniaUser
+from actinia_core.core.common.process_queue import create_process_queue
 from actinia_core.models.response_models import \
      ProcessingResponseModel
+from actinia_core.core.common.user import ActiniaUser
 
 
 # actinia-module-plugin endpoints are included as defined in actinia_core
@@ -105,25 +106,27 @@ class ActiniaTestCase(unittest.TestCase):
         accessible_datasets = {"nc_spm_08": ["PERMANENT",
                                              "user1",
                                              "modis_lst"]}
+
+        accessible_modules = deepcopy(global_config.MODULE_ALLOW_LIST)
+        accessible_modules.extend(["v.db.addcolumn", "v.what.vect"])
         password = pwgen.pwgen()
         (self.user_id, self.user_group,
          self.user_auth_header) = self.createUser(
-            name="user", role="user", password=password, process_num_limit=3,
-            process_time_limit=4, accessible_datasets=accessible_datasets)
+            name="user", role="user", password=password, process_num_limit=30,
+            process_time_limit=4, accessible_datasets=accessible_datasets,
+            accessible_modules=accessible_modules)
         (self.restricted_user_id, self.restricuted_user_group,
          self.restricted_user_auth_header) = self.createUser(
-            name="user2", role="user", password=password, process_num_limit=3,
+            name="user2", role="user", password=password, process_num_limit=30,
             process_time_limit=4, accessible_datasets=accessible_datasets,
             accessible_modules=["v.db.select", "importer", "r.mapcalc"])
         (self.admin_id, self.admin_group,
          self.admin_auth_header) = self.createUser(
-            name="admin", role="admin", password=password, process_num_limit=3,
+            name="admin", role="admin", password=password, process_num_limit=30,
             process_time_limit=4, accessible_datasets=accessible_datasets)
 
-        # # create process queue
-        # from actinia_core.core.common.process_queue import \
-        #    create_process_queue
-        # create_process_queue(config=global_config)
+        # create process queue
+        create_process_queue(config=global_config)
 
     def tearDown(self):
         """ Overwrites method tearDown from unittest.TestCase class"""
@@ -140,7 +143,8 @@ class ActiniaTestCase(unittest.TestCase):
                    accessible_datasets=None,
                    accessible_modules=global_config.MODULE_ALLOW_LIST,
                    process_num_limit=1000,
-                   process_time_limit=6000):
+                   process_time_limit=6000,
+                   cell_limit=1100000000):
 
         auth = bytes('%s:%s' % (name, password), "utf-8")
         # We need to create an HTML basic authorization header
@@ -153,14 +157,17 @@ class ActiniaTestCase(unittest.TestCase):
         if user.exists():
             user.delete()
         # Create a user in the database
-        user = ActiniaUser.create_user(name,
-                                       group,
-                                       password,
-                                       user_role=role,
-                                       accessible_datasets=accessible_datasets,
-                                       accessible_modules=accessible_modules,
-                                       process_num_limit=process_num_limit,
-                                       process_time_limit=process_time_limit)
+        user = ActiniaUser.create_user(
+            name,
+            group,
+            password,
+            user_role=role,
+            accessible_datasets=accessible_datasets,
+            accessible_modules=accessible_modules,
+            process_num_limit=process_num_limit,
+            process_time_limit=process_time_limit,
+            cell_limit=cell_limit,
+        )
         user.add_accessible_modules(["uname", "sleep"])
         self.users_list.append(user)
 
