@@ -1,19 +1,22 @@
-name: Python code quality check
+name: Python Flake8 Code Quality
 
 on:
 - push
 - pull_request
 
+# only one run per PR/branch happens at a time, cancelling the old run when a new one starts
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
 
   flake8-actinia:
-
-    runs-on: ubuntu-18.04
-
+    runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v3
     - name: Set up Python
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v4
       with:
         python-version: 3.8
     - name: Install
