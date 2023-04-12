@@ -47,7 +47,8 @@ from actinia_module_plugin.model.modules import Module
 
 
 ENV = {
-    key.replace("TEMPLATE_VALUE_", ""): val for key, val in env.items()
+    key.replace("TEMPLATE_VALUE_", ""): val
+    for key, val in env.items()
     if key.startswith("TEMPLATE_VALUE_")
 }
 
@@ -406,9 +407,9 @@ def setEnvParamToOptional(params):
         for param in params:
             if param["name"].upper() in ENV:
                 param["optional"] = True
-                param["description"] += (
-                    "; Default value exist for this installation."
-                )
+                param[
+                    "description"
+                ] += "; Default value exist for this installation."
 
 
 def createActiniaModule(resourceBaseSelf, processchain):
