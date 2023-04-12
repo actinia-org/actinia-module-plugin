@@ -109,10 +109,15 @@ def check_for_errors(undef, parsed_content, tpl_source, kwargs):
     # find variables which are only in an if statement and has not to be set
     not_needed_vars = default_vars
     regex_m_all = []
-    if "{% if" in tpl_source:
+    if "{% if" in tpl_source or "{%- if" in tpl_source:
         for i in undef:
             if i not in not_needed_vars:
-                r_str = rf"{{% if {i} is defined %}}[\S\n\t\v ]+{{% endif %}}"
+                # be careful with { and {{, if you split the line differently
+                # here because of linting
+                r_str = (
+                    rf"{{%.* if {i} is defined .*%}}[\S\n\t\v ]+"
+                    r"{%.* endif .*%}"
+                )
                 regex_m = re_findall(r_str, tpl_source)
                 regex_m_all.extend(regex_m)
 
