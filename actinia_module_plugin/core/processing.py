@@ -100,7 +100,8 @@ def build_kwargs_for_template_rendering(module):
 def check_for_errors(undef, parsed_content, tpl_source, kwargs):
     """This method checks if all placeholders are filled with values and
     returns the placeholder if missing. Exceptions are default values for which
-    the given default value can be used and if statements for which the value can be empty.
+    the given default value can be used and if statements for which the value
+    can be empty.
     """
     # find default variables from processchain
     default_vars = []
