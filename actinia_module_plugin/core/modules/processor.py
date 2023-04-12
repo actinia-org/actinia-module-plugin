@@ -53,10 +53,12 @@ import pickle
 import uuid
 
 from actinia_core.core.common.config import global_config
-from actinia_core.processing.actinia_processing.ephemeral_processing \
-     import EphemeralProcessing
-from actinia_core.models.response_models import \
-     StringListProcessingResultResponseModel
+from actinia_core.processing.actinia_processing.ephemeral_processing import (
+    EphemeralProcessing,
+)
+from actinia_core.models.response_models import (
+    StringListProcessingResultResponseModel,
+)
 
 from actinia_module_plugin.core.common import start_job
 
@@ -69,24 +71,27 @@ def initGrass(self):
     """
 
     # check if location exists
-    location_name = 'location_for_listing_modules_' + str(uuid.uuid4())
+    location_name = "location_for_listing_modules_" + str(uuid.uuid4())
     # '/actinia_core/grassdb/location_for_listing_modules'
     location = os.path.join(global_config.GRASS_DATABASE, location_name)
     # Check the location path
     if os.path.isdir(location):
-        msg = ("Unable to create location. "
-               "Location <%s> exists in global database." % location_name)
+        msg = (
+            "Unable to create location. "
+            "Location <%s> exists in global database." % location_name
+        )
         return self.get_error_response(message=msg)
     # Check also for the user database
     # '/actinia_core/userdata/superadmin/location_for_listing_modules'
     location = os.path.join(
-        self.grass_user_data_base,
-        self.user_group, location_name
+        self.grass_user_data_base, self.user_group, location_name
     )
     # Check the location path
     if os.path.isdir(location):
-        msg = ("Unable to create location. "
-               "Location <%s> exists in user database." % location_name)
+        msg = (
+            "Unable to create location. "
+            "Location <%s> exists in user database." % location_name
+        )
         return self.get_error_response(message=msg)
 
     # create new location cause not each user can access a location
@@ -95,32 +100,38 @@ def initGrass(self):
     ):
         os.mkdir(os.path.join(self.grass_user_data_base, self.user_group))
     os.mkdir(location)
-    mapset = os.path.join(location, 'PERMANENT')
+    mapset = os.path.join(location, "PERMANENT")
     os.mkdir(mapset)
-    with open(os.path.join(mapset, 'DEFAULT_WIND'), 'w') as out:
-        wind = ("proj:       3\nzone:       0\nnorth:      1N\n"
-                + "south:      0\neast:       1E\nwest:       0\ncols:       1"
-                + "\nrows:       1\ne-w resol:  1\nn-s resol:  1\ntop:        "
-                + "1.000000000000000\nbottom:     0.000000000000000\ncols3:   "
-                + "   1\nrows3:      1\ndepths:     1\ne-w resol3: 1\nn-s reso"
-                + "l3: 1\nt-b resol:  1")
+    with open(os.path.join(mapset, "DEFAULT_WIND"), "w") as out:
+        wind = (
+            "proj:       3\nzone:       0\nnorth:      1N\n"
+            + "south:      0\neast:       1E\nwest:       0\ncols:       1"
+            + "\nrows:       1\ne-w resol:  1\nn-s resol:  1\ntop:        "
+            + "1.000000000000000\nbottom:     0.000000000000000\ncols3:   "
+            + "   1\nrows3:      1\ndepths:     1\ne-w resol3: 1\nn-s reso"
+            + "l3: 1\nt-b resol:  1"
+        )
         out.write(wind)
-    with open(os.path.join(mapset, 'MYNAME'), 'w') as out:
+    with open(os.path.join(mapset, "MYNAME"), "w") as out:
         out.write("")
-    with open(os.path.join(mapset, 'PROJ_EPSG'), 'w') as out:
+    with open(os.path.join(mapset, "PROJ_EPSG"), "w") as out:
         out.write("epsg: 4326")
-    with open(os.path.join(mapset, 'PROJ_INFO'), 'w') as out:
-        out.write("name: WGS 84\ndatum: wgs84\nellps: wgs84\nproj: ll\n"
-                  + "no_defs: defined\ntowgs84: 0.000,0.000,0.000")
-    with open(os.path.join(mapset, 'PROJ_UNITS'), 'w') as out:
+    with open(os.path.join(mapset, "PROJ_INFO"), "w") as out:
+        out.write(
+            "name: WGS 84\ndatum: wgs84\nellps: wgs84\nproj: ll\n"
+            + "no_defs: defined\ntowgs84: 0.000,0.000,0.000"
+        )
+    with open(os.path.join(mapset, "PROJ_UNITS"), "w") as out:
         out.write("unit: degree\nunits: degrees\nmeters: 1.0")
-    with open(os.path.join(mapset, 'WIND'), 'w') as out:
-        wind = ("proj:       3\nzone:       0\nnorth:      1N\n"
-                + "south:      0\neast:       1E\nwest:       0\ncols:       1"
-                + "\nrows:       1\ne-w resol:  1\nn-s resol:  1\ntop:        "
-                + "1.000000000000000\nbottom:     0.000000000000000\ncols3:   "
-                + "   1\nrows3:      1\ndepths:     1\ne-w resol3: 1\nn-s reso"
-                + "l3: 1\nt-b resol:  1")
+    with open(os.path.join(mapset, "WIND"), "w") as out:
+        wind = (
+            "proj:       3\nzone:       0\nnorth:      1N\n"
+            + "south:      0\neast:       1E\nwest:       0\ncols:       1"
+            + "\nrows:       1\ne-w resol:  1\nn-s resol:  1\ntop:        "
+            + "1.000000000000000\nbottom:     0.000000000000000\ncols3:   "
+            + "   1\nrows3:      1\ndepths:     1\ne-w resol3: 1\nn-s reso"
+            + "l3: 1\nt-b resol:  1"
+        )
         out.write(wind)
 
     return location_name
@@ -135,8 +146,7 @@ def deinitGrass(self, location_name):
     if os.path.isdir(location):
         shutil.rmtree(location)
     location = os.path.join(
-        self.grass_user_data_base,
-        self.user_group, location_name
+        self.grass_user_data_base, self.user_group, location_name
     )
     if os.path.isdir(location):
         shutil.rmtree(location)
@@ -145,7 +155,7 @@ def deinitGrass(self, location_name):
 
 
 class EphemeralModuleLister(EphemeralProcessing):
-    """ Overwrites EphemeralProcessing from actinia_core to bypass permission
+    """Overwrites EphemeralProcessing from actinia_core to bypass permission
     check for modules and temporary location, needed for self-description
     """
 
@@ -155,20 +165,17 @@ class EphemeralModuleLister(EphemeralProcessing):
         self.process_chain = pc
 
     def _execute(self, skip_permission_check=True):
-
         self._setup()
 
         # Create the temporary database and link all available mapsets into it
         self._create_temp_database()
 
         process_list = self._validate_process_chain(
-            process_chain=self.process_chain,
-            skip_permission_check=True
+            process_chain=self.process_chain, skip_permission_check=True
         )
 
         self._create_grass_environment(
-            grass_data_base=self.temp_grass_data_base,
-            mapset_name="PERMANENT"
+            grass_data_base=self.temp_grass_data_base, mapset_name="PERMANENT"
         )
 
         self._execute_process_list(process_list)
@@ -177,7 +184,7 @@ class EphemeralModuleLister(EphemeralProcessing):
 
 
 def run_process_chain(self, process_chain):
-    """ Used to list all GRASS modules, to describe a certain GRASS module
+    """Used to list all GRASS modules, to describe a certain GRASS module
     and to generate actinia module description out of containing GRASS modules.
     ATTENTION! This call skips permission checks, so temporary location can be
     used. If user is not allowed to use GRASS modules used here, this will be
@@ -189,9 +196,12 @@ def run_process_chain(self, process_chain):
     # self.user_credentials["permissions"]['accessible_datasets'][location_name]
     # = ['PERMANENT']
 
-    rdc = self.preprocess(has_json=False, has_xml=False,
-                          location_name=location_name,
-                          mapset_name="PERMANENT")
+    rdc = self.preprocess(
+        has_json=False,
+        has_xml=False,
+        location_name=location_name,
+        mapset_name="PERMANENT",
+    )
 
     def list_modules(*args, process_chain=process_chain):
         processing = EphemeralModuleLister(*args, pc=process_chain)

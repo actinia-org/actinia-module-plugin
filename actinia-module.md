@@ -1,10 +1,20 @@
-## actinia-core process-chain templating
+# actinia-core process-chain templating
 
-You can run actinia-module-plugin in multiple ways (see README.md). If actinia-module-plugin is installed as actinia-core plugin, endpoints for module self-description are added. These modules are a collection of common GRASS GIS modules (grass-module) and of specific actinia-modules. While GRASS GIS is able to tell input/output parameters for a certain GRASS GIS module via `--interface-description` which can easily be converted to JSON, actinia-modules are more complex.
+You can run actinia-module-plugin in multiple ways (see README.md). If
+actinia-module-plugin is installed as actinia-core plugin, endpoints for module
+self-description are added. These modules are a collection of common GRASS GIS
+modules (grass-module) and of specific actinia-modules. While GRASS GIS is able
+to tell input/output parameters for a certain GRASS GIS module via
+`--interface-description` which can easily be converted to JSON,
+actinia-modules are more complex.
 
-Most of these actinia-modules are stored as process-chain template. Process-chains are a way to tell actinia-core what needs to be processed and are mostly a list of GRASS commands in a defined JSON format.
+Most of these actinia-modules are stored as process-chain template.
+Process-chains are a way to tell actinia-core what needs to be processed and
+are mostly a list of GRASS commands in a defined JSON format.
 
-This readme explains the module self-description which actinia provides as well as process-chain templates and the combination of self-description for templates. Last but not least conventions for template creation are listed.
+This readme explains the module self-description which actinia provides as well
+as process-chain templates and the combination of self-description for
+templates. Last but not least conventions for template creation are listed.
 
 Content:
 1. Module self-description
@@ -15,7 +25,7 @@ Content:
 1. Overview of endpoints for self-description
 
 
-### 1. Module self-description
+## 1. Module self-description
 
 One grass-module self-description can be requested as follows:
 
@@ -23,7 +33,7 @@ One grass-module self-description can be requested as follows:
 
 One example response to describe the GRASS GIS module "v.buffer" looks like this:
 
-```
+```json
 {
   "categories": [
     "area",
@@ -194,10 +204,10 @@ One example response to describe the GRASS GIS module "v.buffer" looks like this
 
 ```
 
-### 2. Process-chain templates
+## 2. Process-chain templates
 An example process-chain looks like this:
 
-```
+```json
 {
     "list": [
         {
@@ -262,7 +272,7 @@ There are some reasons why it might be useful to store a process chain and creat
 Therefore actinia-module-plugin is able to store process-chain templates and the user only needs to enter certain values. A template might look like this:
 
 
-```
+```json
 {
     "id": "vector_area",
     "description": "Computes the areas in h for selected map.",
@@ -327,7 +337,7 @@ Therefore actinia-module-plugin is able to store process-chain templates and the
 ```
 This way, the user only needs to set values for the defined variables. The user doesn't even need to know the whole template. Actinia-module-plugin will translate it into one actinia-module, exploiting only the values necessary for input:
 
-```
+```json
 {
         "list": [
             {
@@ -367,7 +377,7 @@ This way, the user only needs to set values for the defined variables. The user 
 
 For the user this looks like one module in the process-chain. In further development, it will be shrinked even more to not exploit the same variable twice. This might then look like this:
 
-```
+```json
 {
         "list": [
             {
@@ -395,11 +405,11 @@ For the user this looks like one module in the process-chain. In further develop
 ```
 
 
-### 3. Template self-description
+## 3. Template self-description
 
 Mapping the process-chain template to a self-description will look as follows and the user won't feel the difference between a grass-module and an actinia-module anymore:
 
-```
+```json
 {
   "categories": [
     "actinia-module"
@@ -432,11 +442,10 @@ Mapping the process-chain template to a self-description will look as follows an
     }
   }
 }
-
-
 ```
-### 4. Hints for template creation
 
+
+## 4. Hints for template creation
 
 * __It is not allowed to manipulate existing maps__
 This leads to an error for ephemeral and persistent processing. E.g. `v.db.addcolumn` is not working and leads to `"ERROR: Vector map <elev_points> not found in current mapset"`. Therefore copy it first (in the same processchain!) with g.copy. If it is done in a separate process chain and even exists in the user mapset, it is still not working.
@@ -445,7 +454,7 @@ This leads to an error for ephemeral and persistent processing. E.g. `v.db.addco
 On persistent processing, name of map will be first searched in PERSISTENT mapset, then in user mapset. If both exist and user mapset should be used, this can be overwritten by mymap@mymapset.
 
 
-### 5. Conventions for template creation
+## 5. Conventions for template creation
 
 * __Only use placeholder for a whole value of a GRASS GIS attribute.__
 
@@ -459,7 +468,7 @@ Exceptions might be ok for filesystem-paths. TODO discuss.
 Both are special modules from actinia-core. Safety mechanisms are already implemented and optimized, e.g. clean up of download cache from node / feature to block download if it threatenes health of node...
 
 
-#### Conventions to be disucssed
+### Conventions to be disucssed
 
 * __If data should be imported or exported, do not do this in template but leave to importer / exporter module for user__
 TODO discuss
@@ -468,9 +477,7 @@ TODO discuss
 TODO discuss
 
 
-
-
-### 5. Overview of endpoints for module self-description and execution
+## 6. Overview of endpoints for module self-description and execution
 
 List / Describe only GRASS Modules
 
@@ -501,17 +508,25 @@ Full API docs
 
 
 
-### 6. Additional Notes
+## 7. Additional Notes
 
-#### The self-description tries to comply the [openEO API](https://api.openeo.org/#tag/Process-Discovery) where applicable.
+### The self-description tries to comply the [openEO API](https://api.openeo.org/#tag/Process-Discovery) where applicable
 At some points, however, we have to divert from their API:
 
 * `returns` section may contain multiple outputs and has the same structure
 as the `parameters` sections.
 
-A parameter will only be added to the `returns` section if it contains the property `gisprompt.@age` and only if that value equals `'new'`. In all other cases, the parameter will be added to the `parameters` section.
+A parameter will only be added to the `returns` section if it contains the
+property `gisprompt.@age` and only if that value equals `'new'`. In all other
+cases, the parameter will be added to the `parameters` section.
 
 * the importer and exporter modules have additional attributes (import_descr / export)
 
-#### Importer and exporter
-These are neiher fully grass-modules nor fully actinia-modules. They need to be added to GRASS GIS with g.extension (originally for ace usage) but are extended by actinia-module-plugin. The GRASS interface description does not describe import_descr and export as seen in API docs, so this is extended. It is possible to extend all GRASS modules by importer/exporter attributes if applicable (e.g. output of v.buffer can directly be exported with "export" attribute inside module)
+### Importer and exporter
+These are neiher fully grass-modules nor fully actinia-modules. They need to be
+added to GRASS GIS with g.extension (originally for ace usage) but are extended
+by actinia-module-plugin. The GRASS interface description does not describe
+import_descr and export as seen in API docs, so this is extended. It is
+possible to extend all GRASS modules by importer/exporter attributes if
+applicable (e.g. output of v.buffer can directly be exported with "export"
+attribute inside module)

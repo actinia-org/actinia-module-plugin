@@ -28,13 +28,13 @@ __maintainer__ = "Carmen Tawalika"
 
 from actinia_core.core.common.config import Configuration
 
-from actinia_module_plugin.core.templates.user_templates_redis_interface \
-     import redis_actinia_template_interface
+from actinia_module_plugin.core.templates.user_templates_redis_interface import (
+    redis_actinia_template_interface,
+)
 
 
 def connect():
-    """This method initializes the connection with redis.
-    """
+    """This method initializes the connection with redis."""
     conf = Configuration()
     try:
         conf.read()
@@ -49,15 +49,16 @@ def connect():
         redis_password = None
 
     redis_actinia_template_interface.connect(
-        host=server, port=port, password=redis_password)
+        host=server, port=port, password=redis_password
+    )
 
     return redis_actinia_template_interface
 
 
 def readAll():
-    '''
+    """
     Get all actinia templates from redis database
-    '''
+    """
     redis_actinia_template_interface = connect()
     actinia_template = redis_actinia_template_interface.list_all_ids()
 
@@ -65,9 +66,9 @@ def readAll():
 
 
 def createTemplate(pc_tpl):
-    '''
+    """
     Insert actinia template into database
-    '''
+    """
     redis_actinia_template_interface = connect()
     actinia_template = redis_actinia_template_interface.create(pc_tpl)
 
@@ -75,9 +76,9 @@ def createTemplate(pc_tpl):
 
 
 def readTemplate(template_id):
-    '''
+    """
     Get actinia template by id
-    '''
+    """
     redis_actinia_template_interface = connect()
     actinia_template = redis_actinia_template_interface.read(template_id)
 
@@ -85,20 +86,21 @@ def readTemplate(template_id):
 
 
 def updateTemplate(template_id, pc_tpl):
-    '''
+    """
     Update actinia template by id
-    '''
+    """
     redis_actinia_template_interface = connect()
     actinia_template = redis_actinia_template_interface.update(
-        template_id, pc_tpl)
+        template_id, pc_tpl
+    )
 
     return actinia_template
 
 
 def deleteTemplate(template_id):
-    '''
+    """
     Delete actinia template by id
-    '''
+    """
     redis_actinia_template_interface = connect()
     actinia_template = redis_actinia_template_interface.delete(template_id)
 

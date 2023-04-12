@@ -35,29 +35,31 @@ from actinia_core.rest.base.resource_base import ResourceBase
 
 from actinia_module_plugin.apidocs import modules
 from actinia_module_plugin.core.filter import filter
-from actinia_module_plugin.core.modules.actinia_global_templates import \
-     createProcessChainTemplateListFromFileSystem
-from actinia_module_plugin.core.modules.actinia_user_templates import \
-     createProcessChainTemplateListFromRedis
-from actinia_module_plugin.core.modules.actinia_common import \
-     createActiniaModule
+from actinia_module_plugin.core.modules.actinia_global_templates import (
+    createProcessChainTemplateListFromFileSystem,
+)
+from actinia_module_plugin.core.modules.actinia_user_templates import (
+    createProcessChainTemplateListFromRedis,
+)
+from actinia_module_plugin.core.modules.actinia_common import (
+    createActiniaModule,
+)
 from actinia_module_plugin.core.modules.grass import createModuleList
 from actinia_module_plugin.core.modules.grass import createModuleUserList
 from actinia_module_plugin.core.modules.grass import createGrassModule
 from actinia_module_plugin.core.modules.grass import createFullModuleList
 from actinia_module_plugin.model.modules import ModuleList
-from actinia_module_plugin.model.responseModels import \
-    SimpleStatusCodeResponseModel
+from actinia_module_plugin.model.responseModels import (
+    SimpleStatusCodeResponseModel,
+)
 
 
 class ListVirtualModules(ResourceBase):
-    """List all GRASS GIS modules and process chain templates
-    """
+    """List all GRASS GIS modules and process chain templates"""
 
     @swagger.doc(modules.listModules_get_docs)
     def get(self):
-        """Get a list of all modules.
-        """
+        """Get a list of all modules."""
 
         grass_list = createModuleList(self)
         if self.user_role == "user" or self.user_role == "guest":
@@ -68,8 +70,8 @@ class ListVirtualModules(ResourceBase):
             final_grass_list = grass_list
         final_grass_list = filter(final_grass_list)
 
-        if 'record' in request.args:
-            if request.args['record'] == "full":
+        if "record" in request.args:
+            if request.args["record"] == "full":
                 final_grass_list = createFullModuleList(self, final_grass_list)
 
         pc_list_fs = createProcessChainTemplateListFromFileSystem()
@@ -78,12 +80,13 @@ class ListVirtualModules(ResourceBase):
 
         module_list = filter(module_list)
 
-        return make_response(jsonify(
-            ModuleList(status="success", processes=module_list)), 200)
+        return make_response(
+            jsonify(ModuleList(status="success", processes=module_list)), 200
+        )
 
 
 class DescribeVirtualModule(ResourceBase):
-    """ Describe module or process chain template
+    """Describe module or process chain template
 
     Contains HTTP GET endpoint
     Contains swagger documentation
@@ -91,8 +94,7 @@ class DescribeVirtualModule(ResourceBase):
 
     @swagger.doc(modules.describeModule_get_docs)
     def get(self, module):
-        """Describe a module.
-        """
+        """Describe a module."""
 
         try:
             try:
@@ -104,6 +106,7 @@ class DescribeVirtualModule(ResourceBase):
 
         except Exception:
             msg = 'Error looking for module "' + module + '".'
-            res = (jsonify(SimpleStatusCodeResponseModel(
-                status=404, message=msg)))
+            res = jsonify(
+                SimpleStatusCodeResponseModel(status=404, message=msg)
+            )
             return make_response(res, 404)

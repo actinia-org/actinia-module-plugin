@@ -30,15 +30,14 @@ from pkg_resources import get_distribution, DistributionNotFound
 from flask import Response
 
 import actinia_module_plugin
-from testsuite import ActiniaTestCase
+from testsuite import ActiniaTestCase, URL_PREFIX
 
 
 class AppTest(ActiniaTestCase):
-
     def test_app_running(self):
         """Test if app responds"""
-        resp = self.app.get('/')
-        assert type(resp) is Response
+        resp = self.app.get(f"{URL_PREFIX}/version")
+        assert isinstance(resp, Response)
 
     # see endpoints.py why this is outcommented
     # def test_app_responding(self):
@@ -49,18 +48,17 @@ class AppTest(ActiniaTestCase):
     def test_app_static(self):
         """Test if index cannot be found (see above)"""
         respStatusCode = 404
-        resp = self.app.get('/index.html')
+        resp = self.app.get("/index.html")
         assert resp.status_code == respStatusCode
 
 
 class InitTest(unittest.TestCase):
-
     def test_init(self):
         """Test if version can be detected"""
         # TODO: apply to __init__.py
-        pkg_version = get_distribution('actinia_module_plugin.wsgi').version
+        pkg_version = get_distribution("actinia_module_plugin.wsgi").version
         assert actinia_module_plugin.__version__ == pkg_version
 
         with pytest.raises(DistributionNotFound):
-            v = get_distribution('false_distro_name').version
-            assert v == 'unknown'
+            v = get_distribution("false_distro_name").version
+            assert v == "unknown"

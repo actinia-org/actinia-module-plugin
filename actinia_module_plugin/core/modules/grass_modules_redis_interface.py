@@ -60,7 +60,7 @@ class RedisActiniaGrassModuleInterface(RedisBaseInterface):
             True is success, False if grass_module is already in database
         """
 
-        grass_module_id = grass_module['id']
+        grass_module_id = grass_module["id"]
 
         keyname = self.grass_module_id_hash_prefix + grass_module_id
         exists = self.redis_server.exists(keyname)
@@ -68,21 +68,21 @@ class RedisActiniaGrassModuleInterface(RedisBaseInterface):
             return False
 
         grass_module_bytes = pickle.dumps(grass_module)
-        mapping = {"grass_module_id": grass_module_id,
-                   "grass_module": grass_module_bytes}
+        mapping = {
+            "grass_module_id": grass_module_id,
+            "grass_module": grass_module_bytes,
+        }
 
-        lock = self.redis_server.lock(
-            name="add_grass_module_lock", timeout=1)
+        lock = self.redis_server.lock(name="add_grass_module_lock", timeout=1)
         lock.acquire()
         # First add the grass_module-id to the grass_module id database
         self.redis_server.hset(
-            self.grass_module_id_db,
-            grass_module_id,
-            grass_module_id)
+            self.grass_module_id_db, grass_module_id, grass_module_id
+        )
 
         self.redis_server.hset(
-            self.grass_module_id_hash_prefix + grass_module_id,
-            mapping=mapping)
+            self.grass_module_id_hash_prefix + grass_module_id, mapping=mapping
+        )
         lock.release()
 
         return True
@@ -101,9 +101,12 @@ class RedisActiniaGrassModuleInterface(RedisBaseInterface):
         """
 
         try:
-            grass_module = pickle.loads(self.redis_server.hget(
-                self.grass_module_id_hash_prefix + grass_module_id,
-                "grass_module"))
+            grass_module = pickle.loads(
+                self.redis_server.hget(
+                    self.grass_module_id_hash_prefix + grass_module_id,
+                    "grass_module",
+                )
+            )
         except Exception:
             return False
 
@@ -130,16 +133,19 @@ class RedisActiniaGrassModuleInterface(RedisBaseInterface):
             return False
 
         grass_module_bytes = pickle.dumps(grass_module)
-        mapping = {"grass_module_id": grass_module_id,
-                   "grass_module": grass_module_bytes}
+        mapping = {
+            "grass_module_id": grass_module_id,
+            "grass_module": grass_module_bytes,
+        }
 
         lock = self.redis_server.lock(
-            name="update_grass_module_lock", timeout=1)
+            name="update_grass_module_lock", timeout=1
+        )
         lock.acquire()
 
         self.redis_server.hset(
-            self.grass_module_id_hash_prefix + grass_module_id,
-            mapping=mapping)
+            self.grass_module_id_hash_prefix + grass_module_id, mapping=mapping
+        )
 
         lock.release()
 
@@ -201,7 +207,8 @@ class RedisActiniaGrassModuleInterface(RedisBaseInterface):
             True is grass_module exists, False otherwise
         """
         return self.redis_server.exists(
-            self.grass_module_id_hash_prefix + grass_module_id)
+            self.grass_module_id_hash_prefix + grass_module_id
+        )
 
 
 # Create the Redis interface instance

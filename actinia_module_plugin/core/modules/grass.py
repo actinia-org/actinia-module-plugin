@@ -28,32 +28,33 @@ __maintainer__ = "mundialis GmbH & Co. KG"
 import json
 import time
 
-from actinia_core.models.response_models import \
-     create_response_from_model
+from actinia_core.models.response_models import create_response_from_model
 from actinia_core.core.common.config import Configuration
 
 from actinia_module_plugin.core.modules.processor import run_process_chain
 from actinia_module_plugin.core.modules.parser import ParseInterfaceDescription
 from actinia_module_plugin.model.modules import Module
 from actinia_module_plugin.resources.logging import log
-from actinia_module_plugin.core.modules.grass_modules_redis_interface \
-     import redis_grass_module_interface
-from actinia_module_plugin.core.modules.accessible_modules_redis_interface \
-     import getAccessibleModuleListRedis
+from actinia_module_plugin.core.modules.grass_modules_redis_interface import (
+    redis_grass_module_interface,
+)
+from actinia_module_plugin.core.modules.accessible_modules_redis_interface import (
+    getAccessibleModuleListRedis,
+)
 
 
 def installGrassAddon(self, addon_name):
-    """This function installs an official GRASS addon.
-    """
+    """This function installs an official GRASS addon."""
     process_chain = {
         "version": 1,
-        "list": [{
-            "id": "1",
-            "module": "g.extension",
-            "inputs": [{"param": "extension", "value": addon_name}],
-            "flags": "s"
+        "list": [
+            {
+                "id": "1",
+                "module": "g.extension",
+                "inputs": [{"param": "extension", "value": addon_name}],
+                "flags": "s",
             }
-        ]
+        ],
     }
 
     response = run_process_chain(self, process_chain)
@@ -62,7 +63,6 @@ def installGrassAddon(self, addon_name):
 
 
 def createModuleList(self):
-
     process_chain = {
         "version": 1,
         "list": [
@@ -70,14 +70,14 @@ def createModuleList(self):
                 "id": "g_search_modules_1",
                 "module": "g.search.modules",
                 "inputs": [{"param": "keyword", "value": ""}],
-                "flags": "j"
+                "flags": "j",
             }
-        ]
+        ],
     }
 
     response = run_process_chain(self, process_chain)
 
-    j_data = json.loads(response['process_log'][-1]['stdout'])
+    j_data = json.loads(response["process_log"][-1]["stdout"])
 
     # overwrite previous entries commited by EphemeralModuleLister in case the
     # further processing fails (e.g. invalid json). Else, the resource exists
@@ -85,27 +85,29 @@ def createModuleList(self):
     data = create_response_from_model(
         user_id=self.user_id,
         resource_id=self.resource_id,
-        status='',
+        status="",
         orig_time=time.time(),
-        orig_datetime='',
-        message=''
+        orig_datetime="",
+        message="",
     )
     self.resource_logger.commit(
-        user_id=self.user_id, resource_id=self.resource_id, iteration=1,
-        document=data, expiration=1)
+        user_id=self.user_id,
+        resource_id=self.resource_id,
+        iteration=1,
+        document=data,
+        expiration=1,
+    )
 
     module_list = []
     for data in j_data:
-        description = data['attributes']['description']
-        keywords = data['attributes']['keywords']
-        name = data['name']
-        categories = (keywords.split(','))
+        description = data["attributes"]["description"]
+        keywords = data["attributes"]["keywords"]
+        name = data["name"]
+        categories = keywords.split(",")
         categories.append("grass-module")
-        module_response = (Module(
-            id=name,
-            description=description,
-            categories=sorted(categories)
-        ))
+        module_response = Module(
+            id=name, description=description, categories=sorted(categories)
+        )
         module_list.append(module_response)
 
     return module_list
@@ -116,8 +118,7 @@ def createModuleUserList(self):
 
 
 def build_and_run_iface_description_pc(self, module_list):
-    pc = {"version": 1,
-          "list": []}
+    pc = {"version": 1, "list": []}
 
     process_chain_items = []
     count = 1
@@ -125,22 +126,25 @@ def build_and_run_iface_description_pc(self, module_list):
         if type(module) is str:
             module_id = module
         else:
-            module_id = module['id']
+            module_id = module["id"]
         process_chain_items.append(
-            {"id": str(count), "module": module_id,
-             "interface-description": True})
+            {
+                "id": str(count),
+                "module": module_id,
+                "interface-description": True,
+            }
+        )
         count = count + 1
 
-    pc['list'] = process_chain_items
+    pc["list"] = process_chain_items
 
     response = run_process_chain(self, pc)
 
-    return response['process_log']
+    return response["process_log"]
 
 
 def connect():
-    """This method initializes the connection with redis.
-    """
+    """This method initializes the connection with redis."""
     conf = Configuration()
     try:
         conf.read()
@@ -155,15 +159,16 @@ def connect():
         redis_password = None
 
     redis_grass_module_interface.connect(
-        host=server, port=port, password=redis_password)
+        host=server, port=port, password=redis_password
+    )
 
     return redis_grass_module_interface
 
 
 def cacheGrassModule(grass_module):
-    '''
+    """
     Insert grass_module into database
-    '''
+    """
     redis_grass_module_interface = connect()
     cached_module = redis_grass_module_interface.create(grass_module)
 
@@ -174,7 +179,7 @@ def createGrassModule(self, module):
     module_list = [module]
     process_log = build_and_run_iface_description_pc(self, module_list)
 
-    xml_string = process_log[0]['stdout']
+    xml_string = process_log[0]["stdout"]
     grass_module = ParseInterfaceDescription(xml_string)
 
     # Check if cached module exists, then update if it has changed
@@ -197,7 +202,7 @@ def createFullModuleList(self, module_list):
     # Check if modules are already cached, then use them
     for module in module_list:
         redis_grass_module_interface = connect()
-        grass_module = redis_grass_module_interface.read(module['id'])
+        grass_module = redis_grass_module_interface.read(module["id"])
         if grass_module:
             detailed_module_list.append(grass_module)
         else:
@@ -206,14 +211,15 @@ def createFullModuleList(self, module_list):
     # If they are not in cache, request and cache them
     if len(request_module_list) > 0:
         process_log = build_and_run_iface_description_pc(
-            self, request_module_list)
+            self, request_module_list
+        )
 
         for desc in process_log:
             try:
-                grass_module = ParseInterfaceDescription(desc['stdout'])
+                grass_module = ParseInterfaceDescription(desc["stdout"])
                 cacheGrassModule(grass_module)
                 detailed_module_list.append(grass_module)
             except Exception:
-                log.error('error parsing module %s' % desc['executable'])
+                log.error("error parsing module %s" % desc["executable"])
 
     return detailed_module_list

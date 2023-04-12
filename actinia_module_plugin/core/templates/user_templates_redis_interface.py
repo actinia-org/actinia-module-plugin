@@ -62,7 +62,7 @@ class RedisActiniaTemplateInterface(RedisBaseInterface):
             bool:
             True is success, False if actinia_template is already in database
         """
-        actinia_template_id = actinia_template['id']
+        actinia_template_id = actinia_template["id"]
 
         keyname = self.actinia_template_id_hash_prefix + actinia_template_id
         exists = self.redis_server.exists(keyname)
@@ -70,21 +70,26 @@ class RedisActiniaTemplateInterface(RedisBaseInterface):
             return False
 
         actinia_template_bytes = pickle.dumps(actinia_template)
-        mapping = {"actinia_template_id": actinia_template_id,
-                   "actinia_template": actinia_template_bytes}
+        mapping = {
+            "actinia_template_id": actinia_template_id,
+            "actinia_template": actinia_template_bytes,
+        }
 
         lock = self.redis_server.lock(
-            name="add_actinia_template_lock", timeout=1)
+            name="add_actinia_template_lock", timeout=1
+        )
         lock.acquire()
         # First add the actinia_template-id to the actinia_template id database
         self.redis_server.hset(
             self.actinia_template_id_db,
             actinia_template_id,
-            actinia_template_id)
+            actinia_template_id,
+        )
 
         self.redis_server.hset(
             self.actinia_template_id_hash_prefix + actinia_template_id,
-            mapping=mapping)
+            mapping=mapping,
+        )
         lock.release()
 
         return True
@@ -103,9 +108,12 @@ class RedisActiniaTemplateInterface(RedisBaseInterface):
         """
 
         try:
-            actinia_template = pickle.loads(self.redis_server.hget(
-                self.actinia_template_id_hash_prefix + actinia_template_id,
-                "actinia_template"))
+            actinia_template = pickle.loads(
+                self.redis_server.hget(
+                    self.actinia_template_id_hash_prefix + actinia_template_id,
+                    "actinia_template",
+                )
+            )
         except Exception:
             return False
 
@@ -132,16 +140,20 @@ class RedisActiniaTemplateInterface(RedisBaseInterface):
             return False
 
         actinia_template_bytes = pickle.dumps(actinia_template)
-        mapping = {"actinia_template_id": actinia_template_id,
-                   "actinia_template": actinia_template_bytes}
+        mapping = {
+            "actinia_template_id": actinia_template_id,
+            "actinia_template": actinia_template_bytes,
+        }
 
         lock = self.redis_server.lock(
-            name="update_actinia_template_lock", timeout=1)
+            name="update_actinia_template_lock", timeout=1
+        )
         lock.acquire()
 
         self.redis_server.hset(
             self.actinia_template_id_hash_prefix + actinia_template_id,
-            mapping=mapping)
+            mapping=mapping,
+        )
 
         lock.release()
 
@@ -162,14 +174,17 @@ class RedisActiniaTemplateInterface(RedisBaseInterface):
             return False
 
         lock = self.redis_server.lock(
-            name="delete_actinia_template_lock", timeout=1)
+            name="delete_actinia_template_lock", timeout=1
+        )
         lock.acquire()
         # Delete the entry from the actinia_template id database
-        self.redis_server.hdel(self.actinia_template_id_db,
-                               actinia_template_id)
+        self.redis_server.hdel(
+            self.actinia_template_id_db, actinia_template_id
+        )
         # Delete the actual actinia_template entry
         self.redis_server.delete(
-            self.actinia_template_id_hash_prefix + actinia_template_id)
+            self.actinia_template_id_hash_prefix + actinia_template_id
+        )
         lock.release()
 
         return True
@@ -203,7 +218,8 @@ class RedisActiniaTemplateInterface(RedisBaseInterface):
             True is actinia_template exists, False otherwise
         """
         return self.redis_server.exists(
-            self.actinia_template_id_hash_prefix + actinia_template_id)
+            self.actinia_template_id_hash_prefix + actinia_template_id
+        )
 
 
 # Create the Redis interface instance

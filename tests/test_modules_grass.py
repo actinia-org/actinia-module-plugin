@@ -33,29 +33,29 @@ from actinia_api import URL_PREFIX
 from testsuite import ActiniaTestCase, compare_module_to_file
 
 
-someGrassModules = ['r.slope.aspect', 'importer', 'exporter']
+someGrassModules = ["r.slope.aspect", "importer", "exporter"]
 
 
 class GmodulesTest(ActiniaTestCase):
-
     # @unittest.skip("demonstrating skipping")
     def test_list_modules_get_user(self):
         """Test HTTP GET /grass_modules for user"""
         global someGrassModules
 
         respStatusCode = 200
-        resp = self.app.get(URL_PREFIX + '/grass_modules',
-                            headers=self.user_auth_header)
+        resp = self.app.get(
+            URL_PREFIX + "/grass_modules", headers=self.user_auth_header
+        )
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
-        assert hasattr(resp, 'json')
-        assert len(resp.json['processes']) > 150
-        assert 'categories' in resp.json['processes'][0]
-        assert 'description' in resp.json['processes'][0]
-        assert 'id' in resp.json['processes'][0]
+        assert hasattr(resp, "json")
+        assert len(resp.json["processes"]) > 150
+        assert "categories" in resp.json["processes"][0]
+        assert "description" in resp.json["processes"][0]
+        assert "id" in resp.json["processes"][0]
 
-        respModules = [i['id'] for i in resp.json['processes']]
+        respModules = [i["id"] for i in resp.json["processes"]]
         for i in someGrassModules:
             assert i in respModules
 
@@ -64,75 +64,84 @@ class GmodulesTest(ActiniaTestCase):
         global someGrassModules
 
         respStatusCode = 200
-        resp = self.app.get(URL_PREFIX + '/grass_modules',
-                            headers=self.restricted_user_auth_header)
+        resp = self.app.get(
+            URL_PREFIX + "/grass_modules",
+            headers=self.restricted_user_auth_header,
+        )
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
-        assert hasattr(resp, 'json')
-        assert len(resp.json['processes']) == 3
-        assert 'categories' in resp.json['processes'][0]
-        assert 'description' in resp.json['processes'][0]
-        assert 'id' in resp.json['processes'][0]
+        assert hasattr(resp, "json")
+        assert len(resp.json["processes"]) == 3
+        assert "categories" in resp.json["processes"][0]
+        assert "description" in resp.json["processes"][0]
+        assert "id" in resp.json["processes"][0]
 
     def test_filter_list_modules_get_user(self):
         """Test HTTP GET /grass_modules with filter as user"""
         respStatusCode = 200
-        resp = self.app.get(URL_PREFIX + '/grass_modules?category=slope',
-                            headers=self.user_auth_header)
+        resp = self.app.get(
+            URL_PREFIX + "/grass_modules?category=slope",
+            headers=self.user_auth_header,
+        )
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
-        assert hasattr(resp, 'json')
+        assert hasattr(resp, "json")
         # WARNING: this depends on existing GRASS GIS modules and possible
         # installed GRASS GIS Addons
         # only r.slope.aspect is permitted
-        assert len(resp.json['processes']) == 1
+        assert len(resp.json["processes"]) == 1
 
     def test_filter_list_modules_get_admin(self):
         """Test HTTP GET /grass_modules with filter as admin"""
         respStatusCode = 200
-        resp = self.app.get(URL_PREFIX + '/grass_modules?category=slope',
-                            headers=self.admin_auth_header)
+        resp = self.app.get(
+            URL_PREFIX + "/grass_modules?category=slope",
+            headers=self.admin_auth_header,
+        )
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
-        assert hasattr(resp, 'json')
+        assert hasattr(resp, "json")
         # WARNING: this depends on existing GRASS GIS modules and possible
         # installed GRASS GIS Addons
         # both r.slope.aspect and v.to.db should be allowed
-        assert len(resp.json['processes']) == 2
+        assert len(resp.json["processes"]) == 2
 
     def test_filter_list_modules_get_admin_2(self):
         """Test HTTP GET /grass_modules with filter as admin"""
         respStatusCode = 200
-        url_path = '/grass_modules?record=full&family=ps'
-        resp = self.app.get(URL_PREFIX + url_path,
-                            headers=self.admin_auth_header)
+        url_path = "/grass_modules?record=full&family=ps"
+        resp = self.app.get(
+            URL_PREFIX + url_path, headers=self.admin_auth_header
+        )
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
-        assert hasattr(resp, 'json')
+        assert hasattr(resp, "json")
         # WARNING: this depends on existing GRASS GIS modules and possible
         # installed GRASS GIS Addons
-        assert len(resp.json['processes']) == 1
-        assert resp.json['processes'][0]['categories'] != 0
-        assert resp.json['processes'][0]['parameters'] != 0
+        assert len(resp.json["processes"]) == 1
+        assert resp.json["processes"][0]["categories"] != 0
+        assert resp.json["processes"][0]["parameters"] != 0
 
     def test_filter_list_modules_get_admin_3(self):
         """Test HTTP GET /grass_modules with filter"""
         respStatusCode = 200
-        resp = self.app.get(URL_PREFIX + '/grass_modules?family=test',
-                            headers=self.admin_auth_header)
+        resp = self.app.get(
+            URL_PREFIX + "/grass_modules?family=test",
+            headers=self.admin_auth_header,
+        )
 
-        assert type(resp) is Response
+        assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
-        assert hasattr(resp, 'json')
+        assert hasattr(resp, "json")
         # WARNING: this depends on existing GRASS GIS modules and possible
         # installed GRASS GIS Addons
-        assert len(resp.json['processes']) == 2
-        assert resp.json['processes'][0]['categories'] != 0
-        assert hasattr(resp.json['processes'][0], 'parameters') is False
+        assert len(resp.json["processes"]) == 2
+        assert resp.json["processes"][0]["categories"] != 0
+        assert hasattr(resp.json["processes"][0], "parameters") is False
 
 
 for i in someGrassModules:
@@ -142,5 +151,8 @@ for i in someGrassModules:
     # create method for every grass-module to have a better overview in
     # test summary
     def_name = "test_describe_module_get_" + i
-    compare_module_to_file.__defaults__ = ('grass_modules', i,)
+    compare_module_to_file.__defaults__ = (
+        "grass_modules",
+        i,
+    )
     setattr(GmodulesTest, def_name, compare_module_to_file)
