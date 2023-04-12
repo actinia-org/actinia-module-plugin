@@ -9,6 +9,7 @@ ENV ACTINIA_CUSTOM_TEST_CFG /etc/default/actinia-module-plugin-test
 ENV DEFAULT_CONFIG_PATH /etc/default/actinia-module-plugin-test
 # set TEMPLATE_VALUE_ for testing
 ENV TEMPLATE_VALUE_ENV_RASTER elevation
+ENV TEMPLATE_VALUE_ENV_TYPE raster
 
 # install things only for tests
 RUN apk add redis

@@ -397,7 +397,7 @@ class PlaceholderTransformer(object):
             self.vm_params.append(exe_param)
 
 
-def setEnvParamToOptional(params):
+def set_env_param_to_optional(params):
     """
     This function changes in a list with parameters the 'optional' value to
     True and add a comment to the parameter 'description' is the parameter is
@@ -478,8 +478,8 @@ def createActiniaModule(resourceBaseSelf, processchain):
 
     # set optinal to True if parameter or returns is set as environment
     # variable
-    setEnvParamToOptional(pt.vm_params)
-    setEnvParamToOptional(pt.vm_returns)
+    set_env_param_to_optional(pt.vm_params)
+    set_env_param_to_optional(pt.vm_returns)
 
     categories = ["actinia-module"]
     if user_template:

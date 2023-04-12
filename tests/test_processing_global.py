@@ -166,7 +166,7 @@ class ActiniaProcessingTest(ActiniaTestCase):
                 resp.json["urls"]["status"], headers=self.user_auth_header
             )
             status = resp.json["status"]
-            print(status)
+
         # check if parameter is set
         resp.json["process_chain_list"]
         params = [
