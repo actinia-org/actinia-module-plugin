@@ -108,21 +108,23 @@ def check_for_errors(undef, parsed_content, tpl_source, kwargs):
 
     # find variables which are only in an if statement and has not to be set
     not_needed_vars = default_vars
+    regex_m_all = []
     if "{% if" in tpl_source:
         for i in undef:
             if i not in not_needed_vars:
                 r_str = rf"{{% if {i} is defined %}}[\S\n\t\v ]+{{% endif %}}"
                 regex_m = re_findall(r_str, tpl_source)
-                if len(regex_m) > 0:
-                    tpl_source_mod = tpl_source
-                    for if_part in regex_m:
-                        tpl_source_mod = tpl_source_mod.replace(if_part, "")
-                    # check if the variable is still a variable in modified
-                    # template
-                    undef_mod = get_template_undef(tpl_source_mod)
-                    for var in undef:
-                        if var not in not_needed_vars and var not in undef_mod:
-                            not_needed_vars.append(var)
+                regex_m_all.extend(regex_m)
+
+        if len(regex_m_all) > 0:
+            tpl_source_mod = tpl_source
+            for if_part in regex_m_all:
+                tpl_source_mod = tpl_source_mod.replace(if_part, "")
+            # check if the variable is still a variable in modified template
+            undef_mod = get_template_undef(tpl_source_mod)
+            for var in undef:
+                if var not in not_needed_vars and var not in undef_mod:
+                    not_needed_vars.append(var)
 
     for i in undef:
         # check if undef variables are needed or set in the kwargs
