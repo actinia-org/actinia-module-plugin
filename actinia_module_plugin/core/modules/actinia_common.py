@@ -28,6 +28,7 @@ __maintainer__ = "Carmen Tawalika"
 
 import json
 import re
+from os import environ as env
 
 # from actinia_module_plugin.core.common import filter_func
 from actinia_module_plugin.core.modules.actinia_global_templates import (
@@ -43,6 +44,12 @@ from actinia_module_plugin.core.common import (
 from actinia_module_plugin.core.modules.processor import run_process_chain
 from actinia_module_plugin.core.modules.parser import ParseInterfaceDescription
 from actinia_module_plugin.model.modules import Module
+
+
+ENV = {
+    key.replace("TEMPLATE_VALUE_", ""): val for key, val in env.items()
+    if key.startswith("TEMPLATE_VALUE_")
+}
 
 
 def render_template(pc):
@@ -389,6 +396,19 @@ class PlaceholderTransformer(object):
             self.vm_params.append(exe_param)
 
 
+def setEnvParamToOptional(params):
+    """
+    This function changes in a list with parameters the 'optional' value to
+    True and add a comment to the parameter 'description' is the parameter is
+    set via the environment variables.
+    """
+    # TODO change description
+    if len(ENV) > 0:
+        for param in params:
+            if param["name"].upper() in ENV:
+                param["optional"] = True
+
+
 def createActiniaModule(resourceBaseSelf, processchain):
     """
     This method is used to create self-descriptions for actinia-modules.
@@ -452,6 +472,11 @@ def createActiniaModule(resourceBaseSelf, processchain):
                                 temp_dict[key] = i[key]
                             temp_dict["name"] = undefitem
                             pt.vm_returns.append(temp_dict)
+
+    # set optinal to True if parameter or returns is set as environment
+    # variable
+    setEnvParamToOptional(pt.vm_params)
+    setEnvParamToOptional(pt.vm_returns)
 
     categories = ["actinia-module"]
     if user_template:
