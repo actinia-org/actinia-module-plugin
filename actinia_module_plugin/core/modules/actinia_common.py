@@ -21,8 +21,8 @@ Common module for file based and redis templates
 """
 
 __license__ = "Apache-2.0"
-__author__ = "Carmen Tawalika"
-__copyright__ = "Copyright 2019, mundialis"
+__author__ = "Carmen Tawalika, Anika Weinmann"
+__copyright__ = "Copyright 2019-2023, mundialis"
 __maintainer__ = "Carmen Tawalika"
 
 
@@ -402,11 +402,13 @@ def setEnvParamToOptional(params):
     True and add a comment to the parameter 'description' is the parameter is
     set via the environment variables.
     """
-    # TODO change description
     if len(ENV) > 0:
         for param in params:
             if param["name"].upper() in ENV:
                 param["optional"] = True
+                param["description"] += (
+                    "; Default value exist for this installation."
+                )
 
 
 def createActiniaModule(resourceBaseSelf, processchain):
