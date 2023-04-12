@@ -36,25 +36,27 @@ from actinia_core.rest.base.resource_base import ResourceBase
 
 from actinia_module_plugin.apidocs import modules
 from actinia_module_plugin.core.filter import filter
-from actinia_module_plugin.core.modules.actinia_global_templates import \
-     createProcessChainTemplateListFromFileSystem
-from actinia_module_plugin.core.modules.actinia_user_templates import \
-     createProcessChainTemplateListFromRedis
-from actinia_module_plugin.core.modules.actinia_common import \
-     createActiniaModule
+from actinia_module_plugin.core.modules.actinia_global_templates import (
+    createProcessChainTemplateListFromFileSystem,
+)
+from actinia_module_plugin.core.modules.actinia_user_templates import (
+    createProcessChainTemplateListFromRedis,
+)
+from actinia_module_plugin.core.modules.actinia_common import (
+    createActiniaModule,
+)
 from actinia_module_plugin.model.modules import ModuleList
-from actinia_module_plugin.model.responseModels import \
-     SimpleStatusCodeResponseModel
+from actinia_module_plugin.model.responseModels import (
+    SimpleStatusCodeResponseModel,
+)
 
 
 class ListProcessChainTemplates(Resource):
-    """List all process chain templates
-    """
+    """List all process chain templates"""
 
     @swagger.doc(modules.listModules_get_docs)
     def get(self):
-        """Get a list of all actinia modules (process chain templates).
-        """
+        """Get a list of all actinia modules (process chain templates)."""
 
         pc_list_fs = createProcessChainTemplateListFromFileSystem()
         pc_list_redis = createProcessChainTemplateListFromRedis()
@@ -62,12 +64,13 @@ class ListProcessChainTemplates(Resource):
 
         pc_list = filter(pc_list)
 
-        return make_response(jsonify(
-            ModuleList(status="success", processes=pc_list)), 200)
+        return make_response(
+            jsonify(ModuleList(status="success", processes=pc_list)), 200
+        )
 
 
 class DescribeProcessChainTemplate(ResourceBase):
-    """ Describe process chain template as "virtual GRASS module"
+    """Describe process chain template as "virtual GRASS module"
 
     Contains HTTP GET endpoint
     Contains swagger documentation
@@ -75,14 +78,14 @@ class DescribeProcessChainTemplate(ResourceBase):
 
     @swagger.doc(modules.describeActiniaModule_get_docs)
     def get(self, actiniamodule):
-        """Describe an actinia module (process chain template).
-        """
+        """Describe an actinia module (process chain template)."""
 
         try:
             virtual_module = createActiniaModule(self, actiniamodule)
             return make_response(jsonify(virtual_module), 200)
         except Exception:
             msg = 'Error looking for actinia module "' + actiniamodule + '".'
-            res = (jsonify(SimpleStatusCodeResponseModel(
-                status=404, message=msg)))
+            res = jsonify(
+                SimpleStatusCodeResponseModel(status=404, message=msg)
+            )
             return make_response(res, 404)

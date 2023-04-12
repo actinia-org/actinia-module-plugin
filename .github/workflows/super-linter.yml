@@ -34,3 +34,4 @@ jobs:
           VALIDATE_POWERSHELL: true
           # VALIDATE_XML: true
           VALIDATE_YAML: true
+          FILTER_REGEX_EXCLUDE: ./config/templates/

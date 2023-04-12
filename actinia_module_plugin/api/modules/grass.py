@@ -39,21 +39,21 @@ from actinia_module_plugin.core.modules.grass import createModuleUserList
 from actinia_module_plugin.core.modules.grass import createGrassModule
 from actinia_module_plugin.core.modules.grass import createFullModuleList
 from actinia_module_plugin.core.modules.grass import installGrassAddon
-from actinia_module_plugin.core.modules.accessible_modules_redis_interface \
-    import addGrassAddonToModuleListRedis
+from actinia_module_plugin.core.modules.accessible_modules_redis_interface import (
+    addGrassAddonToModuleListRedis,
+)
 from actinia_module_plugin.model.modules import ModuleList
-from actinia_module_plugin.model.responseModels import \
-     SimpleStatusCodeResponseModel
+from actinia_module_plugin.model.responseModels import (
+    SimpleStatusCodeResponseModel,
+)
 
 
 class ListModules(ResourceBase):
-    """List all GRASS modules
-    """
+    """List all GRASS modules"""
 
     @swagger.doc(modules.listModules_get_docs)
     def get(self):
-        """Get a list of all GRASS GIS modules.
-        """
+        """Get a list of all GRASS GIS modules."""
 
         module_list = createModuleList(self)
         if self.user_role == "user" or self.user_role == "guest":
@@ -64,51 +64,53 @@ class ListModules(ResourceBase):
             final_list = module_list
         final_list = filter(final_list)
 
-        if 'record' in request.args:
-            if request.args['record'] == "full":
+        if "record" in request.args:
+            if request.args["record"] == "full":
                 final_list = createFullModuleList(self, final_list)
 
-        return make_response(jsonify(ModuleList(
-            status="success",
-            processes=final_list)), 200)
+        return make_response(
+            jsonify(ModuleList(status="success", processes=final_list)), 200
+        )
 
 
 class DescribeModule(ResourceBase):
-    """ Definition for endpoint @app.route('grass_modules/<grassmodule>') to
-        describe one module
+    """Definition for endpoint @app.route('grass_modules/<grassmodule>') to
+        desctibe one module
 
     Contains HTTP GET endpoint
     Contains swagger documentation
     """
+
     @swagger.doc(modules.describeGrassModule_get_docs)
     def get(self, grassmodule):
-        """Describe a GRASS GIS module.
-        """
+        """Describe a GRASS GIS module."""
 
         try:
             grass_module = createGrassModule(self, grassmodule)
             return make_response(jsonify(grass_module), 200)
         except Exception:
-            res = (jsonify(SimpleStatusCodeResponseModel(
-                status=404,
-                message='Error looking for module "' + grassmodule + '".'
-            )))
+            res = jsonify(
+                SimpleStatusCodeResponseModel(
+                    status=404,
+                    message='Error looking for module "' + grassmodule + '".',
+                )
+            )
             return make_response(res, 404)
 
     def post(self, grassmodule):
-        """Install an official GRASS GIS Addon.
-        """
+        """Install an official GRASS GIS Addon."""
 
         response = installGrassAddon(self, grassmodule)
 
-        if response['status'] == "finished":
+        if response["status"] == "finished":
             addGrassAddonToModuleListRedis(self, grassmodule)
-            msg = ('Successfully installed GRASS addon ' + grassmodule + '.')
+            msg = "Successfully installed GRASS addon " + grassmodule + "."
             status_code = 201
         else:
-            msg = ('Error installing GRASS addon ' + grassmodule + '.')
+            msg = "Error installing GRASS addon " + grassmodule + "."
             status_code = 400
 
-        res = (jsonify(SimpleStatusCodeResponseModel(
-            status=status_code, message=msg)))
+        res = jsonify(
+            SimpleStatusCodeResponseModel(status=status_code, message=msg)
+        )
         return make_response(res, status_code)

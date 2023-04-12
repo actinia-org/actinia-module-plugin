@@ -31,21 +31,23 @@ __license__ = "Apache-2.0"
 from setuptools import setup
 
 entry_points = {
-    'console_scripts': [
-        'name = actinia_module_plugin.resources.cli:name',
-        'about = actinia_module_plugin.resources.cli:about',
-        'pc2grass = actinia_module_plugin.resources.cli:pc2grass'
+    "console_scripts": [
+        "name = actinia_module_plugin.resources.cli:name",
+        "about = actinia_module_plugin.resources.cli:about",
+        "pc2grass = actinia_module_plugin.resources.cli:pc2grass",
     ]
 }
 
 
 def setup_package():
-    setup(setup_requires=['pyscaffold>=3.0a0,<3.1a0'],
-          entry_points=entry_points,
-          packages=['actinia_module_plugin'],
-          package_dir={'actinia_module_plugin': 'actinia_module_plugin'},
-          include_package_data=True,
-          use_pyscaffold=True)
+    setup(
+        setup_requires=["pyscaffold>=3.0a0,<3.1a0"],
+        entry_points=entry_points,
+        packages=["actinia_module_plugin"],
+        package_dir={"actinia_module_plugin": "actinia_module_plugin"},
+        include_package_data=True,
+        use_pyscaffold=True,
+    )
 
 
 if __name__ == "__main__":

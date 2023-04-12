@@ -1,4 +1,4 @@
-### Only kept for reference - currently travis takes care of building the wheel
+# Only kept for reference - currently travis takes care of building the wheel
 
 To create a new release, you can use this docker to build the wheel and add
 to the release.
@@ -10,7 +10,7 @@ The `docker run` command creates the build and uploads the
 previously created wheel as asset.
 
 
-```
+```bash
 git clone git@github.com:mundialis/actinia-module-plugin.git
 cd actinia-module-plugin
 

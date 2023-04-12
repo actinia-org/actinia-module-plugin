@@ -31,7 +31,7 @@ from actinia_module_plugin.resources.config import PCTEMPLATECONFIG
 
 # this environment is used for all cases where individual templates are loaded
 tplEnv = Environment(
-    loader=PackageLoader('actinia_module_plugin', 'templates')
+    loader=PackageLoader("actinia_module_plugin", "templates")
 )
 
 # this environment is used for process chain templates only

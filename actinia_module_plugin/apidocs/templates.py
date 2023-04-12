@@ -30,8 +30,9 @@ import json
 from flask_restful_swagger_2 import Schema
 from actinia_core.core.common.process_chain import GrassModule
 
-from actinia_module_plugin.model.responseModels import \
-     SimpleStatusCodeResponseModel
+from actinia_module_plugin.model.responseModels import (
+    SimpleStatusCodeResponseModel,
+)
 
 
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -45,77 +46,75 @@ null = "null"
 
 
 class ProcessChainTemplate(Schema):
-    """Response schema for module
-    """
-    type = 'object'
+    """Response schema for module"""
+
+    type = "object"
     properties = {
-        'id': {
-            'type': 'string',
-            'description': 'Unique identifier of the process. '
+        "id": {
+            "type": "string",
+            "description": "Unique identifier of the process. ",
         },
-        'description': {
-            'type': 'string',
-            'description': 'Detailed description to fully explain the entity.'
+        "description": {
+            "type": "string",
+            "description": "Detailed description to fully explain the entity.",
         },
-        'template': {
-            'type': 'object',
-            'description': 'The full process chain template.',
-            'properties': {
-                'list': {
-                    'type': 'array',
-                    'items': GrassModule,
-                    'description': 'The list of GRASS GIS or actinia modules'
-                                   ' or executables of which the template'
-                                   ' consists.'
+        "template": {
+            "type": "object",
+            "description": "The full process chain template.",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": GrassModule,
+                    "description": "The list of GRASS GIS or actinia modules"
+                    " or executables of which the template"
+                    " consists.",
                 }
-            }
-        }
+            },
+        },
     }
     example = pc_template_example
 
 
 listTemplates_get_docs = {
-    'tags': ['Process Chain Template Management'],
-    'description': 'Get a list of process chain templates. '
-                   'Minimum required user role: user.',
-    'responses': {
-        '200': {
-            'description': 'This response returns a list of module names'
-        }
-    }
+    "tags": ["Process Chain Template Management"],
+    "description": "Get a list of process chain templates. "
+    "Minimum required user role: user.",
+    "responses": {
+        "200": {"description": "This response returns a list of module names"}
+    },
 }
 
 readTemplate_get_docs = {
-    'tags': ['Process Chain Template Management'],
+    "tags": ["Process Chain Template Management"],
     "parameters": [
         {
             "in": "path",
             "name": "template_id",
             "type": "string",
             "description": "The name of a process chain template",
-            "required": True
+            "required": True,
         }
     ],
-    'description': 'Read a process chain template. '
-                   'Minimum required user role: user.',
-    'responses': {
-        '200': {
-            'description': 'This response returns a process chain template.',
-            'schema': ProcessChainTemplate
+    "description": "Read a process chain template. "
+    "Minimum required user role: user.",
+    "responses": {
+        "200": {
+            "description": "This response returns a process chain template.",
+            "schema": ProcessChainTemplate,
         },
-        '404': {
-            'description': 'The error message and a detailed log why '
-                           'describing did not succeeded',
-            'schema': SimpleStatusCodeResponseModel
-        }
-    }
+        "404": {
+            "description": "The error message and a detailed log why "
+            "describing did not succeeded",
+            "schema": SimpleStatusCodeResponseModel,
+        },
+    },
 }
 
 
 createTemplate_post_docs = {
-    'tags': ['Process Chain Template Management'],
-    'description': 'Create a process chain template. '
-                   'Minimum required user role: user.',
+    "tags": ["Process Chain Template Management"],
+    "description": "Create a process chain template. "
+    "Minimum required user role: user.",
     "parameters": [
         {
             "in": "body",
@@ -123,67 +122,70 @@ createTemplate_post_docs = {
             "type": "object",
             "schema": ProcessChainTemplate,
             "description": "The process chain template",
-            "required": True
+            "required": True,
         }
     ],
-    'responses': {
-        '201': {
-            'description': 'This response returns True if creation was'
-                           ' successfull.'},
-        '404': {
-            'description': 'The error message and a detailed log why '
-                           'creation did not succeeded',
-            'schema': SimpleStatusCodeResponseModel
-        }
-    }
+    "responses": {
+        "201": {
+            "description": "This response returns True if creation was"
+            " successfull."
+        },
+        "404": {
+            "description": "The error message and a detailed log why "
+            "creation did not succeeded",
+            "schema": SimpleStatusCodeResponseModel,
+        },
+    },
 }
 
 updateTemplate_put_docs = {
-    'tags': ['Process Chain Template Management'],
+    "tags": ["Process Chain Template Management"],
     "parameters": [
         {
             "in": "path",
             "name": "template_id",
             "type": "string",
             "description": "The name of a process chain template",
-            "required": True
+            "required": True,
         }
     ],
-    'description': 'Update a process chain template. '
-                   'Minimum required user role: user.',
-    'responses': {
-        '201': {
-            'description': 'This response returns True if update was'
-                           ' successfull.'},
-        '404': {
-            'description': 'The error message and a detailed log why '
-                           'update did not succeeded',
-            'schema': SimpleStatusCodeResponseModel
-        }
-    }
+    "description": "Update a process chain template. "
+    "Minimum required user role: user.",
+    "responses": {
+        "201": {
+            "description": "This response returns True if update was"
+            " successfull."
+        },
+        "404": {
+            "description": "The error message and a detailed log why "
+            "update did not succeeded",
+            "schema": SimpleStatusCodeResponseModel,
+        },
+    },
 }
 
 deleteTemplate_delete_docs = {
-    'tags': ['Process Chain Template Management'],
+    "tags": ["Process Chain Template Management"],
     "parameters": [
         {
             "in": "path",
             "name": "template_id",
             "type": "string",
             "description": "The name of a process chain template",
-            "required": True
+            "required": True,
         }
     ],
-    'description': 'Delete a process chain template. '
-                   'Minimum required user role: user.',
-    'responses': {
-        '200': {
-            'description': 'This response returns True if deletion was'
-                           ' successfull.'},
-        '404': {
-            'description': 'The error message and a detailed log why '
-                           'deletion did not succeeded',
-            'schema': SimpleStatusCodeResponseModel
-        }
-    }
+    "description": "Delete a process chain template. "
+    "Minimum required user role: user.",
+    "responses": {
+        "200": {
+            "description": "This response returns True if deletion was"
+            " successfull."
+        },
+        "404": {
+            "description": "The error message and a detailed log why "
+            "deletion did not succeeded",
+            "schema": SimpleStatusCodeResponseModel,
+        },
+    },
 }

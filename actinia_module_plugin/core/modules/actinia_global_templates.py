@@ -35,9 +35,9 @@ from actinia_module_plugin.resources.logging import log
 
 
 def createProcessChainTemplateListFromFileSystem():
-    '''
-       list all stored templates and return as actinia-module list
-    '''
+    """
+    list all stored templates and return as actinia-module list
+    """
 
     pc_list = []
     tpl_list = pcTplEnv.list_templates(filter_func=filter_func)
@@ -45,23 +45,21 @@ def createProcessChainTemplateListFromFileSystem():
     for tpl_string in tpl_list:
         tpl = pcTplEnv.get_template(tpl_string)
         try:
-            pc_template = json.loads(tpl.render().replace('\n', ''))
+            pc_template = json.loads(tpl.render().replace("\n", ""))
         except Exception:
-            log.error('Error parsing template ' + tpl_string)
+            log.error("Error parsing template " + tpl_string)
 
         try:
-            tpl_id = pc_template['id']
-            description = pc_template['description']
-            categories = ['actinia-module', 'global-template']
+            tpl_id = pc_template["id"]
+            description = pc_template["description"]
+            categories = ["actinia-module", "global-template"]
 
-            pc_response = (Module(
-                id=tpl_id,
-                description=description,
-                categories=categories
-            ))
+            pc_response = Module(
+                id=tpl_id, description=description, categories=categories
+            )
             pc_list.append(pc_response)
 
         except KeyError:
-            log.warning('Could not read template %s' % pc_template)
+            log.warning("Could not read template %s" % pc_template)
 
     return pc_list
