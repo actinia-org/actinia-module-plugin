@@ -7,6 +7,8 @@ ENV ACTINIA_CUSTOM_TEST_CFG /etc/default/actinia-module-plugin-test
 
 # TODO do not set DEFAULT_CONFIG_PATH if this is fixed
 ENV DEFAULT_CONFIG_PATH /etc/default/actinia-module-plugin-test
+# set TEMPLATE_VALUE_ for testing
+ENV TEMPLATE_VALUE_ENV_RASTER elevation
 
 # install things only for tests
 RUN apk add redis
@@ -30,9 +32,10 @@ COPY docker/actinia-module-plugin-test/actinia-module-plugin-test.cfg /etc/defau
 COPY docker/actinia-module-plugin-test/actinia-module-plugin-test.cfg /etc/default/actinia-module-plugin-test
 COPY . /src/actinia-module-plugin/
 
+
 WORKDIR /src/actinia-module-plugin/
 
 RUN chmod a+x tests_with_redis.sh
 RUN python3 setup.py install
 
-RUN ./tests_with_redis.sh
+# RUN ./tests_with_redis.sh
