@@ -39,4 +39,4 @@ WORKDIR /src/actinia-module-plugin/
 RUN chmod a+x tests_with_redis.sh
 RUN python3 setup.py install
 
-# RUN ./tests_with_redis.sh
+RUN ./tests_with_redis.sh
