@@ -1,0 +1,19 @@
+{
+    "id": "use_env_value2",
+    "description": "r.info set flags per env var.",
+    "template": {
+        "list": [
+          {
+            "module": "g.list",
+            "id": "g.list_test",
+            "inputs": [
+              {
+                "param": "type",
+                "value": "{{ env_type }}"
+              }
+            ]
+          }
+        ],
+        "version": "1"
+    }
+}
