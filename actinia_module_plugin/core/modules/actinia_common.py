@@ -400,7 +400,7 @@ class PlaceholderTransformer(object):
 def set_env_param_to_optional(params):
     """
     This function changes in a list with parameters the 'optional' value to
-    True and add a comment to the parameter 'description' is the parameter is
+    True and add a comment to the parameter 'description' if the parameter is
     set via the environment variables.
     """
     if len(ENV) > 0:
