@@ -7,6 +7,9 @@ ENV ACTINIA_CUSTOM_TEST_CFG /etc/default/actinia-module-plugin-test
 
 # TODO do not set DEFAULT_CONFIG_PATH if this is fixed
 ENV DEFAULT_CONFIG_PATH /etc/default/actinia-module-plugin-test
+# set TEMPLATE_VALUE_ for testing
+ENV TEMPLATE_VALUE_ENV_RASTER elevation
+ENV TEMPLATE_VALUE_ENV_TYPE raster
 
 # install things only for tests
 RUN apk add redis
@@ -29,6 +32,7 @@ RUN grass -e -c 'EPSG:3358' /actinia_core/grassdb/nc_spm_08
 COPY docker/actinia-module-plugin-test/actinia-module-plugin-test.cfg /etc/default/actinia
 COPY docker/actinia-module-plugin-test/actinia-module-plugin-test.cfg /etc/default/actinia-module-plugin-test
 COPY . /src/actinia-module-plugin/
+
 
 WORKDIR /src/actinia-module-plugin/
 

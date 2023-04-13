@@ -36,6 +36,7 @@ from actinia_module_plugin.core.common import (
     get_global_template_source,
     get_template_undef,
 )
+from actinia_module_plugin.core.modules.actinia_common import ENV
 from actinia_module_plugin.resources.logging import log
 from actinia_module_plugin.resources.templating import pcTplEnv
 
@@ -144,6 +145,16 @@ def check_for_errors(undef, parsed_content, tpl_source, kwargs):
     return None
 
 
+def fill_env_values(filled_params, undef):
+    """This function checks if a undefined variable is set in the environment
+    variables and set it in kwargs if not already set.
+    """
+    if len(ENV) > 0:
+        for param in undef:
+            if param not in filled_params and param.upper() in ENV:
+                filled_params[param] = ENV[param.upper()]
+
+
 def fillTemplateFromProcessChain(module):
     """This method receives a process chain for an actinia module and loads
     the according process chain template from redis or filesystem. The
@@ -166,6 +177,8 @@ def fillTemplateFromProcessChain(module):
 
     undef = get_template_undef(tpl_source)
     parsed_content = pcTplEnv.parse(tpl_source)
+
+    fill_env_values(kwargs, undef)
 
     errors = check_for_errors(undef, parsed_content, tpl_source, kwargs)
     if errors is not None:

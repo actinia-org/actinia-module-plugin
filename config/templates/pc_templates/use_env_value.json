@@ -1,0 +1,19 @@
+{
+    "id": "use_env_value",
+    "description": "r.info set flags per env var.",
+    "template": {
+        "list": [
+          {
+            "module": "r.info",
+            "id": "r.info_test",
+            "inputs": [
+              {
+                "param": "map",
+                "value": "{{ env_raster }}"
+              }
+            ]
+          }
+        ],
+        "version": "1"
+    }
+}

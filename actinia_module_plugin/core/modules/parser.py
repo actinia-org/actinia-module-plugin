@@ -243,6 +243,7 @@ def ParseInterfaceDescription(xml_string, keys=None):
     elif (
         type(xmltodict.parse(xml_string)["task"]["parameter"])
         == collections.OrderedDict
+        or type(xmltodict.parse(xml_string)["task"]["parameter"]) == dict
     ):
         gm_dict["parameter"] = [gm_dict["parameter"]]
     else:

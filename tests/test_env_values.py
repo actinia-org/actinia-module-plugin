@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Copyright (c) 2021 mundialis GmbH & Co. KG
+Copyright (c) 2023 mundialis GmbH & Co. KG
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,12 +16,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-Test processing
+Test the usage of environment variables
 """
 
 __license__ = "Apache-2.0"
-__author__ = "Carmen Tawalika"
-__copyright__ = "Copyright 2021, mundialis"
+__author__ = "Anika Weinmann"
+__copyright__ = "Copyright 2023, mundialis"
 
 
 from flask import Response
@@ -30,72 +30,41 @@ from time import sleep
 
 from actinia_api import URL_PREFIX
 
-
-from testsuite import ActiniaTestCase, check_started_process
-
+from testsuite import (
+    ActiniaTestCase,
+    check_started_process,
+)
 
 global allTemplatesCount
 global templateUUID
 
 
-class ActiniaProcessingTest(ActiniaTestCase):
-    def test_processing(self):
-        """Test Usage of global templates persistent processing"""
+class ActiniaTestEnvValues(ActiniaTestCase):
+    def test_env_values_get(self):
+        """Test Usage of environment values inside a template"""
 
         respStatusCode = 200
-        json_path = "tests/resources/processing/global_default_value.json"
-        url_path = "/locations/nc_spm_08/mapsets/test/processing"
+        msg = "Default value exist for this installation."
 
-        with open(json_path) as file:
-            pc_template = json.load(file)
-
-        resp = self.app.post(
-            URL_PREFIX + url_path,
+        resp = self.app.get(
+            URL_PREFIX + "/actinia_modules/use_env_value",
             headers=self.user_auth_header,
-            data=json.dumps(pc_template),
-            content_type="application/json",
         )
-
         assert isinstance(resp, Response)
         assert resp.status_code == respStatusCode
-        assert hasattr(resp, "json")
+        params = {
+            p["name"]: [p["optional"], p["description"]]
+            for p in resp.json["parameters"]
+        }
+        assert "env_raster" in params
+        assert params["env_raster"][0] is True
+        assert msg in params["env_raster"][1]
 
-        check_started_process(self, resp)
+    def test_env_values_processing(self):
+        """Test usage of envrionment values in processing procedure"""
 
-        resp = self.app.delete(
-            URL_PREFIX + "locations/nc_spm_08/mapsets/test",
-            headers=self.user_auth_header,
-        )
-
-    def test_processing_export(self):
-        """Test Usage of global templates ephemeral processing"""
         respStatusCode = 200
-        json_path = "tests/resources/processing/global_point_in_polygon.json"
-        url_path = "/locations/nc_spm_08/processing_export"
-
-        with open(json_path) as file:
-            pc_template = json.load(file)
-
-        resp = self.app.post(
-            URL_PREFIX + url_path,
-            headers=self.user_auth_header,
-            data=json.dumps(pc_template),
-            content_type="application/json",
-        )
-
-        assert isinstance(resp, Response)
-        assert resp.status_code == respStatusCode
-        assert hasattr(resp, "json")
-
-        check_started_process(self, resp)
-
-    def test_processing_if_statement_1(self):
-        """Test Usage of global templates ephemeral processing with if
-        statement where all variables are set"""
-        respStatusCode = 200
-        json_path = (
-            "tests/resources/processing/" "global_if_statement_filled_all.json"
-        )
+        json_path = "tests/resources/processing/" "env_var.json"
         url_path = "/locations/nc_spm_08/processing_export"
 
         with open(json_path) as file:
@@ -125,21 +94,21 @@ class ActiniaProcessingTest(ActiniaTestCase):
 
         # check if parameter is set
         resp.json["process_chain_list"]
-        params = [
-            param["param"]
+        params = {
+            param["param"]: param["value"]
             for param in resp.json["process_chain_list"][0]["list"][0][
                 "inputs"
             ]
-        ]
-        assert "region" in params, "Parameter 'region' is not set"
+        }
+        assert "type" in params, "Parameter 'type' is set"
+        assert params["type"] == "raster", "Parameter 'type' is not 'raster'"
 
-    def test_processing_if_statement_2(self):
-        """Test Usage of global templates ephemeral processing with if
-        statement where the variable in the if statement is not set"""
+    def test_env_values_processing_overwrite(self):
+        """Test usage overwriting the envrionment values in processing
+        procedure"""
+
         respStatusCode = 200
-        json_path = (
-            "tests/resources/processing/" "global_if_statement_not_all.json"
-        )
+        json_path = "tests/resources/processing/" "env_var_overwrite.json"
         url_path = "/locations/nc_spm_08/processing_export"
 
         with open(json_path) as file:
@@ -169,10 +138,11 @@ class ActiniaProcessingTest(ActiniaTestCase):
 
         # check if parameter is set
         resp.json["process_chain_list"]
-        params = [
-            param["param"]
+        params = {
+            param["param"]: param["value"]
             for param in resp.json["process_chain_list"][0]["list"][0][
                 "inputs"
             ]
-        ]
-        assert "region" not in params, "Parameter 'region' is set"
+        }
+        assert "type" in params, "Parameter 'type' is set"
+        assert params["type"] == "vector", "Parameter 'type' is not 'vector'"

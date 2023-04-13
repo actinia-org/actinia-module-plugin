@@ -1,0 +1,16 @@
+{
+	"version": "1",
+	"description": "Test overwriting of environment variables",
+	"list": [
+		{
+			"module": "use_env_value2",
+			"id": "overwrite_env_value_test)",
+			"inputs": [
+				{
+					"param": "env_type",
+					"value": "vector"
+				}
+			]
+		}
+	]
+}

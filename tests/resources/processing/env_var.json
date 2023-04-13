@@ -1,0 +1,10 @@
+{
+	"version": "1",
+	"description": "Test for environment variables",
+	"list": [
+		{
+			"module": "use_env_value2",
+			"id": "env_value_test"
+		}
+	]
+}
