@@ -26,52 +26,20 @@ __maintainer__ = "Carmen Tawalika"
 
 
 import json
-from jinja2 import nodes
-from re import findall as re_findall
 
 from actinia_module_plugin.core.common import (
     get_user_template,
     get_user_template_source,
     get_global_template,
     get_global_template_source,
+)
+from actinia_module_plugin.core.template_parameters import (
+    get_not_needed_params,
     get_template_undef,
 )
 from actinia_module_plugin.core.modules.actinia_common import ENV
 from actinia_module_plugin.resources.logging import log
 from actinia_module_plugin.resources.templating import pcTplEnv
-
-
-def find_filters(ast):
-    """Find all the nodes of a given type. If the type is a tuple,
-    the check is performed for any of the tuple items.
-    Function from: https://stackoverflow.com/questions/55275399/how-to-get
-    -variables-along-with-their-filter-name-from-jinja2-template
-    """
-    for child in ast.iter_child_nodes():
-        if isinstance(child, nodes.Filter):
-            yield child
-        else:
-            for result in find_filters(child):
-                yield result
-
-
-def filtered_variables(ast):
-    """Return variables that have filters, along with their filters. Might
-    return duplicate variable names with different filters
-    Function from: https://stackoverflow.com/questions/55275399/how-to-get
-    -variables-along-with-their-filter-name-from-jinja2-template
-    """
-    results = []
-    for i, node in enumerate(find_filters(ast)):
-        filters = []
-        f = node
-        filters.append(f.name)
-        while isinstance(f.node, nodes.Filter):
-            f = f.node
-            filters.append(f.name)
-        filters.reverse()
-        results.append((f.node.name, filters))
-    return results
 
 
 def build_kwargs_for_template_rendering(module):
@@ -104,37 +72,9 @@ def check_for_errors(undef, parsed_content, tpl_source, kwargs):
     the given default value can be used and if statements for which the value
     can be empty.
     """
-    # find default variables from processchain
-    default_vars = []
-    filtered_vars = filtered_variables(parsed_content)
-    for filtered_var in filtered_vars:
-        if "default" in filtered_var[1]:
-            default_vars.append(filtered_var[0])
-
-    # find variables which are only in an if statement and has not to be set
-    not_needed_vars = default_vars
-    regex_m_all = []
-    if "{% if" in tpl_source or "{%- if" in tpl_source:
-        for i in undef:
-            if i not in not_needed_vars:
-                # be careful with { and {{, if you split the line differently
-                # here because of linting
-                r_str = (
-                    rf"{{%.* if {i} is defined .*%}}[\S\n\t\v ]+"
-                    r"{%.* endif .*%}"
-                )
-                regex_m = re_findall(r_str, tpl_source)
-                regex_m_all.extend(regex_m)
-
-        if len(regex_m_all) > 0:
-            tpl_source_mod = tpl_source
-            for if_part in regex_m_all:
-                tpl_source_mod = tpl_source_mod.replace(if_part, "")
-            # check if the variable is still a variable in modified template
-            undef_mod = get_template_undef(tpl_source_mod)
-            for var in undef:
-                if var not in not_needed_vars and var not in undef_mod:
-                    not_needed_vars.append(var)
+    # find default variables from processchain and variables which are only in
+    # an if statement and has not to be set
+    not_needed_vars = get_not_needed_params(undef, tpl_source, parsed_content)
 
     for i in undef:
         # check if undef variables are needed or set in the kwargs
