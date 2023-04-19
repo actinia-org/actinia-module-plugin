@@ -84,7 +84,7 @@ def filter_undef_without_if_statements(tpl_source, undef, not_needed_vars=[]):
                 # be careful with { and {{, if you split the line differently
                 # here because of linting
                 r_str = (
-                    rf"{{%.* if {i} is defined .*%}}[\S\n\t\v ]+"
+                    rf"{{%.* if {i} is defined .*%}}[\S\n\t\v ]+?"
                     r"{%.* endif .*%}"
                 )
                 regex_m = re_findall(r_str, tpl_source)
