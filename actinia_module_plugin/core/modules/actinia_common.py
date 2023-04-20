@@ -39,6 +39,9 @@ from actinia_module_plugin.core.common import (
     get_user_template_source,
     get_global_template,
     get_global_template_source,
+)
+from actinia_module_plugin.core.template_parameters import (
+    get_not_needed_params,
     get_template_undef,
 )
 from actinia_module_plugin.core.modules.processor import run_process_chain
@@ -53,7 +56,7 @@ ENV = {
 }
 
 
-def render_template(pc):
+def render_template(pc, return_source=False):
     # first see if a user template exists
     tpl = get_user_template(pc)
     tpl_source = get_user_template_source(pc)
@@ -71,7 +74,10 @@ def render_template(pc):
         kwargs[i] = "{{ " + i + " }}"
 
     pc_template = json.loads(tpl.render(**kwargs).replace("\n", ""))
-    return pc_template, user_template
+    if return_source:
+        return pc_template, user_template, tpl_source
+    else:
+        return pc_template, user_template
 
 
 def add_param_description(moduleparameter, param, input_dict):
@@ -412,6 +418,40 @@ def set_env_param_to_optional(params):
                 ] += "; Default value exist for this installation."
 
 
+def set_not_needed_param_to_optional(params, returns, undef, tpl_source):
+    """
+    This function changes in a list with parameters the 'optional' value to
+    True and add a comment to the parameter 'description' if the parameter is
+    not needed because of default value or because it is only used inside an
+    if statement or because an environment variable can be used as value.
+    """
+    # set optinal to True if parameter or returns is set as environment
+    # variable
+    set_env_param_to_optional(params)
+    set_env_param_to_optional(returns)
+
+    # set option to True if parameter has default value or is only in if
+    # statement
+    reason_text = {
+        "if": "; Parameter only used in if statement and must not "
+        "necessarily be set.",
+        "default": "; Default value exist in the process chain.",
+    }
+    not_needed_params = get_not_needed_params(undef, tpl_source)
+    for param in params:
+        name = param["name"]
+        if name in not_needed_params:
+            reason = not_needed_params[name]
+            param["optional"] = True
+            param["description"] += reason_text[reason]
+    for ret in returns:
+        name = ret["name"]
+        if name in not_needed_params:
+            reason = not_needed_params[name]
+            ret["optional"] = True
+            ret["description"] += reason_text[reason]
+
+
 def createActiniaModule(resourceBaseSelf, processchain):
     """
     This method is used to create self-descriptions for actinia-modules.
@@ -430,9 +470,11 @@ def createActiniaModule(resourceBaseSelf, processchain):
     attributes which can be replaced in the processchain template.
     """
 
-    pc_template, user_template = render_template(processchain)
+    pc_template, user_template, tpl_source = render_template(
+        processchain, return_source=True
+    )
     pc_template_list_items = pc_template["template"]["list"]
-    undef = get_template_undef(processchain)
+    undef = get_template_undef(tpl_source)
 
     pc = PlaceholderCollector(resourceBaseSelf)
     for i in pc_template_list_items:
@@ -476,10 +518,10 @@ def createActiniaModule(resourceBaseSelf, processchain):
                             temp_dict["name"] = undefitem
                             pt.vm_returns.append(temp_dict)
 
-    # set optinal to True if parameter or returns is set as environment
-    # variable
-    set_env_param_to_optional(pt.vm_params)
-    set_env_param_to_optional(pt.vm_returns)
+    # set optinal to True if the parameter is not needed in the process chain
+    set_not_needed_param_to_optional(
+        pt.vm_params, pt.vm_returns, undef, tpl_source
+    )
 
     categories = ["actinia-module"]
     if user_template:

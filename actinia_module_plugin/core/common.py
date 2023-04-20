@@ -25,7 +25,7 @@ __license__ = "Apache-2.0"
 
 
 import json
-from jinja2 import meta, Template, DictLoader, Environment
+from jinja2 import Template, DictLoader, Environment
 
 from actinia_module_plugin.core.templates.user_templates import readTemplate
 from actinia_module_plugin.resources.templating import pcTplEnv
@@ -93,9 +93,3 @@ def get_global_template_source(name):
     tplPath = get_global_template_path(name)
     tpl_source = pcTplEnv.loader.get_source(pcTplEnv, tplPath)[0]
     return tpl_source
-
-
-def get_template_undef(tpl_source):
-    parsed_content = pcTplEnv.parse(tpl_source)
-    undef = meta.find_undeclared_variables(parsed_content)
-    return undef
