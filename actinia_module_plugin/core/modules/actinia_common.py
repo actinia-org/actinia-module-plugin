@@ -422,9 +422,10 @@ def set_not_needed_param_to_optional(params, returns, undef, tpl_source):
     """
     This function changes in a list with parameters the 'optional' value to
     True and add a comment to the parameter 'description' if the parameter is
-    not needed because of default value or .
+    not needed because of default value or because it is only used inside an
+    if statement or because an environment variable can be used as value.
     """
-    #  set optinal to True if parameter or returns is set as environment
+    # set optinal to True if parameter or returns is set as environment
     # variable
     set_env_param_to_optional(params)
     set_env_param_to_optional(returns)
