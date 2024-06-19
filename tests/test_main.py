@@ -55,5 +55,5 @@ class AppTest(ActiniaTestCase):
 class InitTest(unittest.TestCase):
     def test_init(self):
         """Test if version can be detected"""
-        version = importlib.metadata.version("actinia_module_plugin.wsgi")
+        version = importlib.metadata.version("actinia_module_plugin")
         assert actinia_module_plugin.__version__ == version

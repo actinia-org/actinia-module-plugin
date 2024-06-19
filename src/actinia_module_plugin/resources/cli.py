@@ -29,21 +29,6 @@ import json
 import sys
 
 
-def name():
-    """Print name to console"""
-    return "actinia-module-plugin"
-
-
-def about():
-    """Print information about actinia-module-plugin to console"""
-
-    text = "actinia-module-plugin"
-    text = text + "\n This package communicates via HTTP"
-    text = text + "\n To start application, run "
-    text = text + "\n 'python -m actinia_module_plugin.main'"
-    return text
-
-
 # used in pc2grass
 def parseExe(process):
     # no api docs model
@@ -127,8 +112,12 @@ def defineFile(file):
 def pc2grass():
     """Parser for actinia-core process chains to GRASS executables"""
 
-    input = sys.argv[1]
-    output = sys.argv[2]
+    try:
+        input = sys.argv[1]
+        output = sys.argv[2]
+    except IndexError:
+        print("ERROR: No input or output file given")
+        return
 
     if os.path.isfile(input):
         input = input
