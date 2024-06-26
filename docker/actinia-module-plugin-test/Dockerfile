@@ -13,12 +13,14 @@ ENV TEMPLATE_VALUE_ENV_TYPE raster
 
 # install things only for tests
 RUN apk add redis
-RUN pip3 install iniconfig colorlog pwgen
+RUN pip install --upgrade setuptools
+RUN pip install pytest pytest-cov pwgen
 
 ENTRYPOINT ["/bin/sh"]
 CMD ["/src/start.sh"]
 
-RUN pip3 uninstall actinia-module-plugin.wsgi -y
+RUN pip uninstall actinia-module-plugin.wsgi -y
+RUN pip uninstall actinia-module-plugin -y
 
 # add data for tests
 RUN grass -e -c 'EPSG:3358' /actinia_core/grassdb/nc_spm_08
@@ -33,10 +35,9 @@ COPY docker/actinia-module-plugin-test/actinia-module-plugin-test.cfg /etc/defau
 COPY docker/actinia-module-plugin-test/actinia-module-plugin-test.cfg /etc/default/actinia-module-plugin-test
 COPY . /src/actinia-module-plugin/
 
-
 WORKDIR /src/actinia-module-plugin/
 
 RUN chmod a+x tests_with_redis.sh
-RUN python3 setup.py install
+RUN pip install .
 
 RUN ./tests_with_redis.sh

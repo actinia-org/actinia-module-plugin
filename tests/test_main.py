@@ -26,7 +26,7 @@ __copyright__ = "Copyright 2018-2021, mundialis"
 
 import pytest
 import unittest
-from pkg_resources import get_distribution, DistributionNotFound
+import importlib
 from flask import Response
 
 import actinia_module_plugin
@@ -55,10 +55,5 @@ class AppTest(ActiniaTestCase):
 class InitTest(unittest.TestCase):
     def test_init(self):
         """Test if version can be detected"""
-        # TODO: apply to __init__.py
-        pkg_version = get_distribution("actinia_module_plugin.wsgi").version
-        assert actinia_module_plugin.__version__ == pkg_version
-
-        with pytest.raises(DistributionNotFound):
-            v = get_distribution("false_distro_name").version
-            assert v == "unknown"
+        version = importlib.metadata.version("actinia_module_plugin")
+        assert actinia_module_plugin.__version__ == version

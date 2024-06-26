@@ -26,19 +26,10 @@ __copyright__ = "Copyright 2018-2021, mundialis"
 
 import unittest
 
-from actinia_module_plugin.resources.cli import name, about
+from actinia_module_plugin.resources.cli import pc2grass
 
 
 class CliTest(unittest.TestCase):
-    def test_cli_name(self):
+    def test_cli_pc2grass(self):
         """Test basic cli command"""
-        assert name() == "actinia-module-plugin"
-
-    def test_cli_about(self):
-        """Test basic cli command"""
-        text = "actinia-module-plugin"
-        text = text + "\n This package communicates via HTTP"
-        text = text + "\n To start application, run "
-        text = text + "\n 'python -m actinia_module_plugin.main'"
-
-        assert about() == text
+        assert pc2grass() == None
