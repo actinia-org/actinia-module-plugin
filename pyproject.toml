@@ -32,6 +32,7 @@ keywords = [
 ]
 dependencies = [
     "colorlog>=4.2.1",
+    "xmltodict",
 ]
 
 [project.optional-dependencies]
