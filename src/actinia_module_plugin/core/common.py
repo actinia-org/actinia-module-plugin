@@ -36,10 +36,12 @@ def start_job(timeout, func, *args):
     Execute the provided function in a subprocess
 
     Args:
+        timeout: Timeout parameter
         func: The function to call from the subprocess
         *args: The function arguments
 
     Returns:
+        returns after starting the process
     """
     # Just starting the process
     from multiprocessing import Process
