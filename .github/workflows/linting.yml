@@ -11,3 +11,5 @@ jobs:
       pylint-version: ''
       BASH_SEVERITY: 'warning'
       VALIDATE_JSON: false
+      VALIDATE_HTML: false
+      VALIDATE_CSS: false
