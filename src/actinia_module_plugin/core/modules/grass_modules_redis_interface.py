@@ -32,7 +32,8 @@ from actinia_core.core.common.redis_base import RedisBaseInterface
 
 
 class RedisActiniaGrassModuleInterface(RedisBaseInterface):
-    """The Redis GRASS GIS module database interface
+    """
+    The Redis GRASS GIS module database interface
 
     A single GRASS GIS module is stored as Hash with:
         - GRASS GIS module name that must be unique
@@ -88,7 +89,8 @@ class RedisActiniaGrassModuleInterface(RedisBaseInterface):
         return True
 
     def read(self, grass_module_id):
-        """Return the grass_module
+        """
+        Return the grass_module
 
         HGET grass_module-id grass_module_group
 
@@ -113,7 +115,8 @@ class RedisActiniaGrassModuleInterface(RedisBaseInterface):
         return grass_module
 
     def update(self, grass_module_id, grass_module):
-        """Update the grass_module.
+        """
+        Update the grass_module.
 
         Renaming an entry is not allowed, only existing entries with the
         same grass_module_id can be updated.
@@ -152,7 +155,8 @@ class RedisActiniaGrassModuleInterface(RedisBaseInterface):
         return True
 
     # def delete(self, grass_module_id):
-    #     """Remove an grass_module id from the database
+    #     """
+    #     Remove an grass_module id from the database
 
     #     Args:
     #         grass_module_id (str): The grass_module id
@@ -197,7 +201,8 @@ class RedisActiniaGrassModuleInterface(RedisBaseInterface):
     #     return values
 
     def exists(self, grass_module_id):
-        """Check if the grass_module is in the database
+        """
+        Check if the grass_module is in the database
 
         Args:
             grass_module_id (str): The grass_module id

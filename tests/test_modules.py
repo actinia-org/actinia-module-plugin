@@ -133,7 +133,8 @@ class VirtualModulesTest(ActiniaTestCase):
         assert len(resp.json["processes"]) == 2
 
     def test_filter_list_modules_get_user_2(self):
-        """Test HTTP GET /modules with filter as user.
+        """
+        Test HTTP GET /modules with filter as user.
         actinia modules are not whitelisted but available by default.
         """
         respStatusCode = 200
@@ -158,7 +159,8 @@ class VirtualModulesTest(ActiniaTestCase):
         assert num_of_actinia_modules >= 7
 
     def test_filter_list_modules_get_user_3(self):
-        """Test HTTP GET /modules with filter.
+        """
+        Test HTTP GET /modules with filter.
         global actinia modules can be used by any user.
         """
         respStatusCode = 200
@@ -187,7 +189,8 @@ class VirtualModulesTest(ActiniaTestCase):
         assert len(resp.json["processes"]) == 3
 
     def test_filter_list_modules_get_restricted_user_2(self):
-        """Test HTTP GET /modules with filter as restricted user.
+        """
+        Test HTTP GET /modules with filter as restricted user.
         actinia modules are available by default.
         """
         respStatusCode = 200
@@ -210,7 +213,8 @@ class VirtualModulesTest(ActiniaTestCase):
 
 
 for i in someVirtualModules:
-    """Test HTTP GET /modules/<module> for file based templates and GRASS GIS
+    """
+    Test HTTP GET /modules/<module> for file based templates and GRASS GIS
     modules in loop for all examples in someVirtualModules above and compares
     response to file
     """

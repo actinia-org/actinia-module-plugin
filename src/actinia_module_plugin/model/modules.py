@@ -38,7 +38,8 @@ with open(abs_file_path) as jsonfile:
 
 
 class ModuleParameterSchema(Schema):
-    """Schema property for Parameter
+    """
+    Schema property for Parameter
     TODO: add  {"type": "array", "items": {"type": "string"}}
     """
 
@@ -147,7 +148,8 @@ class Module(Schema):
 
 
 class ModuleList(Schema):
-    """Response schema for module lists
+    """
+    Response schema for module lists
     The answer bases on openeo v0.4: https://open-eo.github.io/openeo-api/v
     /0.4.0/apireference/#tag/Process-Discovery/paths/~1processes/get
     Differences:

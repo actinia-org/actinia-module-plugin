@@ -52,7 +52,8 @@ def getAccessibleModuleListRedis(self):
 
 
 def addGrassAddonToModuleListRedis(self, grassmodule):
-    """This function adds installed GRASS addon to the user's module list
+    """
+    This function adds installed GRASS addon to the user's module list
     in redis.
     """
     self.user.add_accessible_modules(

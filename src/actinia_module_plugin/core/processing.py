@@ -43,7 +43,8 @@ from actinia_module_plugin.resources.templating import pcTplEnv
 
 
 def build_kwargs_for_template_rendering(module):
-    """This method receives a process chain for an actinia module, isolates
+    """
+    This method receives a process chain for an actinia module, isolates
     the received values and returns them so they can be filled into the
     process chain template.
     """
@@ -67,7 +68,8 @@ def build_kwargs_for_template_rendering(module):
 
 
 def check_for_errors(undef, parsed_content, tpl_source, kwargs):
-    """This method checks if all placeholders are filled with values and
+    """
+    This method checks if all placeholders are filled with values and
     returns the placeholder if missing. Exceptions are default values for which
     the given default value can be used and if statements for which the value
     can be empty.
@@ -86,7 +88,8 @@ def check_for_errors(undef, parsed_content, tpl_source, kwargs):
 
 
 def fill_env_values(filled_params, undef):
-    """This function checks if a undefined variable is set in the environment
+    """
+    This function checks if a undefined variable is set in the environment
     variables and set it in kwargs if not already set.
     """
     if len(ENV) > 0:
@@ -96,7 +99,8 @@ def fill_env_values(filled_params, undef):
 
 
 def fillTemplateFromProcessChain(module):
-    """This method receives a process chain for an actinia module and loads
+    """
+    This method receives a process chain for an actinia module and loads
     the according process chain template from redis or filesystem. The
     received values will be replaced to be passed to actinia. In case the
     template has more placeholder values than it receives, the missing

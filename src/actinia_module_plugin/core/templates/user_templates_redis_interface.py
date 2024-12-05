@@ -32,7 +32,8 @@ from actinia_core.core.common.redis_base import RedisBaseInterface
 
 
 class RedisActiniaTemplateInterface(RedisBaseInterface):
-    """The Redis actinia_template database interface
+    """
+    The Redis actinia_template database interface
 
     A single actinia_template is stored as Hash with:
         - actinia_template id aka actinia_template name that must be unique
@@ -95,7 +96,8 @@ class RedisActiniaTemplateInterface(RedisBaseInterface):
         return True
 
     def read(self, actinia_template_id):
-        """Return the actinia_template
+        """
+        Return the actinia_template
 
         HGET actinia_template-id actinia_template_group
 
@@ -120,7 +122,8 @@ class RedisActiniaTemplateInterface(RedisBaseInterface):
         return actinia_template
 
     def update(self, actinia_template_id, actinia_template):
-        """Update the actinia_template.
+        """
+        Update the actinia_template.
 
         Renaming an entry is not allowed, only existing entries with the
         same actinia_template_id can be updated.
@@ -160,7 +163,8 @@ class RedisActiniaTemplateInterface(RedisBaseInterface):
         return True
 
     def delete(self, actinia_template_id):
-        """Remove an actinia_template id from the database
+        """
+        Remove an actinia_template id from the database
 
         Args:
             actinia_template_id (str): The actinia_template id
@@ -208,7 +212,8 @@ class RedisActiniaTemplateInterface(RedisBaseInterface):
         return values
 
     def exists(self, actinia_template_id):
-        """Check if the actinia_template is in the database
+        """
+        Check if the actinia_template is in the database
 
         Args:
             actinia_template_id (str): The actinia_template id

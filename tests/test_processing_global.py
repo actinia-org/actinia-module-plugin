@@ -90,7 +90,8 @@ class ActiniaProcessingTest(ActiniaTestCase):
         check_started_process(self, resp)
 
     def test_processing_if_statement_1(self):
-        """Test Usage of global templates ephemeral processing with if
+        """
+        Test Usage of global templates ephemeral processing with if
         statement where all variables are set"""
         respStatusCode = 200
         json_path = (
@@ -134,7 +135,8 @@ class ActiniaProcessingTest(ActiniaTestCase):
         assert "region" in params, "Parameter 'region' is not set"
 
     def test_processing_if_statement_2(self):
-        """Test Usage of global templates ephemeral processing with if
+        """
+        Test Usage of global templates ephemeral processing with if
         statement where the variable in the if statement is not set"""
         respStatusCode = 200
         json_path = (

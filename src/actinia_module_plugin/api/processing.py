@@ -80,7 +80,8 @@ from actinia_module_plugin.core.processing import fillTemplateFromProcessChain
 
 
 def log_error_to_resource_logger(self, msg, rdc):
-    """Logs error which occurs during translation of actinia-module to process
+    """
+    Logs error which occurs during translation of actinia-module to process
     chain. This case is not handled by EphemeralProcessing from actinia-core as
     _send_resource_error method is used if the error occurs during processing.
     Here a process (g.search.modules) by createModuleList was already processed
@@ -156,7 +157,8 @@ def set_actinia_modules(
 
 
 def preprocess_build_pc_and_enqueue(self, preprocess_kwargs, start_job):
-    """This method looks up the lists of GRASS GIS and actinia modules to
+    """
+    This method looks up the lists of GRASS GIS and actinia modules to
     parse the incoming process chain. If an actinia-module is found, it is
     translated to a process chain via the stored template. The process chain is
     then passed to actinia-core.
@@ -207,7 +209,8 @@ class GdiAsyncEphemeralExportResource(ResourceBase):
 
     @swagger.doc(deepcopy(SCHEMA_DOC_EPHEMERAL_PROCESSING_WITH_EXPORT))
     def post(self, location_name):
-        """Execute a user defined process chain in an ephemeral location/mapset
+        """
+        Execute a user defined process chain in an ephemeral location/mapset
         and store the processing results for download.
         """
 
@@ -234,7 +237,8 @@ class GdiAsyncPersistentResource(ResourceBase):
 
     @swagger.doc(deepcopy(SCHEMA_DOC_PERSISTENT_PROCESSING))
     def post(self, location_name, mapset_name):
-        """Execute a user defined process chain that creates a new mapset or
+        """
+        Execute a user defined process chain that creates a new mapset or
         runs in an existing one.
         """
 

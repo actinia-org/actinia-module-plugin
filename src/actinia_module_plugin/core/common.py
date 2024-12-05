@@ -32,10 +32,13 @@ from actinia_module_plugin.resources.templating import pcTplEnv
 
 
 def start_job(timeout, func, *args):
-    """Execute the provided function in a subprocess
+    """
+    Execute the provided function in a subprocess
+
     Args:
         func: The function to call from the subprocess
         *args: The function arguments
+
     Returns:
     """
     # Just starting the process
