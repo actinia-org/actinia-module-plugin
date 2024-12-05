@@ -163,9 +163,9 @@ class PlaceholderCollector(object):
 
         if len(vp.placeholders) == 1:
             self.input_dict[vp.module_id]["gparams"][vp.key] = {}
-            self.input_dict[vp.module_id]["gparams"][vp.key][
-                "amkey"
-            ] = vp.placeholders[0]
+            self.input_dict[vp.module_id]["gparams"][vp.key]["amkey"] = (
+                vp.placeholders[0]
+            )
             if vp.comment is not None:
                 self.input_dict[vp.module_id]["gparams"][vp.key][
                     "comment"

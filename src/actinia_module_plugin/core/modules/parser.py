@@ -314,7 +314,7 @@ def ParseInterfaceDescription(xml_string, keys=None):
         categories=sorted(categories),
         parameters=parameters,
         returns=returns,
-        **extrakwargs
+        **extrakwargs,
     )
 
     return grass_module

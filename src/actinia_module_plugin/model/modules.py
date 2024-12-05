@@ -81,7 +81,7 @@ class ModuleParameter(Schema):
             "type": "string",
             "description": "The default value for this parameter.",
         },
-        "schema": ModuleParameterSchema
+        "schema": ModuleParameterSchema,
         # 'comment': {
         #     'type': 'string',
         #     'description': 'Comment for parameter.'

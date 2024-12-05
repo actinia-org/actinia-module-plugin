@@ -24,7 +24,6 @@ __author__ = "Carmen Tawalika"
 __copyright__ = "Copyright 2018-2021, mundialis"
 
 
-import pytest
 import unittest
 import importlib
 from flask import Response
