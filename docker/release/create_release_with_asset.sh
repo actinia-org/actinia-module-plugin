@@ -17,9 +17,9 @@ curl -u ${env_credentials:-} -X POST -H 'Content-Type: application/json' -d @/tm
 
 # parse response to create upload_url
 upload_url=`cat resp.json | jq '.upload_url' | tr -d '"' | cut -d '{' -f1`
-url=$upload_url?name=$filename
+url="${upload_url}?name=${filename}"
 
-if [ "$upload_url" = "null" ]
+if [ "${upload_url}" = "null" ]
 then
     echo "Failed to create release, aborting."
     exit 1

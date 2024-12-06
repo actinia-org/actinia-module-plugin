@@ -30,7 +30,7 @@ ENV env_tag=$tag
 ENV env_credentials=$credentials
 ENV env_file=$file
 
-RUN apk add curl jq
+RUN apk add --no-cache curl jq
 
 ENTRYPOINT ["/bin/sh"]
 CMD ["./create_release_with_asset.sh"]
