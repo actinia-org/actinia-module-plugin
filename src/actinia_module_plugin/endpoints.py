@@ -109,7 +109,7 @@ def create_endpoints(flask_api):
     # add deprecated location endpoints
     create_project_endpoints(apidoc, projects_url_part="locations")
 
-    # add deprecated project endpoints
+    # add project endpoints
     create_project_endpoints(apidoc, projects_url_part="projects")
 
     apidoc.add_resource(ActiniaTemplate, "/actinia_templates")
