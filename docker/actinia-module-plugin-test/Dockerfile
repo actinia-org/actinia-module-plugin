@@ -1,15 +1,15 @@
-FROM mundialis/actinia:latest as actinia_test
+FROM mundialis/actinia:latest AS actinia_test
 
 LABEL authors="Carmen Tawalika,Anika Weinmann"
 LABEL maintainer="tawalika@mundialis.de,weinmann@mundialis.de"
 
-ENV ACTINIA_CUSTOM_TEST_CFG /etc/default/actinia-module-plugin-test
+ENV ACTINIA_CUSTOM_TEST_CFG=/etc/default/actinia-module-plugin-test
 
 # TODO do not set DEFAULT_CONFIG_PATH if this is fixed
-ENV DEFAULT_CONFIG_PATH /etc/default/actinia-module-plugin-test
+ENV DEFAULT_CONFIG_PATH=/etc/default/actinia-module-plugin-test
 # set TEMPLATE_VALUE_ for testing
-ENV TEMPLATE_VALUE_ENV_RASTER elevation
-ENV TEMPLATE_VALUE_ENV_TYPE raster
+ENV TEMPLATE_VALUE_ENV_RASTER=elevation
+ENV TEMPLATE_VALUE_ENV_TYPE=raster
 
 # install things only for tests
 RUN apk add --no-cache redis

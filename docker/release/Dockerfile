@@ -1,4 +1,4 @@
-FROM alpine:edge as build
+FROM alpine:edge AS build
 
 RUN apk add git python3 postgresql-dev gcc python3-dev musl-dev
 
