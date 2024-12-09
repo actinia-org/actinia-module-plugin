@@ -49,8 +49,11 @@ from actinia_core.endpoints import get_endpoint_class_name
 
 
 def create_project_endpoints(apidoc, projects_url_part="projects"):
-    """Function to add resources with "project" inside the endpoint url.
+    """
+    Function to add resources with "project" inside the endpoint url.
+
     Args:
+        apidoc (flask_restful_swagger_2.Api): Flask api
         projects_url_part (str): The name of the projects inside the endpoint
                                  URL; to add deprecated location endpoints set
                                  it to "locations"
