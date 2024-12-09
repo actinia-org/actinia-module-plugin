@@ -155,7 +155,8 @@ def deinitGrass(self, location_name):
 
 
 class EphemeralModuleLister(EphemeralProcessing):
-    """Overwrites EphemeralProcessing from actinia_core to bypass permission
+    """
+    Overwrites EphemeralProcessing from actinia_core to bypass permission
     check for modules and temporary location, needed for self-description
     """
 
@@ -184,7 +185,8 @@ class EphemeralModuleLister(EphemeralProcessing):
 
 
 def run_process_chain(self, process_chain):
-    """Used to list all GRASS modules, to describe a certain GRASS module
+    """
+    Used to list all GRASS modules, to describe a certain GRASS module
     and to generate actinia module description out of containing GRASS modules.
     ATTENTION! This call skips permission checks, so temporary location can be
     used. If user is not allowed to use GRASS modules used here, this will be

@@ -32,4 +32,4 @@ from actinia_module_plugin.resources.cli import pc2grass
 class CliTest(unittest.TestCase):
     def test_cli_pc2grass(self):
         """Test basic cli command"""
-        assert pc2grass() == None
+        assert pc2grass() is None

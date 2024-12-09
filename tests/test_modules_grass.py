@@ -145,7 +145,8 @@ class GmodulesTest(ActiniaTestCase):
 
 
 for i in someGrassModules:
-    """Test HTTP GET /grass_modules/<module> for GRASS GIS modules in loop
+    """
+    Test HTTP GET /grass_modules/<module> for GRASS GIS modules in loop
     for all examples in someGrassModules above and compares response to file
     """
     # create method for every grass-module to have a better overview in

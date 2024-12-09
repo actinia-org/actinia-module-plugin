@@ -99,7 +99,8 @@ def add_param_description(moduleparameter, param, input_dict):
 
 
 class ValuePlaceholder(object):
-    """Object to collect attributes for all placeholder types. Might be later
+    """
+    Object to collect attributes for all placeholder types. Might be later
     separated into ValuePlaceholder, ImporterPlaceholder, ...
     """
 
@@ -163,9 +164,9 @@ class PlaceholderCollector(object):
 
         if len(vp.placeholders) == 1:
             self.input_dict[vp.module_id]["gparams"][vp.key] = {}
-            self.input_dict[vp.module_id]["gparams"][vp.key][
-                "amkey"
-            ] = vp.placeholders[0]
+            self.input_dict[vp.module_id]["gparams"][vp.key]["amkey"] = (
+                vp.placeholders[0]
+            )
             if vp.comment is not None:
                 self.input_dict[vp.module_id]["gparams"][vp.key][
                     "comment"
@@ -213,13 +214,13 @@ class PlaceholderCollector(object):
         self.input_dict[vp.module_id]["xml_string"] = xml_strings[0]["stdout"]
 
     def loop_list_items(self, i):
-        """Loop over each item in process chain list and search for all
+        """
+        Loop over each item in process chain list and search for all
         placeholders. Might be param of an executable or value of a
         grass_module param. Value of actinia_module param is also possible.
 
         Fills self.input_dict, self.import_descr_dict and self.exporter_dict
         and runs interface description for grass_modules.
-
         """
 
         # collect the "exec" list items
@@ -367,7 +368,8 @@ class PlaceholderTransformer(object):
                         self.vm_returns.append(temp_dict)
 
     def transformPlaceholder(self, placeholderCollector):
-        """Loops over moduleCollection filled by loop_list_items and enriches
+        """
+        Loops over moduleCollection filled by loop_list_items and enriches
         information with created grass_module interface description. Will
         populate self.vm_params and self.vm_returns
         to create the final ActiniaModuleDescription.

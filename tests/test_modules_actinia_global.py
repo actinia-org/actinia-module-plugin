@@ -84,7 +84,8 @@ class ActiniaModulesTest(ActiniaTestCase):
 
 
 for i in someActiniaModules:
-    """Test HTTP GET /actinia_modules/<module> for file based templates in loop
+    """
+    Test HTTP GET /actinia_modules/<module> for file based templates in loop
     for all examples in someActiniaModules above and compares response to file
     """
     # create method for every actinia-module to have a better overview in

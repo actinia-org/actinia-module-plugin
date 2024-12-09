@@ -104,8 +104,10 @@ class ActiniaTestEnvValues(ActiniaTestCase):
         assert params["type"] == "raster", "Parameter 'type' is not 'raster'"
 
     def test_env_values_processing_overwrite(self):
-        """Test usage overwriting the envrionment values in processing
-        procedure"""
+        """
+        Test usage overwriting the envrionment values in processing
+        procedure
+        """
 
         respStatusCode = 200
         json_path = "tests/resources/processing/" "env_var_overwrite.json"

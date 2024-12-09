@@ -70,7 +70,8 @@ class ListProcessChainTemplates(Resource):
 
 
 class DescribeProcessChainTemplate(ResourceBase):
-    """Describe process chain template as "virtual GRASS module"
+    """
+    Describe process chain template as "virtual GRASS module"
 
     Contains HTTP GET endpoint
     Contains swagger documentation

@@ -86,7 +86,8 @@ class ListVirtualModules(ResourceBase):
 
 
 class DescribeVirtualModule(ResourceBase):
-    """Describe module or process chain template
+    """
+    Describe module or process chain template
 
     Contains HTTP GET endpoint
     Contains swagger documentation

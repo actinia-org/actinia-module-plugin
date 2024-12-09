@@ -162,7 +162,8 @@ def setParameterEnum(parameter, schema_kwargs):
 
 
 def isOutput(parameter):
-    """Checks if parameter is output parameter.
+    """
+    Checks if parameter is output parameter.
     Returns True if parameter has key
     'gisprompt.age' == 'new',
     False otherwise.
@@ -221,7 +222,8 @@ def createModuleParameterFromGrassFlag(module_id, parameter):
 
 
 def ParseInterfaceDescription(xml_string, keys=None):
-    """Parses output of GRASS interface-description
+    """
+    Parses output of GRASS interface-description
     and returns openEO process object
     """
 
@@ -314,7 +316,7 @@ def ParseInterfaceDescription(xml_string, keys=None):
         categories=sorted(categories),
         parameters=parameters,
         returns=returns,
-        **extrakwargs
+        **extrakwargs,
     )
 
     return grass_module

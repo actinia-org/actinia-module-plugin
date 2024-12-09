@@ -32,7 +32,8 @@ from actinia_module_plugin.resources.templating import pcTplEnv
 
 
 def find_filters(ast):
-    """Find all the nodes of a given type. If the type is a tuple,
+    """
+    Find all the nodes of a given type. If the type is a tuple,
     the check is performed for any of the tuple items.
     Function from: https://stackoverflow.com/questions/55275399/how-to-get
     -variables-along-with-their-filter-name-from-jinja2-template
@@ -46,7 +47,8 @@ def find_filters(ast):
 
 
 def filtered_variables(ast):
-    """Return variables that have filters, along with their filters. Might
+    """
+    Return variables that have filters, along with their filters. Might
     return duplicate variable names with different filters
     Function from: https://stackoverflow.com/questions/55275399/how-to-get
     -variables-along-with-their-filter-name-from-jinja2-template
@@ -75,8 +77,10 @@ def get_template_default_values(parsed_content):
 
 
 def filter_undef_without_if_statements(tpl_source, undef, not_needed_vars=[]):
-    """Function to find variables which are only in an if statement and has
-    not to be set"""
+    """
+    Function to find variables which are only in an if statement and has
+    not to be set
+    """
     regex_m_all = []
     if "{% if" in tpl_source or "{%- if" in tpl_source:
         for i in undef:
@@ -102,8 +106,10 @@ def filter_undef_without_if_statements(tpl_source, undef, not_needed_vars=[]):
 
 
 def get_not_needed_params(undef, tpl_source, parsed_content=None):
-    """Function which filters undef parameters to find which are not needed
-    because they have a default value or are only inside a if statement"""
+    """
+    Function which filters undef parameters to find which are not needed
+    because they have a default value or are only inside a if statement
+    """
 
     if parsed_content is None:
         parsed_content = pcTplEnv.parse(tpl_source)

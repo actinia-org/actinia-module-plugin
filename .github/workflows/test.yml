@@ -1,35 +1,36 @@
+---
 name: actinia tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ main ]
+    branches: [main]
 
-# only one run per PR/branch happens at a time, cancelling the old run when a new one starts
+# only one run per PR/branch happens at a time, cancelling the old run when a
+# new one starts
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-
   tests:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      # with:
-      #   path: "."
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-    - name: Tests of actinia-module-plugin
-      id: docker_build
-      uses: docker/build-push-action@v6
-      with:
-        push: false
-        tags: actinia-module-plugin-test:alpine
-        context: .
-        file: docker/actinia-module-plugin-test/Dockerfile
-        no-cache: true
-        # pull: true
+      - name: Checkout
+        uses: actions/checkout@v4
+        # with:
+        #   path: "."
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Tests of actinia-module-plugin
+        id: docker_build
+        uses: docker/build-push-action@v6
+        with:
+          push: false
+          tags: actinia-module-plugin-test:alpine
+          context: .
+          file: docker/actinia-module-plugin-test/Dockerfile
+          no-cache: true
+          # pull: true
