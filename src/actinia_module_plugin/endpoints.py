@@ -29,8 +29,6 @@ __license__ = "Apache-2.0"
 
 # from actinia_module_plugin.resources.logging import log
 
-from actinia_core.endpoints import get_endpoint_class_name
-
 from actinia_module_plugin.api.modules.grass import ListModules
 from actinia_module_plugin.api.modules.grass import DescribeModule
 from actinia_module_plugin.api.modules.actinia import ListProcessChainTemplates
@@ -46,6 +44,8 @@ from actinia_module_plugin.api.processing import (
 
 from actinia_module_plugin.api.actinia_templates import ActiniaTemplate
 from actinia_module_plugin.api.actinia_templates import ActiniaTemplateId
+
+from actinia_core.endpoints import get_endpoint_class_name
 
 
 def create_project_endpoints(apidoc, projects_url_part="projects"):
