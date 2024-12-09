@@ -48,7 +48,9 @@ class ActiniaProcessingTest(ActiniaTestCase):
 
         respStatusCode = 200
         json_path = "tests/resources/processing/user_default_value.json"
-        url_path = "/locations/nc_spm_08/mapsets/test/processing"
+        url_path = (
+            f"/{self.project_url_part}/nc_spm_08/mapsets/test/processing"
+        )
 
         with open(json_path) as file:
             pc_template = json.load(file)
@@ -67,7 +69,7 @@ class ActiniaProcessingTest(ActiniaTestCase):
         check_started_process(self, resp)
 
         resp = self.app.delete(
-            URL_PREFIX + "locations/nc_spm_08/mapsets/test",
+            f"{URL_PREFIX}/{self.project_url_part}/nc_spm_08/mapsets/test",
             headers=self.user_auth_header,
         )
 
@@ -79,7 +81,7 @@ class ActiniaProcessingTest(ActiniaTestCase):
 
         respStatusCode = 200
         json_path = "tests/resources/processing/user_point_in_polygon.json"
-        url_path = "/locations/nc_spm_08/processing_export"
+        url_path = f"/{self.project_url_part}/nc_spm_08/processing_export"
 
         with open(json_path) as file:
             pc_template = json.load(file)

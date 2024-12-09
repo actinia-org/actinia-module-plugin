@@ -62,7 +62,7 @@ from actinia_core.core.common.config import global_config
 from actinia_core.core.common.process_queue import create_process_queue
 from actinia_core.models.response_models import ProcessingResponseModel
 from actinia_core.core.common.user import ActiniaUser
-
+from actinia_core.version import init_versions, G_VERSION
 
 # actinia-module-plugin endpoints are included as defined in actinia_core
 # config
@@ -76,6 +76,14 @@ class ActiniaTestCase(unittest.TestCase):
     user = None
     auth_header = {}
     users_list = []
+    project_url_part = "projects"
+
+    # set project_url_part to "locations" if GRASS GIS version < 8.4
+    init_versions()
+    grass_version_s = G_VERSION["version"]
+    grass_version = [int(item) for item in grass_version_s.split(".")[:2]]
+    if grass_version < [8, 4]:
+        project_url_part = "locations"
 
     def setUp(self):
         """Overwrites method setUp from unittest.TestCase class"""

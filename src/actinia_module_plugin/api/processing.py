@@ -208,15 +208,15 @@ class GdiAsyncEphemeralExportResource(ResourceBase):
         ResourceBase.__init__(self)
 
     @swagger.doc(deepcopy(SCHEMA_DOC_EPHEMERAL_PROCESSING_WITH_EXPORT))
-    def post(self, location_name):
+    def post(self, project_name):
         """
-        Execute a user defined process chain in an ephemeral location/mapset
+        Execute a user defined process chain in an ephemeral project/mapset
         and store the processing results for download.
         """
 
         preprocess_kwargs = {}
         preprocess_kwargs["has_json"] = True
-        preprocess_kwargs["location_name"] = location_name
+        preprocess_kwargs["project_name"] = project_name
 
         start_job = start_job_ephemeral_processing_with_export
 
@@ -236,7 +236,7 @@ class GdiAsyncPersistentResource(ResourceBase):
         ResourceBase.__init__(self)
 
     @swagger.doc(deepcopy(SCHEMA_DOC_PERSISTENT_PROCESSING))
-    def post(self, location_name, mapset_name):
+    def post(self, project_name, mapset_name):
         """
         Execute a user defined process chain that creates a new mapset or
         runs in an existing one.
@@ -244,7 +244,7 @@ class GdiAsyncPersistentResource(ResourceBase):
 
         preprocess_kwargs = {}
         preprocess_kwargs["has_json"] = True
-        preprocess_kwargs["location_name"] = location_name
+        preprocess_kwargs["project_name"] = project_name
         preprocess_kwargs["mapset_name"] = mapset_name
 
         start_job = start_job_persistent_processing
