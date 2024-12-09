@@ -66,41 +66,41 @@ from actinia_module_plugin.core.common import start_job
 def initGrass(self):
     """
     * not using enqueue_job to get always a response
-    * the function creates a new location cause not all users can access
-    a location
+    * the function creates a new project cause not all users can access
+    a project
     """
 
-    # check if location exists
-    location_name = "location_for_listing_modules_" + str(uuid.uuid4())
-    # '/actinia_core/grassdb/location_for_listing_modules'
-    location = os.path.join(global_config.GRASS_DATABASE, location_name)
-    # Check the location path
-    if os.path.isdir(location):
+    # check if project exists
+    project_name = "project_for_listing_modules_" + str(uuid.uuid4())
+    # '/actinia_core/grassdb/project_for_listing_modules'
+    project = os.path.join(global_config.GRASS_DATABASE, project_name)
+    # Check the project path
+    if os.path.isdir(project):
         msg = (
-            "Unable to create location. "
-            "Location <%s> exists in global database." % location_name
+            "Unable to create project. "
+            "Project <%s> exists in global database." % project_name
         )
         return self.get_error_response(message=msg)
     # Check also for the user database
-    # '/actinia_core/userdata/superadmin/location_for_listing_modules'
-    location = os.path.join(
-        self.grass_user_data_base, self.user_group, location_name
+    # '/actinia_core/userdata/superadmin/project_for_listing_modules'
+    project = os.path.join(
+        self.grass_user_data_base, self.user_group, project_name
     )
-    # Check the location path
-    if os.path.isdir(location):
+    # Check the project path
+    if os.path.isdir(project):
         msg = (
-            "Unable to create location. "
-            "Location <%s> exists in user database." % location_name
+            "Unable to create project. "
+            "Project <%s> exists in user database." % project_name
         )
         return self.get_error_response(message=msg)
 
-    # create new location cause not each user can access a location
+    # create new project cause not each user can access a project
     if not os.path.isdir(
         os.path.join(self.grass_user_data_base, self.user_group)
     ):
         os.mkdir(os.path.join(self.grass_user_data_base, self.user_group))
-    os.mkdir(location)
-    mapset = os.path.join(location, "PERMANENT")
+    os.mkdir(project)
+    mapset = os.path.join(project, "PERMANENT")
     os.mkdir(mapset)
     with open(os.path.join(mapset, "DEFAULT_WIND"), "w") as out:
         wind = (
@@ -134,30 +134,30 @@ def initGrass(self):
         )
         out.write(wind)
 
-    return location_name
+    return project_name
 
 
-def deinitGrass(self, location_name):
+def deinitGrass(self, project_name):
     """
-    * the function deletes above location
+    * the function deletes above project
     """
-    # remove location
-    location = os.path.join(global_config.GRASS_DATABASE, location_name)
-    if os.path.isdir(location):
-        shutil.rmtree(location)
-    location = os.path.join(
-        self.grass_user_data_base, self.user_group, location_name
+    # remove project
+    project = os.path.join(global_config.GRASS_DATABASE, project_name)
+    if os.path.isdir(project):
+        shutil.rmtree(project)
+    project = os.path.join(
+        self.grass_user_data_base, self.user_group, project_name
     )
-    if os.path.isdir(location):
-        shutil.rmtree(location)
+    if os.path.isdir(project):
+        shutil.rmtree(project)
     # del
-    # self.user_credentials["permissions"]['accessible_datasets'][location_name]
+    # self.user_credentials["permissions"]['accessible_datasets'][project_name]
 
 
 class EphemeralModuleLister(EphemeralProcessing):
     """
     Overwrites EphemeralProcessing from actinia_core to bypass permission
-    check for modules and temporary location, needed for self-description
+    check for modules and temporary project, needed for self-description
     """
 
     def __init__(self, *args, pc):
@@ -188,20 +188,20 @@ def run_process_chain(self, process_chain):
     """
     Used to list all GRASS modules, to describe a certain GRASS module
     and to generate actinia module description out of containing GRASS modules.
-    ATTENTION! This call skips permission checks, so temporary location can be
+    ATTENTION! This call skips permission checks, so temporary project can be
     used. If user is not allowed to use GRASS modules used here, this will be
     allowed in these cases.
     """
 
-    location_name = initGrass(self)
+    project_name = initGrass(self)
 
-    # self.user_credentials["permissions"]['accessible_datasets'][location_name]
+    # self.user_credentials["permissions"]['accessible_datasets'][project_name]
     # = ['PERMANENT']
 
     rdc = self.preprocess(
         has_json=False,
         has_xml=False,
-        location_name=location_name,
+        project_name=project_name,
         mapset_name="PERMANENT",
     )
 
@@ -215,6 +215,6 @@ def run_process_chain(self, process_chain):
     else:
         http_code, response_model = pickle.loads(self.response_data)
 
-    deinitGrass(self, location_name)
+    deinitGrass(self, project_name)
 
     return response_model

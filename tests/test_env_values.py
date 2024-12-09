@@ -47,25 +47,30 @@ class ActiniaTestEnvValues(ActiniaTestCase):
         msg = "Default value exist for this installation."
 
         resp = self.app.get(
-            URL_PREFIX + "/actinia_modules/use_env_value",
+            f"{URL_PREFIX}/actinia_modules/use_env_value",
             headers=self.user_auth_header,
         )
         assert isinstance(resp, Response)
-        assert resp.status_code == respStatusCode
+        assert (
+            resp.status_code == respStatusCode
+        ), f"Status code is {resp.status_code} insted of {respStatusCode}"
         params = {
             p["name"]: [p["optional"], p["description"]]
             for p in resp.json["parameters"]
         }
-        assert "env_raster" in params
-        assert params["env_raster"][0] is True
-        assert msg in params["env_raster"][1]
+        assert "env_raster" in params, "'env_raster' not in params"
+        assert params["env_raster"][
+            0
+        ], f"{params['env_raster'][0]} is not True"
+
+        assert msg in params["env_raster"][1], "'msg' not in env_raster"
 
     def test_env_values_processing(self):
         """Test usage of envrionment values in processing procedure"""
 
         respStatusCode = 200
-        json_path = "tests/resources/processing/" "env_var.json"
-        url_path = "/locations/nc_spm_08/processing_export"
+        json_path = "tests/resources/processing/env_var.json"
+        url_path = f"/{self.project_url_part}/nc_spm_08/processing_export"
 
         with open(json_path) as file:
             pc_template = json.load(file)
@@ -77,9 +82,11 @@ class ActiniaTestEnvValues(ActiniaTestCase):
             content_type="application/json",
         )
 
-        assert isinstance(resp, Response)
-        assert resp.status_code == respStatusCode
-        assert hasattr(resp, "json")
+        assert isinstance(resp, Response), "'resp' is not of class Response"
+        assert (
+            resp.status_code == respStatusCode
+        ), f"Status code is {resp.status_code} insted of {respStatusCode}"
+        assert hasattr(resp, "json"), "'resp' has no attribute 'json'"
 
         check_started_process(self, resp)
 
@@ -110,8 +117,8 @@ class ActiniaTestEnvValues(ActiniaTestCase):
         """
 
         respStatusCode = 200
-        json_path = "tests/resources/processing/" "env_var_overwrite.json"
-        url_path = "/locations/nc_spm_08/processing_export"
+        json_path = "tests/resources/processing/env_var_overwrite.json"
+        url_path = f"/{self.project_url_part}/nc_spm_08/processing_export"
 
         with open(json_path) as file:
             pc_template = json.load(file)

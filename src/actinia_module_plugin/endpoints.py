@@ -19,8 +19,8 @@ limitations under the License.
 Add endpoints to flask app with endpoint definitions and routes
 """
 
-__author__ = "Carmen Tawalika"
-__copyright__ = "2018-2021 mundialis GmbH & Co. KG"
+__author__ = "Carmen Tawalika, Anika Weinmann"
+__copyright__ = "2018-2024 mundialis GmbH & Co. KG"
 __license__ = "Apache-2.0"
 
 
@@ -44,6 +44,36 @@ from actinia_module_plugin.api.processing import (
 
 from actinia_module_plugin.api.actinia_templates import ActiniaTemplate
 from actinia_module_plugin.api.actinia_templates import ActiniaTemplateId
+
+from actinia_core.endpoints import get_endpoint_class_name
+
+
+def create_project_endpoints(apidoc, projects_url_part="projects"):
+    """
+    Function to add resources with "project" inside the endpoint url.
+
+    Args:
+        apidoc (flask_restful_swagger_2.Api): Flask api
+        projects_url_part (str): The name of the projects inside the endpoint
+                                 URL; to add deprecated location endpoints set
+                                 it to "locations"
+    """
+
+    apidoc.add_resource(
+        GdiAsyncEphemeralExportResource,
+        f"/{projects_url_part}/<string:project_name>/processing_export",
+        endpoint=get_endpoint_class_name(
+            GdiAsyncEphemeralExportResource, projects_url_part
+        ),
+    )
+    apidoc.add_resource(
+        GdiAsyncPersistentResource,
+        f"/{projects_url_part}/<string:project_name>/mapsets/"
+        "<string:mapset_name>/processing",
+        endpoint=get_endpoint_class_name(
+            GdiAsyncPersistentResource, projects_url_part
+        ),
+    )
 
 
 def create_endpoints(flask_api):
@@ -76,15 +106,11 @@ def create_endpoints(flask_api):
     apidoc.add_resource(ListVirtualModules, "/modules")
     apidoc.add_resource(DescribeVirtualModule, "/modules/<module>")
 
-    apidoc.add_resource(
-        GdiAsyncEphemeralExportResource,
-        "/locations/<string:location_name>/processing_export",
-    )
+    # add deprecated location endpoints
+    create_project_endpoints(apidoc, projects_url_part="locations")
 
-    apidoc.add_resource(
-        GdiAsyncPersistentResource,
-        "/locations/<string:location_name>/mapsets/<string:mapset_name>/processing",
-    )
+    # add project endpoints
+    create_project_endpoints(apidoc, projects_url_part="projects")
 
     apidoc.add_resource(ActiniaTemplate, "/actinia_templates")
     apidoc.add_resource(ActiniaTemplateId, "/actinia_templates/<template_id>")
