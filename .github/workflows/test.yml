@@ -35,7 +35,7 @@ jobs:
           # pull: true
 
   # Tests for GRASS 8.3
-  tests:
+  tests-G83:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
