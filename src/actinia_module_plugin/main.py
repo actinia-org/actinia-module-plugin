@@ -35,7 +35,7 @@ from actinia_module_plugin.resources.logging import log
 app = Flask(__name__)
 CORS(app)
 
-apidoc = Api(
+apidoc == Api(
     app,
     title="actinia-module-plugin",
     api_spec_url="/latest/api/swagger",
