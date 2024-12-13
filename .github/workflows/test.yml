@@ -15,15 +15,36 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Tests for GRASS 8.4
   tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        # with:
-        #   path: "."
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+      - name: Tests of actinia-module-plugin
+        id: docker_build
+        uses: docker/build-push-action@v6
+        with:
+          push: false
+          tags: actinia-module-plugin-test:alpine
+          context: .
+          file: docker/actinia-module-plugin-test/Dockerfile
+          no-cache: true
+          # pull: true
+
+  # Tests for GRASS 8.3
+  tests-G83:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Replace run integration test command
+        run: |
+          sed -i "s+mundialis/actinia:latest+mundialis/actinia:2.9.2_G83+g" docker/actinia-module-plugin-test/Dockerfile
       - name: Tests of actinia-module-plugin
         id: docker_build
         uses: docker/build-push-action@v6

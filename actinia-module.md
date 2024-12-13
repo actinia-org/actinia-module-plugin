@@ -499,8 +499,8 @@ List / Describe combined
 
 Execute module
 
-* POST /locations/{location_name}/processing_export
-* POST /locations/{location_name}/mapsets/{mapset_name}/processing (TODO)
+* POST /projects/{project_name}/processing_export
+* POST /projects/{project_name}/mapsets/{mapset_name}/processing (TODO)
 
 Full API docs
 
