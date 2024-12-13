@@ -106,11 +106,9 @@ def create_endpoints(flask_api):
     apidoc.add_resource(ListVirtualModules, "/modules")
     apidoc.add_resource(DescribeVirtualModule, "/modules/<module>")
 
-    # add deprecated location endpoints
+    # add deprecated location and project endpoints
+    create_project_endpoints(apidoc)
     create_project_endpoints(apidoc, projects_url_part="locations")
-
-    # add project endpoints
-    create_project_endpoints(apidoc, projects_url_part="projects")
 
     apidoc.add_resource(ActiniaTemplate, "/actinia_templates")
     apidoc.add_resource(ActiniaTemplateId, "/actinia_templates/<template_id>")
