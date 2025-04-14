@@ -182,9 +182,7 @@ class KvdbActiniaTemplateInterface(KvdbBaseInterface):
         )
         lock.acquire()
         # Delete the entry from the actinia_template id database
-        self.kvdb_server.hdel(
-            self.actinia_template_id_db, actinia_template_id
-        )
+        self.kvdb_server.hdel(self.actinia_template_id_db, actinia_template_id)
         # Delete the actual actinia_template entry
         self.kvdb_server.delete(
             self.actinia_template_id_hash_prefix + actinia_template_id
