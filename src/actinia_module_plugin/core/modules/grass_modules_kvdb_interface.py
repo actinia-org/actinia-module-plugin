@@ -16,8 +16,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-GRASS GIS module cache in redis
-Redis interface
+GRASS GIS module cache in kvdb
+Kvdb interface
 """
 
 __license__ = "Apache-2.0"
@@ -28,12 +28,12 @@ __maintainer__ = "Carmen Tawalika"
 
 import pickle
 
-from actinia_core.core.common.redis_base import RedisBaseInterface
+from actinia_core.core.common.kvdb_base import KvdbBaseInterface
 
 
-class RedisActiniaGrassModuleInterface(RedisBaseInterface):
+class KvdbActiniaGrassModuleInterface(KvdbBaseInterface):
     """
-    The Redis GRASS GIS module database interface
+    The Kvdb GRASS GIS module database interface
 
     A single GRASS GIS module is stored as Hash with:
         - GRASS GIS module name that must be unique
@@ -47,7 +47,7 @@ class RedisActiniaGrassModuleInterface(RedisBaseInterface):
     grass_module_id_db = "GRASS-MODULE-ID-DATABASE"
 
     def __init__(self):
-        RedisBaseInterface.__init__(self)
+        KvdbBaseInterface.__init__(self)
 
     def create(self, grass_module):
         """
@@ -64,7 +64,7 @@ class RedisActiniaGrassModuleInterface(RedisBaseInterface):
         grass_module_id = grass_module["id"]
 
         keyname = self.grass_module_id_hash_prefix + grass_module_id
-        exists = self.redis_server.exists(keyname)
+        exists = self.kvdb_server.exists(keyname)
         if exists == 1 or exists is True:
             return False
 
@@ -74,14 +74,14 @@ class RedisActiniaGrassModuleInterface(RedisBaseInterface):
             "grass_module": grass_module_bytes,
         }
 
-        lock = self.redis_server.lock(name="add_grass_module_lock", timeout=1)
+        lock = self.kvdb_server.lock(name="add_grass_module_lock", timeout=1)
         lock.acquire()
         # First add the grass_module-id to the grass_module id database
-        self.redis_server.hset(
+        self.kvdb_server.hset(
             self.grass_module_id_db, grass_module_id, grass_module_id
         )
 
-        self.redis_server.hset(
+        self.kvdb_server.hset(
             self.grass_module_id_hash_prefix + grass_module_id, mapping=mapping
         )
         lock.release()
@@ -104,7 +104,7 @@ class RedisActiniaGrassModuleInterface(RedisBaseInterface):
 
         try:
             grass_module = pickle.loads(
-                self.redis_server.hget(
+                self.kvdb_server.hget(
                     self.grass_module_id_hash_prefix + grass_module_id,
                     "grass_module",
                 )
@@ -131,7 +131,7 @@ class RedisActiniaGrassModuleInterface(RedisBaseInterface):
 
         """
         keyname = self.grass_module_id_hash_prefix + grass_module_id
-        exists = self.redis_server.exists(keyname)
+        exists = self.kvdb_server.exists(keyname)
         if exists == 0 or exists is False:
             return False
 
@@ -141,12 +141,12 @@ class RedisActiniaGrassModuleInterface(RedisBaseInterface):
             "grass_module": grass_module_bytes,
         }
 
-        lock = self.redis_server.lock(
+        lock = self.kvdb_server.lock(
             name="update_grass_module_lock", timeout=1
         )
         lock.acquire()
 
-        self.redis_server.hset(
+        self.kvdb_server.hset(
             self.grass_module_id_hash_prefix + grass_module_id, mapping=mapping
         )
 
@@ -169,14 +169,14 @@ class RedisActiniaGrassModuleInterface(RedisBaseInterface):
     #     if exists == 0 or exists is False:
     #         return False
 
-    #     lock = self.redis_server.lock(
+    #     lock = self.kvdb_server.lock(
     #         name="delete_grass_module_lock", timeout=1)
     #     lock.acquire()
     #     # Delete the entry from the grass_module id database
-    #     self.redis_server.hdel(self.grass_module_id_db,
+    #     self.kvdb_server.hdel(self.grass_module_id_db,
     #                            grass_module_id)
     #     # Delete the actual grass_module entry
-    #     self.redis_server.delete(
+    #     self.kvdb_server.delete(
     #         self.grass_module_id_hash_prefix + grass_module_id)
     #     lock.release()
 
@@ -193,7 +193,7 @@ class RedisActiniaGrassModuleInterface(RedisBaseInterface):
     #         A list of all grass_module ids in the database
     #     """
     #     values = []
-    #     list = self.redis_server.hkeys(self.grass_module_id_db)
+    #     list = self.kvdb_server.hkeys(self.grass_module_id_db)
     #     for entry in list:
     #         entry = entry.decode()
     #         values.append(entry)
@@ -211,10 +211,10 @@ class RedisActiniaGrassModuleInterface(RedisBaseInterface):
             bool:
             True is grass_module exists, False otherwise
         """
-        return self.redis_server.exists(
+        return self.kvdb_server.exists(
             self.grass_module_id_hash_prefix + grass_module_id
         )
 
 
-# Create the Redis interface instance
-redis_grass_module_interface = RedisActiniaGrassModuleInterface()
+# Create the Kvdb interface instance
+kvdb_grass_module_interface = KvdbActiniaGrassModuleInterface()

@@ -56,7 +56,7 @@ import pwgen
 from werkzeug.datastructures import Headers
 
 from actinia_core.endpoints import create_endpoints
-from actinia_core.core.common.redis_interface import connect, disconnect
+from actinia_core.core.common.kvdb_interface import connect, disconnect
 from actinia_core.core.common.app import flask_app, URL_PREFIX
 from actinia_core.core.common.config import global_config
 from actinia_core.core.common.process_queue import create_process_queue
@@ -100,17 +100,17 @@ class ActiniaTestCase(unittest.TestCase):
         flask_app.testing = True
         self.app = flask_app.test_client()
 
-        # Start and connect the redis interface
-        redis_args = (
-            global_config.REDIS_SERVER_URL,
-            global_config.REDIS_SERVER_PORT,
+        # Start and connect the kvdb interface
+        kvdb_args = (
+            global_config.KVDB_SERVER_URL,
+            global_config.KVDB_SERVER_PORT,
         )
         if (
-            global_config.REDIS_SERVER_PW
-            and global_config.REDIS_SERVER_PW is not None
+            global_config.KVDB_SERVER_PW
+            and global_config.KVDB_SERVER_PW is not None
         ):
-            redis_args = (*redis_args, global_config.REDIS_SERVER_PW)
-        connect(*redis_args)
+            kvdb_args = (*kvdb_args, global_config.KVDB_SERVER_PW)
+        connect(*kvdb_args)
 
         # create test user for roles user (more to come)
         accessible_datasets = {
@@ -167,7 +167,7 @@ class ActiniaTestCase(unittest.TestCase):
 
         self.app_context.pop()
 
-        # remove test user; disconnect redis
+        # remove test user; disconnect kvdb
         for user in self.users_list:
             user.delete()
         disconnect()
@@ -236,7 +236,7 @@ def compare_module_to_file(self, uri_path="modules", module=None):
 
 
 def import_user_template(testCase, name):
-    """Imports user template to redis database (Create)"""
+    """Imports user template to kvdb database (Create)"""
     json_path = "tests/resources/actinia_templates/" + name + ".json"
     with open(json_path) as file:
         pc_template = json.load(file)
@@ -250,7 +250,7 @@ def import_user_template(testCase, name):
 
 
 def delete_user_template(testCase, name):
-    """Deletes user template from redis database (Delete) if exists"""
+    """Deletes user template from kvdb database (Delete) if exists"""
     resp = testCase.app.get(
         URL_PREFIX + "/actinia_templates/" + name,
         headers=testCase.user_auth_header,

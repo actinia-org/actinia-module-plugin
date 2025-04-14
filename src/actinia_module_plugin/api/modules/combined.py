@@ -17,7 +17,7 @@ limitations under the License.
 
 
 actinia-module + grass-module viewer
-Templates can be stored file based and in redis
+Templates can be stored file based and in kvdb
 
 * List all GRASS GIS modules and actinia-modules
 * Describe single module
@@ -39,7 +39,7 @@ from actinia_module_plugin.core.modules.actinia_global_templates import (
     createProcessChainTemplateListFromFileSystem,
 )
 from actinia_module_plugin.core.modules.actinia_user_templates import (
-    createProcessChainTemplateListFromRedis,
+    createProcessChainTemplateListFromKvdb,
 )
 from actinia_module_plugin.core.modules.actinia_common import (
     createActiniaModule,
@@ -75,8 +75,8 @@ class ListVirtualModules(ResourceBase):
                 final_grass_list = createFullModuleList(self, final_grass_list)
 
         pc_list_fs = createProcessChainTemplateListFromFileSystem()
-        pc_list_redis = createProcessChainTemplateListFromRedis()
-        module_list = final_grass_list + pc_list_fs + pc_list_redis
+        pc_list_kvdb = createProcessChainTemplateListFromKvdb()
+        module_list = final_grass_list + pc_list_fs + pc_list_kvdb
 
         module_list = filter(module_list)
 

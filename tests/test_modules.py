@@ -146,7 +146,7 @@ class VirtualModulesTest(ActiniaTestCase):
         assert resp.status_code == respStatusCode
         assert hasattr(resp, "json")
         # WARNING: this depends on existing GRASS GIS modules and possible
-        # installed GRASS GIS Addons. If redis db is empty, it should include
+        # installed GRASS GIS Addons. If kvdb db is empty, it should include
         # all pc_templates from templates/pc_templates including subdirs and
         # importer and exporter.
         num_of_actinia_modules = len(

@@ -35,11 +35,11 @@ from actinia_module_plugin.core.modules.processor import run_process_chain
 from actinia_module_plugin.core.modules.parser import ParseInterfaceDescription
 from actinia_module_plugin.model.modules import Module
 from actinia_module_plugin.resources.logging import log
-from actinia_module_plugin.core.modules.grass_modules_redis_interface import (
-    redis_grass_module_interface,
+from actinia_module_plugin.core.modules.grass_modules_kvdb_interface import (
+    kvdb_grass_module_interface,
 )
-from actinia_module_plugin.core.modules.accessible_modules_redis_interface import (
-    getAccessibleModuleListRedis,
+from actinia_module_plugin.core.modules.accessible_modules_kvdb_interface import (
+    getAccessibleModuleListKvdb,
 )
 
 
@@ -114,7 +114,7 @@ def createModuleList(self):
 
 
 def createModuleUserList(self):
-    return getAccessibleModuleListRedis(self)
+    return getAccessibleModuleListKvdb(self)
 
 
 def build_and_run_iface_description_pc(self, module_list):
@@ -144,33 +144,33 @@ def build_and_run_iface_description_pc(self, module_list):
 
 
 def connect():
-    """This method initializes the connection with redis."""
+    """This method initializes the connection with kvdb."""
     conf = Configuration()
     try:
         conf.read()
     except Exception:
         pass
 
-    server = conf.REDIS_SERVER_URL
-    port = conf.REDIS_SERVER_PORT
-    if conf.REDIS_SERVER_PW:
-        redis_password = conf.REDIS_SERVER_PW
+    server = conf.KVDB_SERVER_URL
+    port = conf.KVDB_SERVER_PORT
+    if conf.KVDB_SERVER_PW:
+        kvdb_password = conf.KVDB_SERVER_PW
     else:
-        redis_password = None
+        kvdb_password = None
 
-    redis_grass_module_interface.connect(
-        host=server, port=port, password=redis_password
+    kvdb_grass_module_interface.connect(
+        host=server, port=port, password=kvdb_password
     )
 
-    return redis_grass_module_interface
+    return kvdb_grass_module_interface
 
 
 def cacheGrassModule(grass_module):
     """
     Insert grass_module into database
     """
-    redis_grass_module_interface = connect()
-    cached_module = redis_grass_module_interface.create(grass_module)
+    kvdb_grass_module_interface = connect()
+    cached_module = kvdb_grass_module_interface.create(grass_module)
 
     return cached_module
 
@@ -186,9 +186,9 @@ def createGrassModule(self, module):
     # This is currently the only mechanism to update a cached
     # module via API call.
     # If not, then cache it
-    redis_grass_module_interface = connect()
-    if redis_grass_module_interface.exists(module):
-        redis_grass_module_interface.update(module, grass_module)
+    kvdb_grass_module_interface = connect()
+    if kvdb_grass_module_interface.exists(module):
+        kvdb_grass_module_interface.update(module, grass_module)
     else:
         cacheGrassModule(grass_module)
 
@@ -201,8 +201,8 @@ def createFullModuleList(self, module_list):
 
     # Check if modules are already cached, then use them
     for module in module_list:
-        redis_grass_module_interface = connect()
-        grass_module = redis_grass_module_interface.read(module["id"])
+        kvdb_grass_module_interface = connect()
+        grass_module = kvdb_grass_module_interface.read(module["id"])
         if grass_module:
             detailed_module_list.append(grass_module)
         else:
