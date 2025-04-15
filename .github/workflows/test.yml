@@ -44,7 +44,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
       - name: Replace run integration test command
         run: |
-          sed -i "s+mundialis/actinia:latest+mundialis/actinia:2.9.2_G83+g" docker/actinia-module-plugin-test/Dockerfile
+          sed -i "s+mundialis/actinia:latest+mundialis/actinia:grass8.3" docker/actinia-module-plugin-test/Dockerfile
       - name: Tests of actinia-module-plugin
         id: docker_build
         uses: docker/build-push-action@v6
