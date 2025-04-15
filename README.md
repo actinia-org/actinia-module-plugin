@@ -29,7 +29,7 @@ in any module, import `from actinia_module_plugin.resources.logging import log` 
 
 
 ### Running tests
-You can run the tests in the actinia-modules-plugin-test docker. For that you can comment the execution of the test in the docker/actinia-modules-plugin-test/Dockerfile `RUN ./tests_with_redis.sh` and run the following commands:
+You can run the tests in the actinia-modules-plugin-test docker. For that you can comment the execution of the test in the docker/actinia-modules-plugin-test/Dockerfile `RUN ./tests_with_kvdb.sh` and run the following commands:
 ```bash
 docker build -f docker/actinia-module-plugin-test/Dockerfile -t actinia-module-plugin-test .
 
@@ -39,5 +39,5 @@ docker run -it actinia-module-plugin-test -i
 cd /src/actinia-module-plugin/
 
 # run all tests
-./tests_with_redis.sh
+./tests_with_kvdb.sh
 ```

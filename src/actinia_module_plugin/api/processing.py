@@ -53,7 +53,7 @@ import pickle
 
 from flask import jsonify, make_response
 from flask_restful_swagger_2 import swagger
-from actinia_core.core.common.redis_interface import enqueue_job
+from actinia_core.core.common.kvdb_interface import enqueue_job
 from actinia_core.models.response_models import create_response_from_model
 from actinia_core.processing.common.ephemeral_processing_with_export import (
     start_job as start_job_ephemeral_processing_with_export,
@@ -73,7 +73,7 @@ from actinia_module_plugin.core.modules.actinia_global_templates import (
     createProcessChainTemplateListFromFileSystem,
 )
 from actinia_module_plugin.core.modules.actinia_user_templates import (
-    createProcessChainTemplateListFromRedis,
+    createProcessChainTemplateListFromKvdb,
 )
 from actinia_module_plugin.core.modules.grass import createModuleList
 from actinia_module_plugin.core.processing import fillTemplateFromProcessChain
@@ -105,7 +105,7 @@ def log_error_to_resource_logger(self, msg, rdc):
         resource_id=self.resource_id,
         iteration=1,
         document=data,
-        expiration=rdc.config.REDIS_RESOURCE_EXPIRE_TIME,
+        expiration=rdc.config.KVDB_RESOURCE_EXPIRE_TIME,
     )
 
 
@@ -167,7 +167,7 @@ def preprocess_build_pc_and_enqueue(self, preprocess_kwargs, start_job):
     # get grass and actinia module lists
     module_list = createModuleList(self)
     pc_global_list = createProcessChainTemplateListFromFileSystem()
-    pc_user_list = createProcessChainTemplateListFromRedis()
+    pc_user_list = createProcessChainTemplateListFromKvdb()
     grass_module_list = []
     actinia_module_list = []
 

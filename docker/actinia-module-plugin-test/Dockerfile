@@ -12,7 +12,7 @@ ENV TEMPLATE_VALUE_ENV_RASTER=elevation
 ENV TEMPLATE_VALUE_ENV_TYPE=raster
 
 # install things only for tests
-RUN apk add --no-cache redis
+RUN apk add --no-cache valkey valkey-cli
 RUN pip install --upgrade setuptools && pip install pytest pytest-cov pwgen
 
 ENTRYPOINT ["/bin/sh"]
@@ -35,7 +35,7 @@ COPY docker/actinia-module-plugin-test/actinia-module-plugin-test.cfg /etc/defau
 COPY docker/actinia-module-plugin-test/actinia-module-plugin-test.cfg /etc/default/actinia-module-plugin-test
 COPY . /src/actinia-module-plugin/
 
-RUN chmod a+x tests_with_redis.sh
+RUN chmod a+x tests_with_kvdb.sh
 RUN pip install .
 
-RUN ./tests_with_redis.sh
+RUN ./tests_with_kvdb.sh

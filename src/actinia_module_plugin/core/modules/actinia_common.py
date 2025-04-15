@@ -17,7 +17,7 @@ limitations under the License.
 
 
 actinia-module viewer
-Common module for file based and redis templates
+Common module for file based and kvdb templates
 """
 
 __license__ = "Apache-2.0"
@@ -207,7 +207,7 @@ class PlaceholderCollector(object):
         pc_item = {
             item_key: {"module": vp.module, "interface-description": True}
         }
-        # TODO make use of module in redis cache if exists
+        # TODO make use of module in kvdb cache if exists
         response = run_process_chain(self.resourceBaseSelf, pc_item)
         xml_strings = response["process_log"]
         self.count = self.count + 1

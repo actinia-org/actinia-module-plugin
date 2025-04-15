@@ -101,7 +101,7 @@ def fill_env_values(filled_params, undef):
 def fillTemplateFromProcessChain(module):
     """
     This method receives a process chain for an actinia module and loads
-    the according process chain template from redis or filesystem. The
+    the according process chain template from kvdb or filesystem. The
     received values will be replaced to be passed to actinia. In case the
     template has more placeholder values than it receives, the missing
     attribute is returned as string.

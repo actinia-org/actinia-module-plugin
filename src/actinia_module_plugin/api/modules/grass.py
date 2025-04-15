@@ -39,8 +39,8 @@ from actinia_module_plugin.core.modules.grass import createModuleUserList
 from actinia_module_plugin.core.modules.grass import createGrassModule
 from actinia_module_plugin.core.modules.grass import createFullModuleList
 from actinia_module_plugin.core.modules.grass import installGrassAddon
-from actinia_module_plugin.core.modules.accessible_modules_redis_interface import (
-    addGrassAddonToModuleListRedis,
+from actinia_module_plugin.core.modules.accessible_modules_kvdb_interface import (
+    addGrassAddonToModuleListKvdb,
 )
 from actinia_module_plugin.model.modules import ModuleList
 from actinia_module_plugin.model.responseModels import (
@@ -104,7 +104,7 @@ class DescribeModule(ResourceBase):
         response = installGrassAddon(self, grassmodule)
 
         if response["status"] == "finished":
-            addGrassAddonToModuleListRedis(self, grassmodule)
+            addGrassAddonToModuleListKvdb(self, grassmodule)
             msg = "Successfully installed GRASS addon " + grassmodule + "."
             status_code = 201
         else:

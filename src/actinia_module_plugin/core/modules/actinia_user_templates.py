@@ -17,7 +17,7 @@ limitations under the License.
 
 
 actinia-module viewer
-Module for templates stored in redis which are user defined
+Module for templates stored in kvdb which are user defined
 """
 
 __license__ = "Apache-2.0"
@@ -31,7 +31,7 @@ from actinia_module_plugin.core.templates.user_templates import readTemplate
 from actinia_module_plugin.model.modules import Module
 
 
-def createProcessChainTemplateListFromRedis():
+def createProcessChainTemplateListFromKvdb():
     """
     list all stored templates and return as actinia-module list
     """

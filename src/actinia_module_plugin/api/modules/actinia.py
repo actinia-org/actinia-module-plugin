@@ -17,7 +17,7 @@ limitations under the License.
 
 
 actinia-module viewer
-Templates can be stored file based and in redis
+Templates can be stored file based and in kvdb
 
 * List all actinia-modules
 * Describe single actinia-module
@@ -40,7 +40,7 @@ from actinia_module_plugin.core.modules.actinia_global_templates import (
     createProcessChainTemplateListFromFileSystem,
 )
 from actinia_module_plugin.core.modules.actinia_user_templates import (
-    createProcessChainTemplateListFromRedis,
+    createProcessChainTemplateListFromKvdb,
 )
 from actinia_module_plugin.core.modules.actinia_common import (
     createActiniaModule,
@@ -59,8 +59,8 @@ class ListProcessChainTemplates(Resource):
         """Get a list of all actinia modules (process chain templates)."""
 
         pc_list_fs = createProcessChainTemplateListFromFileSystem()
-        pc_list_redis = createProcessChainTemplateListFromRedis()
-        pc_list = pc_list_fs + pc_list_redis
+        pc_list_kvdb = createProcessChainTemplateListFromKvdb()
+        pc_list = pc_list_fs + pc_list_kvdb
 
         pc_list = filter(pc_list)
 

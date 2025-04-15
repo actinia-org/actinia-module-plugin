@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-Accessible Modules Redis Interface
+Accessible Modules Kvdb Interface
 """
 
 __license__ = "Apache-2.0"
@@ -24,37 +24,37 @@ __author__ = "Anika Weinmann, Carmen Tawalika, Guido Riembauer, Julia Haas"
 __copyright__ = "Copyright 2021 - 2022, mundialis GmbH & Co. KG"
 __maintainer__ = "mundialis GmbH & Co. KG"
 
-from actinia_core.core.redis_user import RedisUserInterface
+from actinia_core.core.kvdb_user import KvdbUserInterface
 from actinia_core.core.common.config import Configuration
 
 
-def getAccessibleModuleListRedis(self):
-    redis_interface = RedisUserInterface()
+def getAccessibleModuleListKvdb(self):
+    kvdb_interface = KvdbUserInterface()
     conf = Configuration()
     try:
         conf.read()
     except Exception:
         pass
 
-    server = conf.REDIS_SERVER_URL
-    port = conf.REDIS_SERVER_PORT
-    if conf.REDIS_SERVER_PW:
-        redis_password = conf.REDIS_SERVER_PW
+    server = conf.KVDB_SERVER_URL
+    port = conf.KVDB_SERVER_PORT
+    if conf.KVDB_SERVER_PW:
+        kvdb_password = conf.KVDB_SERVER_PW
     else:
-        redis_password = None
-    redis_interface.connect(host=server, port=port, password=redis_password)
+        kvdb_password = None
+    kvdb_interface.connect(host=server, port=port, password=kvdb_password)
     user = self.user.get_id()
-    access_modules = redis_interface.get_credentials(user)["permissions"][
+    access_modules = kvdb_interface.get_credentials(user)["permissions"][
         "accessible_modules"
     ]
-    redis_interface.disconnect()
+    kvdb_interface.disconnect()
     return access_modules
 
 
-def addGrassAddonToModuleListRedis(self, grassmodule):
+def addGrassAddonToModuleListKvdb(self, grassmodule):
     """
     This function adds installed GRASS addon to the user's module list
-    in redis.
+    in kvdb.
     """
     self.user.add_accessible_modules(
         [

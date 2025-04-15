@@ -30,6 +30,8 @@ from flask import Response
 
 from actinia_api import URL_PREFIX
 
+from actinia_core.version import init_versions, G_VERSION
+
 from testsuite import ActiniaTestCase, compare_module_to_file
 
 
@@ -37,6 +39,12 @@ someGrassModules = ["r.slope.aspect", "importer", "exporter"]
 
 
 class GmodulesTest(ActiniaTestCase):
+
+    # For expected test results, which are dependent on GRASS GIS version
+    init_versions()
+    grass_version_s = G_VERSION["version"]
+    grass_version = [int(item) for item in grass_version_s.split(".")[:2]]
+
     # @unittest.skip("demonstrating skipping")
     def test_list_modules_get_user(self):
         """Test HTTP GET /grass_modules for user"""
@@ -139,7 +147,10 @@ class GmodulesTest(ActiniaTestCase):
         assert hasattr(resp, "json")
         # WARNING: this depends on existing GRASS GIS modules and possible
         # installed GRASS GIS Addons
-        assert len(resp.json["processes"]) == 2
+        if self.grass_version < [8, 5]:
+            assert len(resp.json["processes"]) == 2
+        else:
+            assert len(resp.json["processes"]) == 3
         assert resp.json["processes"][0]["categories"] != 0
         assert hasattr(resp.json["processes"][0], "parameters") is False
 
