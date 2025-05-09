@@ -137,6 +137,11 @@ class Module(Schema):
             'category "grass-module" and the actinia core '
             'modules are identified with "actinia-module"',
         },
+        "projects": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": "A comma separated list of GRASS GIS projects for which the process is suitable.",
+        },
         "parameters": ModuleParameter,
         "returns": ModuleReturns,
         "import_descr": ModuleImportDescription,

@@ -35,6 +35,9 @@ from actinia_module_plugin.api.modules.actinia import ListProcessChainTemplates
 from actinia_module_plugin.api.modules.actinia import (
     DescribeProcessChainTemplate,
 )
+from actinia_module_plugin.api.modules.actinia import (
+    ProcessActiniaModule
+)
 from actinia_module_plugin.api.modules.combined import ListVirtualModules
 from actinia_module_plugin.api.modules.combined import DescribeVirtualModule
 from actinia_module_plugin.api.processing import (
@@ -101,6 +104,9 @@ def create_endpoints(flask_api):
     apidoc.add_resource(ListProcessChainTemplates, "/actinia_modules")
     apidoc.add_resource(
         DescribeProcessChainTemplate, "/actinia_modules/<actiniamodule>"
+    )
+    apidoc.add_resource(
+        ProcessActiniaModule, "/actinia_modules/<actiniamodule>/process"
     )
 
     apidoc.add_resource(ListVirtualModules, "/modules")

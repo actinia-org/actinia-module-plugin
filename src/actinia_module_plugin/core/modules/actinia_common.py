@@ -531,10 +531,16 @@ def createActiniaModule(resourceBaseSelf, processchain):
     else:
         categories.append("global-template")
 
+    projects = []
+    if pc_template["project"]:
+        for project in pc_template["project"].split(","):
+            projects.append(project)
+
     virtual_module = Module(
         id=pc_template["id"],
         description=pc_template["description"],
         categories=categories,
+        projects=projects,
         parameters=pt.vm_params,
         returns=pt.vm_returns,
     )
