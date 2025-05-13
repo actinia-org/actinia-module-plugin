@@ -59,18 +59,19 @@ class Configfile:
         named DEFAULT_CONFIG_PATH/**/*.ini exist.
         On first import of the module it is initialized.
         """
+        from actinia_module_plugin.resources.logging import log
 
         config = configparser.ConfigParser()
         config.read(CONFIG_FILES)
 
         if len(config) <= 1:
-            print("Could not find any config file, using default values.")
+            log.info("Could not find any config file, using default values.")
             return
-        print("Loading config files: " + str(CONFIG_FILES) + " ...")
+        log.info("Loading config files: " + str(CONFIG_FILES) + " ...")
 
         with open(GENERATED_CONFIG, "w") as configfile:
             config.write(configfile)
-        print("Configuration written to " + GENERATED_CONFIG)
+        log.debug("Configuration written to " + GENERATED_CONFIG)
 
         # LOGGING
         if config.has_section("LOGCONFIG"):
