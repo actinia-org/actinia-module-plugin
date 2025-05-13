@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Copyright (c) 2018-2021 mundialis GmbH & Co. KG
+Copyright (c) 2018-2025 mundialis GmbH & Co. KG
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ Add endpoints to flask app with endpoint definitions and routes
 """
 
 __author__ = "Carmen Tawalika, Anika Weinmann"
-__copyright__ = "2018-2024 mundialis GmbH & Co. KG"
+__copyright__ = "2018-2025 mundialis GmbH & Co. KG"
 __license__ = "Apache-2.0"
 
 

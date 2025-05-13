@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Copyright (c) 2019-present mundialis GmbH & Co. KG
+Copyright (c) 2019-2025 mundialis GmbH & Co. KG
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ Model classes for grassmodule and process chain template object
 """
 
 __author__ = "Anika Bettge, Carmen Tawalika"
-__copyright__ = "2019-present mundialis GmbH & Co. KG"
+__copyright__ = "2019-2025 mundialis GmbH & Co. KG"
 __license__ = "Apache-2.0"
 
 
