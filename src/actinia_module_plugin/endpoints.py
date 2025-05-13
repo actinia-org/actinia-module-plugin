@@ -36,7 +36,7 @@ from actinia_module_plugin.api.modules.actinia import (
     DescribeProcessChainTemplate,
 )
 from actinia_module_plugin.api.modules.actinia_process import (
-    ProcessActiniaModule
+    ProcessActiniaModule,
 )
 from actinia_module_plugin.api.modules.combined import ListVirtualModules
 from actinia_module_plugin.api.modules.combined import DescribeVirtualModule

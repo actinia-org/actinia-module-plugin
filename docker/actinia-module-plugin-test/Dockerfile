@@ -13,7 +13,7 @@ ENV TEMPLATE_VALUE_ENV_TYPE=raster
 
 # install things only for tests
 RUN apk add --no-cache valkey valkey-cli
-RUN pip install --upgrade setuptools && pip install pytest pytest-cov pwgen
+RUN pip install --no-cache-dir --upgrade setuptools && pip install pytest pytest-cov pwgen
 
 ENTRYPOINT ["/bin/sh"]
 CMD ["/src/start.sh"]

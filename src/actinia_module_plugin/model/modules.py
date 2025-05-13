@@ -140,7 +140,8 @@ class Module(Schema):
         "projects": {
             "type": "array",
             "items": {"type": "string"},
-            "description": "A comma separated list of GRASS GIS projects for which the process is suitable.",
+            "description": "A comma separated list of GRASS GIS projects for "
+            "which the process is suitable.",
         },
         "parameters": ModuleParameter,
         "returns": ModuleReturns,

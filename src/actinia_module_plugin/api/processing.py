@@ -69,9 +69,7 @@ from actinia_api.swagger2.actinia_core.apidocs.persistent_processing import (
     post_doc as SCHEMA_DOC_PERSISTENT_PROCESSING,
 )
 
-from actinia_module_plugin.core.common import (
-    fillTemplateFromProcessChain
-)
+from actinia_module_plugin.core.common import fillTemplateFromProcessChain
 from actinia_module_plugin.core.modules.actinia_global_templates import (
     createProcessChainTemplateListFromFileSystem,
 )
@@ -80,7 +78,7 @@ from actinia_module_plugin.core.modules.actinia_user_templates import (
 )
 from actinia_module_plugin.core.modules.grass import createModuleList
 from actinia_module_plugin.core.processing import (
-    build_kwargs_for_template_rendering
+    build_kwargs_for_template_rendering,
 )
 
 

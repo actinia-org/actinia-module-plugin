@@ -54,7 +54,8 @@ from actinia_module_plugin.core.template_parameters import (
 
 
 def preprocess_load_tpl_and_enqueue(
-        self, preprocess_kwargs, start_job, actiniamodule):
+    self, preprocess_kwargs, start_job, actiniamodule
+):
     """
     This method looks up the stored process chain template.
     Template values are filled according to input values.
@@ -67,16 +68,15 @@ def preprocess_load_tpl_and_enqueue(
     if rdc:
         rdc.set_storage_model_to_file()
 
-        tpl_source = (
-            get_user_template_source(actiniamodule) or
-            get_global_template_source(actiniamodule)
-        )
+        tpl_source = get_user_template_source(
+            actiniamodule
+        ) or get_global_template_source(actiniamodule)
         undef = get_template_undef(tpl_source)
 
         # TODO parse request data when schema is defined
         # Might be close to OGC API processes
         kwargs = {}
-        kwargs[list(undef)[0]] = rdc.request_data
+        kwargs[next(iter(undef))] = rdc.request_data
 
         new_pc = fillTemplateFromProcessChain(actiniamodule, kwargs)
         rdc.request_data = new_pc
@@ -108,7 +108,8 @@ class ProcessActiniaModule(ResourceBase):
         start_job = start_job_ephemeral_processing_with_export
 
         preprocess_load_tpl_and_enqueue(
-            self, preprocess_kwargs, start_job, actiniamodule)
+            self, preprocess_kwargs, start_job, actiniamodule
+        )
 
         html_code, response_model = pickle.loads(self.response_data)
         return make_response(jsonify(response_model), html_code)
