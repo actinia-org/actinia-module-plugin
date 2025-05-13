@@ -71,7 +71,7 @@ class ActiniaModulesProcessingTest(ActiniaTestCase):
         import_user_template(self, "user_point_in_polygon")
 
         respStatusCode = 200
-        json_path = "tests/resources/processing/user_point_in_polygon.json"
+        json_path = "tests/resources/processing/user_point_in_polygon_actinia_module_process.json"
         url_path = "/actinia_modules/user_point_in_polygon/process"
 
         with open(json_path) as file:
