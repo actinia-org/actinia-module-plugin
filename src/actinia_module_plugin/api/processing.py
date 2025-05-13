@@ -21,7 +21,7 @@ Code based on actinia_core: github.com/mundialis/actinia_core
 # performance processing of geographical data that uses GRASS GIS for
 # computational tasks. For details, see https://actinia.mundialis.de/
 #
-# Copyright (c) 2019-present Sören Gebbert and mundialis GmbH & Co. KG
+# Copyright (c) 2019-2025 Sören Gebbert and mundialis GmbH & Co. KG
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@ AsyncEphemeralExportResource to include process chain templates
 
 __license__ = "Apache-2.0"
 __author__ = "Anika Bettge, Sören Gebbert"
-__copyright__ = "Copyright 2016-2019, Sören Gebbert, mundialis GmbH & Co. KG"
+__copyright__ = "Copyright 2016-2025, Sören Gebbert, mundialis GmbH & Co. KG"
 __maintainer__ = "mundialis"
 
 
@@ -69,6 +69,9 @@ from actinia_api.swagger2.actinia_core.apidocs.persistent_processing import (
     post_doc as SCHEMA_DOC_PERSISTENT_PROCESSING,
 )
 
+from actinia_module_plugin.core.common import (
+    fillTemplateFromProcessChain
+)
 from actinia_module_plugin.core.modules.actinia_global_templates import (
     createProcessChainTemplateListFromFileSystem,
 )
@@ -76,7 +79,9 @@ from actinia_module_plugin.core.modules.actinia_user_templates import (
     createProcessChainTemplateListFromKvdb,
 )
 from actinia_module_plugin.core.modules.grass import createModuleList
-from actinia_module_plugin.core.processing import fillTemplateFromProcessChain
+from actinia_module_plugin.core.processing import (
+    build_kwargs_for_template_rendering
+)
 
 
 def log_error_to_resource_logger(self, msg, rdc):
@@ -121,7 +126,11 @@ def set_actinia_modules(
             elif name in grass_module_list:
                 new_pc.append(module)
             elif name in actinia_module_list:
-                module_pc = fillTemplateFromProcessChain(module)
+                kwargs = build_kwargs_for_template_rendering(module)
+                module_pc = fillTemplateFromProcessChain(
+                    module["module"],
+                    kwargs,
+                )["list"]
                 if isinstance(module_pc, str):
                     # then return value is a missing attribute
                     msg = (

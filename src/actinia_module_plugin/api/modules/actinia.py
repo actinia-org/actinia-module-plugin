@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Copyright (c) 2018-2021 mundialis GmbH & Co. KG
+Copyright (c) 2018-2025 mundialis GmbH & Co. KG
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ Templates can be stored file based and in kvdb
 
 __license__ = "Apache-2.0"
 __author__ = "Carmen Tawalika"
-__copyright__ = "Copyright 2019, mundialis"
+__copyright__ = "Copyright 2019-2025, mundialis"
 __maintainer__ = "Carmen Tawalika"
 
 
@@ -41,6 +41,9 @@ from actinia_core.processing.common.ephemeral_processing_with_export import (
 from actinia_core.rest.base.resource_base import ResourceBase
 
 from actinia_module_plugin.apidocs import modules
+from actinia_module_plugin.core.common import (
+    fillTemplateFromProcessChain,
+)
 from actinia_module_plugin.core.filter import filter
 from actinia_module_plugin.core.modules.actinia_global_templates import (
     createProcessChainTemplateListFromFileSystem,
@@ -50,6 +53,11 @@ from actinia_module_plugin.core.modules.actinia_user_templates import (
 )
 from actinia_module_plugin.core.modules.actinia_common import (
     createActiniaModule,
+    get_user_template_source,
+    get_global_template_source,
+)
+from actinia_module_plugin.core.template_parameters import (
+    get_template_undef,
 )
 from actinia_module_plugin.model.modules import ModuleList
 from actinia_module_plugin.model.responseModels import (
@@ -98,56 +106,6 @@ class DescribeProcessChainTemplate(ResourceBase):
             return make_response(res, 404)
 
 
-def fillTemplateFromProcessChain(actiniamodule, kwargs):
-
-    pc = actiniamodule
-    tpl_source = ""
-
-    # TODO: adjust and reuse
-    from actinia_module_plugin.core.processing import (
-        fill_env_values,
-        check_for_errors,
-    )
-    ### below imports for core.processing.fillTemplateFromProcessChain
-    import json
-    from actinia_module_plugin.core.common import (
-        get_user_template,
-        get_user_template_source,
-        get_global_template,
-        get_global_template_source,
-    )
-    from actinia_module_plugin.core.template_parameters import (
-        get_not_needed_params,
-        get_template_undef,
-    )
-    from actinia_module_plugin.core.modules.actinia_common import ENV
-    from actinia_module_plugin.resources.logging import log
-    from actinia_module_plugin.resources.templating import pcTplEnv
-
-    ### below all same inside core.processing.fillTemplateFromProcessChain
-    # first see if a user template exists
-    tpl = get_user_template(pc)
-    tpl_source = get_user_template_source(pc)
-    if tpl is False:
-        # then fall back to global filesystem template
-        tpl = get_global_template(pc)
-        tpl_source = get_global_template_source(pc)
-
-    undef = get_template_undef(tpl_source)
-    parsed_content = pcTplEnv.parse(tpl_source)
-
-    fill_env_values(kwargs, undef)
-
-    errors = check_for_errors(undef, parsed_content, tpl_source, kwargs)
-    if errors is not None:
-        return errors
-
-    pc_template = json.loads(tpl.render(**kwargs).replace("\n", ""))
-    ### end all same
-
-    return pc_template["template"]
-
-
 def preprocess_load_tpl_and_enqueue(
         self, preprocess_kwargs, start_job, actiniamodule):
     """
@@ -162,9 +120,16 @@ def preprocess_load_tpl_and_enqueue(
     if rdc:
         rdc.set_storage_model_to_file()
 
-        # TODO: parse kwargs key from undef above ?
+        tpl_source = (
+            get_user_template_source(actiniamodule) or
+            get_global_template_source(actiniamodule)
+        )
+        undef = get_template_undef(tpl_source)
+
+        # TODO parse request data when schema is defined
+        # Might be close to OGC API processes
         kwargs = {}
-        kwargs["geojson"] = rdc.request_data
+        kwargs[list(undef)[0]] = rdc.request_data
 
         new_pc = fillTemplateFromProcessChain(actiniamodule, kwargs)
         rdc.request_data = new_pc

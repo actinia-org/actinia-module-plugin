@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Copyright (c) 2018-2021 mundialis GmbH & Co. KG
+Copyright (c) 2018-2025 mundialis GmbH & Co. KG
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -22,19 +22,19 @@ Common module for file based and kvdb templates
 
 __license__ = "Apache-2.0"
 __author__ = "Carmen Tawalika, Anika Weinmann"
-__copyright__ = "Copyright 2019-2023, mundialis"
+__copyright__ = "Copyright 2019-2025, mundialis"
 __maintainer__ = "Carmen Tawalika"
 
 
 import json
 import re
-from os import environ as env
 
 # from actinia_module_plugin.core.common import filter_func
 from actinia_module_plugin.core.modules.actinia_global_templates import (
     createProcessChainTemplateListFromFileSystem,
 )
 from actinia_module_plugin.core.common import (
+    ENV,
     get_user_template,
     get_user_template_source,
     get_global_template,
@@ -47,13 +47,6 @@ from actinia_module_plugin.core.template_parameters import (
 from actinia_module_plugin.core.modules.processor import run_process_chain
 from actinia_module_plugin.core.modules.parser import ParseInterfaceDescription
 from actinia_module_plugin.model.modules import Module
-
-
-ENV = {
-    key.replace("TEMPLATE_VALUE_", ""): val
-    for key, val in env.items()
-    if key.startswith("TEMPLATE_VALUE_")
-}
 
 
 def render_template(pc, return_source=False):
