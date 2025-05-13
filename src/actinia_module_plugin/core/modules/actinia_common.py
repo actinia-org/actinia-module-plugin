@@ -532,7 +532,7 @@ def createActiniaModule(resourceBaseSelf, processchain):
         categories.append("global-template")
 
     projects = []
-    if pc_template["project"]:
+    if "project" in pc_template:
         for project in pc_template["project"].split(","):
             projects.append(project)
 
