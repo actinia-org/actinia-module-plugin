@@ -35,7 +35,7 @@ from actinia_module_plugin.api.modules.actinia import ListProcessChainTemplates
 from actinia_module_plugin.api.modules.actinia import (
     DescribeProcessChainTemplate,
 )
-from actinia_module_plugin.api.modules.actinia import (
+from actinia_module_plugin.api.modules.actinia_process import (
     ProcessActiniaModule
 )
 from actinia_module_plugin.api.modules.combined import ListVirtualModules
