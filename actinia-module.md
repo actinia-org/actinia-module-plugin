@@ -204,12 +204,24 @@ One example response to describe the GRASS GIS module "v.buffer" looks like this
 
 ```
 
-## 2. Process-chain templates
+## 2. Actinia modules (Process-chain templates)
 An example process-chain looks like this:
 
 ```json
 {
     "list": [
+        {
+            "id": "copy_vector_data",
+            "module": "g.copy",
+            "comment": "Copies a map",
+            "inputs": [
+                {
+                    "comment": "name of map to be copied and name of new copy.",
+                    "param": "vector",
+                    "value": "polygons_old,polygons"
+                }
+              ]
+        },
         {
             "id": "add_column_for_area",
             "module": "v.db.addcolumn",
@@ -239,10 +251,6 @@ An example process-chain looks like this:
                 {
                     "param": "option",
                     "value": "area"
-                },
-                {
-                    "param": "unit",
-                    "value": "h"
                 }
             ]
         },
@@ -279,12 +287,24 @@ Therefore actinia-module-plugin is able to store process-chain templates and the
     "template": {
         "list": [
             {
+                "id": "copy_vector_data",
+                "module": "g.copy",
+                "comment": "Copies a map",
+                "inputs": [
+                    {
+                        "comment": "name of map to be copied and name of new copy.",
+                        "param": "vector",
+                        "value": "{{ name_and_copy }}"
+                    }
+                  ]
+            },
+            {
                 "id": "add_column_for_area",
                 "module": "v.db.addcolumn",
                 "inputs": [
                     {
                         "param": "map",
-                        "value": "{{ name }}"
+                        "value": "{{ copy }}"
                     },
                     {
                         "param": "columns",
@@ -298,7 +318,7 @@ Therefore actinia-module-plugin is able to store process-chain templates and the
                 "inputs": [
                     {
                         "param": "map",
-                        "value": "{{ name }}"
+                        "value": "{{ copy }}"
                     },
                     {
                         "param": "columns",
@@ -306,11 +326,7 @@ Therefore actinia-module-plugin is able to store process-chain templates and the
                     },
                     {
                         "param": "option",
-                        "value": "area"
-                    },
-                    {
-                        "param": "unit",
-                        "value": "h"
+                        "value": "{{ option }}"
                     }
                 ]
             },
@@ -320,7 +336,7 @@ Therefore actinia-module-plugin is able to store process-chain templates and the
                 "inputs": [
                     {
                         "param": "map",
-                        "value": "{{ name }}"
+                        "value": "{{ copy }}"
                     },
                     {
                         "param": "columns",
@@ -335,7 +351,10 @@ Therefore actinia-module-plugin is able to store process-chain templates and the
 
 
 ```
-This way, the user only needs to set values for the defined variables. The user doesn't even need to know the whole template. Actinia-module-plugin will translate it into one actinia-module, exploiting only the values necessary for input:
+This way, the user only needs to set values for the defined variables. The user doesn't even need to know the whole template. Actinia-module-plugin will translate it into one actinia-module, exploiting only the values necessary for input.
+For the user this looks like one module in the process-chain and can use this process-chain to start a process.
+The endpoints to use templating in processing are a bit different to the normal actinia-core processing endpoints:
+`/projects/<project>/processing_export` for ephemeral processing and `/projects/<project>/mapsets/<mapset>/processing` for persisten processing:
 
 ```json
 {
@@ -345,56 +364,24 @@ This way, the user only needs to set values for the defined variables. The user 
                 "module": "vector_area",
                 "inputs": [
                     {
-                        "param": "v.db.addcolumn_map",
-                        "value": "{{ name }}"
+                        "param": "name_and_copy",
+                        "value": "polygons_old,polygons"
                     },
                     {
-                        "param": "v.db.addcolumn_columns",
-                        "value": "{{ columns }}"
+                        "param": "copy",
+                        "value": "polygons"
                     },
                     {
-                        "param": "v.to.db_map",
-                        "value": "{{ name }}"
+                        "param": "column",
+                        "value": "area_h DOUBLE PRECISION"
                     },
                     {
-                        "param": "v.to.db_columns",
-                        "value": "{{ column_name }}"
+                        "param": "column_name",
+                        "value": "area_h"
                     },
                     {
-                        "param": "v.db.select_map",
-                        "value": "{{ name }}"
-                    },
-                    {
-                        "param": "v.db.select_columns",
-                        "value": "{{ column_name }}"
-                    }
-                ]
-            }
-        ],
-        "version": "1"
-    }
-```
-
-For the user this looks like one module in the process-chain. In further development, it will be shrinked even more to not exploit the same variable twice. This might then look like this:
-
-```json
-{
-        "list": [
-            {
-                "id": "vector_area",
-                "module": "vector_area",
-                "inputs": [
-                    {
-                        "param": "v.db.addcolumn_map",
-                        "value": "{{ name }}"
-                    },
-                    {
-                        "param": "v.db.addcolumn_columns",
-                        "value": "{{ columns }}"
-                    },
-                    {
-                        "param": "v.to.db_columns",
-                        "value": "{{ column_name }}"
+                        "param": "option",
+                        "value": "area"
                     }
                 ]
             }
@@ -404,48 +391,122 @@ For the user this looks like one module in the process-chain. In further develop
 
 ```
 
+## 3. Upload own Templates and Template self-description
+There are global and user actinia-modules. Globa actinia-modules need to be available as JSON file inside actinia in a confirgurable directory.
+User templates can be created, read, updated and deleted via HTTP REST endpoints:
 
-## 3. Template self-description
+```bash
+CREATE: HTTP POST my_template.json `/actinia_templates`
+READ:   HTTP GET `/actinia_templates/my_template`
+UPDATE: HTTP PUT `/actinia_templates/my_template`
+DELETE: HTTP DELETE `/actinia_templates/my_template`
+```
 
-Mapping the process-chain template to a self-description will look as follows and the user won't feel the difference between a grass-module and an actinia-module anymore:
+
+Mapping the process-chain template to a self-description will look as follows and the user won't feel the difference between a grass-module and an actinia-module anymore. So requesting `/actinia_modules/vector_area` will return:
 
 ```json
 {
   "categories": [
-    "actinia-module"
+    "actinia-module",
+    "global-template"
   ],
-  "description": "Copies zipcodes_wake and compute the areas in h.",
+  "description": "Copies vector and computes the areas in h.",
   "id": "vector_area",
-  "parameters": {
-    "v.db.addcolumn_columns": {
-      "description": "Name and type of the new column(s) ('name type [,name type, ...]'). Types depend on database backend, but all support VARCHAR(), INT, DOUBLE PRECISION and DATE. Example: 'label varchar(250), value integer'",
-      "required": true,
-      "schema": {
-        "type": "array"
-      }
-    },
-    "v.db.addcolumn_map": {
-      "description": "Name of vector map. Or data source for direct OGR access",
-      "required": true,
+  "parameters": [
+    {
+      "description": "vector map(s) to be copied.  [generated from g.copy_vector] - name of map to be copied and name of new copy.",
+      "name": "name_and_copy",
+      "optional": true,
       "schema": {
         "subtype": "vector",
         "type": "string"
       }
     },
-    "v.to.db_columns": {
-      "description": "Name of attribute column(s) to populate. Name of attribute column(s)",
-      "required": true,
+    {
+      "description": "Name of vector map. Or data source for direct OGR access.  [generated from v.db.addcolumn_map]",
+      "name": "copy",
+      "optional": false,
+      "schema": {
+        "subtype": "vector",
+        "type": "string"
+      }
+    },
+    {
+      "description": "Name and type of the new column(s) ('name type [,name type, ...]'). Types depend on database backend, but all support VARCHAR(), INT, DOUBLE PRECISION and DATE. Example: 'label varchar(250), value integer'.  [generated from v.db.addcolumn_columns]",
+      "name": "column",
+      "optional": false,
+      "schema": {
+        "type": "array"
+      }
+    },
+    {
+      "description": "Value to upload.  [generated from v.to.db_option]",
+      "name": "option",
+      "optional": false,
+      "schema": {
+        "enum": [
+          "cat",
+          "area",
+          "compact",
+          "fd",
+          "perimeter",
+          "length",
+          "count",
+          "coor",
+          "start",
+          "end",
+          "sides",
+          "query",
+          "slope",
+          "sinuous",
+          "azimuth",
+          "bbox"
+        ],
+        "type": "string"
+      }
+    },
+    {
+      "description": "Name of attribute column(s) to populate. Name of attribute column(s).  [generated from v.to.db_columns]",
+      "name": "column_name",
+      "optional": false,
       "schema": {
         "subtype": "dbcolumn",
         "type": "array"
       }
     }
-  }
+  ],
+  "projects": [],
+  "returns": []
 }
 ```
 
+## 4. Processing via actinia_module
 
-## 4. Hints for template creation
+Besides the existing processing endpoints, it is also possible to run ephemeral processing directly at a certain module
+`/actinia_modules/<actiniamodule>/process`, e.g. `/actinia_modules/point_in_polygon/process`.
+
+There are some current limitations:
+- Only ephemeral processing is allowed for now
+- To tell actinia in which project to run the process, it needs to defined in the template, e.g.
+```json
+{
+    "id": "ndvi",
+    "description": "Generate NDVI map",
+    "projects": ["nc_spm_08"],
+    "template": {
+...
+```
+  in the future, multiple projects can be added comma separated to indicate for which project the process chain template can be used. For now the project to run the process in will be read from the template, so only one project should be defined.
+- the schema for the HTTP POST body is not yet defined. It might be close to OGC API Processes. Right now, only a single value can be passed in the HTTP POST body without parameter name. It will then be checked for variable names inside the template and if only one is given, it will be used. If multiple variables are needed, this is not yet implemented as no schema is defined.
+  Because of this limitation, it is only possible to run processes with templates with exactly ONE variable.
+
+When the HTTP POST is send,
+- the template is loaded, the one value from the request body is filled and the process chain is passed to actinia-core for processing.
+- Response is the usual actinia-core response for processes containing resource_id which can be polled.
+
+
+## 5. Hints for template creation
 
 * __It is not allowed to manipulate existing maps__
 This leads to an error for ephemeral and persistent processing. E.g. `v.db.addcolumn` is not working and leads to `"ERROR: Vector map <elev_points> not found in current mapset"`. Therefore copy it first (in the same processchain!) with g.copy. If it is done in a separate process chain and even exists in the user mapset, it is still not working.
@@ -454,7 +515,7 @@ This leads to an error for ephemeral and persistent processing. E.g. `v.db.addco
 On persistent processing, name of map will be first searched in PERSISTENT mapset, then in user mapset. If both exist and user mapset should be used, this can be overwritten by mymap@mymapset.
 
 
-## 5. Conventions for template creation
+## 6. Conventions for template creation
 
 * __Only use placeholder for a whole value of a GRASS GIS attribute.__
 
@@ -477,7 +538,7 @@ TODO discuss
 TODO discuss
 
 
-## 6. Overview of endpoints for module self-description and execution
+## 7. Overview of endpoints for module self-description and execution
 
 List / Describe only GRASS Modules
 
@@ -508,7 +569,7 @@ Full API docs
 
 
 
-## 7. Additional Notes
+## 8. Additional Notes
 
 ### The self-description tries to comply the [openEO API](https://api.openeo.org/#tag/Process-Discovery) where applicable
 At some points, however, we have to divert from their API:

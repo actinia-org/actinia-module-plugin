@@ -1,5 +1,6 @@
 {
     "id": "user_point_in_polygon",
+    "projects": ["nc_spm_08"],
     "description": "Imports point and polygon and checks if point is in polygon.",
     "template": {
         "list": [

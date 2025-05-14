@@ -116,6 +116,8 @@ def createGunicornLogger():
             logging.getLogger(name).handlers = []
 
 
+if not werkzeugLog:
+    createWerkzeugLogger()
+if not gunicornLog:
+    createGunicornLogger()
 createLogger()
-createWerkzeugLogger()
-createGunicornLogger()

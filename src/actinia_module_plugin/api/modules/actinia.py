@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Copyright (c) 2018-2021 mundialis GmbH & Co. KG
+Copyright (c) 2018-2025 mundialis GmbH & Co. KG
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,13 +25,14 @@ Templates can be stored file based and in kvdb
 
 __license__ = "Apache-2.0"
 __author__ = "Carmen Tawalika"
-__copyright__ = "Copyright 2019, mundialis"
+__copyright__ = "Copyright 2019-2025, mundialis"
 __maintainer__ = "Carmen Tawalika"
 
 
 from flask import jsonify, make_response
 from flask_restful_swagger_2 import swagger
 from flask_restful import Resource
+
 from actinia_core.rest.base.resource_base import ResourceBase
 
 from actinia_module_plugin.apidocs import modules

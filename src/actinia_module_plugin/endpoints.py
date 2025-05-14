@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Copyright (c) 2018-2021 mundialis GmbH & Co. KG
+Copyright (c) 2018-2025 mundialis GmbH & Co. KG
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ Add endpoints to flask app with endpoint definitions and routes
 """
 
 __author__ = "Carmen Tawalika, Anika Weinmann"
-__copyright__ = "2018-2024 mundialis GmbH & Co. KG"
+__copyright__ = "2018-2025 mundialis GmbH & Co. KG"
 __license__ = "Apache-2.0"
 
 
@@ -34,6 +34,9 @@ from actinia_module_plugin.api.modules.grass import DescribeModule
 from actinia_module_plugin.api.modules.actinia import ListProcessChainTemplates
 from actinia_module_plugin.api.modules.actinia import (
     DescribeProcessChainTemplate,
+)
+from actinia_module_plugin.api.modules.actinia_process import (
+    ProcessActiniaModule,
 )
 from actinia_module_plugin.api.modules.combined import ListVirtualModules
 from actinia_module_plugin.api.modules.combined import DescribeVirtualModule
@@ -101,6 +104,9 @@ def create_endpoints(flask_api):
     apidoc.add_resource(ListProcessChainTemplates, "/actinia_modules")
     apidoc.add_resource(
         DescribeProcessChainTemplate, "/actinia_modules/<actiniamodule>"
+    )
+    apidoc.add_resource(
+        ProcessActiniaModule, "/actinia_modules/<actiniamodule>/process"
     )
 
     apidoc.add_resource(ListVirtualModules, "/modules")
