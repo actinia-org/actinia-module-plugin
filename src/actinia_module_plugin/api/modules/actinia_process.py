@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Copyright (c) 2018-2025 mundialis GmbH & Co. KG
+Copyright (c) 2025 mundialis GmbH & Co. KG
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ Templates can be stored file based and in kvdb
 
 __license__ = "Apache-2.0"
 __author__ = "Carmen Tawalika"
-__copyright__ = "Copyright 2019-2025, mundialis"
+__copyright__ = "Copyright 2025, mundialis"
 __maintainer__ = "Carmen Tawalika"
 
 
