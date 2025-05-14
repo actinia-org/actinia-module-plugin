@@ -506,7 +506,7 @@ When the HTTP POST is send,
 - Response is the usual actinia-core response for processes containing resource_id which can be polled.
 
 
-## 4. Hints for template creation
+## 5. Hints for template creation
 
 * __It is not allowed to manipulate existing maps__
 This leads to an error for ephemeral and persistent processing. E.g. `v.db.addcolumn` is not working and leads to `"ERROR: Vector map <elev_points> not found in current mapset"`. Therefore copy it first (in the same processchain!) with g.copy. If it is done in a separate process chain and even exists in the user mapset, it is still not working.
@@ -515,7 +515,7 @@ This leads to an error for ephemeral and persistent processing. E.g. `v.db.addco
 On persistent processing, name of map will be first searched in PERSISTENT mapset, then in user mapset. If both exist and user mapset should be used, this can be overwritten by mymap@mymapset.
 
 
-## 5. Conventions for template creation
+## 6. Conventions for template creation
 
 * __Only use placeholder for a whole value of a GRASS GIS attribute.__
 
@@ -538,7 +538,7 @@ TODO discuss
 TODO discuss
 
 
-## 6. Overview of endpoints for module self-description and execution
+## 7. Overview of endpoints for module self-description and execution
 
 List / Describe only GRASS Modules
 
@@ -569,7 +569,7 @@ Full API docs
 
 
 
-## 7. Additional Notes
+## 8. Additional Notes
 
 ### The self-description tries to comply the [openEO API](https://api.openeo.org/#tag/Process-Discovery) where applicable
 At some points, however, we have to divert from their API:

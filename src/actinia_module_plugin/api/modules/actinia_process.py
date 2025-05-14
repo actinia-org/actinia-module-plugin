@@ -86,7 +86,7 @@ def preprocess_load_tpl_and_enqueue(
 
 class ProcessActiniaModule(ResourceBase):
     """
-    Process process chain template as "virtual GRASS module"
+    Process process chain template as actinia-module.
 
     Contains HTTP POST endpoint
     Contains swagger documentation
