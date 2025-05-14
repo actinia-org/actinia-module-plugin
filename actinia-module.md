@@ -489,12 +489,12 @@ Besides the existing processing endpoints, it is also possible to run ephemeral 
 There are some current limitations:
 - Only ephemeral processing is allowed for now
 - To tell actinia in which project to run the process, it needs to defined in the template, e.g.
-```
+```json
 {
-	"id": "ndvi",
-	"description": "Generate NDVI map",
-	"projects": ["nc_spm_08"],
-	"template": {
+    "id": "ndvi",
+    "description": "Generate NDVI map",
+    "projects": ["nc_spm_08"],
+    "template": {
 ...
 ```
   in the future, multiple projects can be added comma separated to indicate for which project the process chain template can be used. For now the project to run the process in will be read from the template, so only one project should be defined.

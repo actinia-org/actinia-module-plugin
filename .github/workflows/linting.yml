@@ -14,4 +14,5 @@ jobs:
       VALIDATE_JSON: false
       VALIDATE_HTML: false
       VALIDATE_CSS: false
+      VALIDATE_JAVASCRIPT_ES: false
       VALIDATE_BASH_EXEC: false
