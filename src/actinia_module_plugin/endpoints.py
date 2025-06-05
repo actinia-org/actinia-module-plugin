@@ -28,6 +28,7 @@ __license__ = "Apache-2.0"
 # import werkzeug
 
 # from actinia_module_plugin.resources.logging import log
+from flask_restful_swagger_2 import Resource
 
 from actinia_module_plugin.api.modules.grass import ListModules
 from actinia_module_plugin.api.modules.grass import DescribeModule
@@ -48,7 +49,18 @@ from actinia_module_plugin.api.processing import (
 from actinia_module_plugin.api.actinia_templates import ActiniaTemplate
 from actinia_module_plugin.api.actinia_templates import ActiniaTemplateId
 
-from actinia_core.endpoints import get_endpoint_class_name
+
+def get_endpoint_class_name(
+    endpoint_class: Resource,
+    projects_url_part: str = "projects",
+) -> str:
+    """Create the name for the given endpoint class."""
+    endpoint_class_name = endpoint_class.__name__.lower()
+    if projects_url_part != "projects":
+        name = f"{endpoint_class_name}_{projects_url_part}"
+    else:
+        name = endpoint_class_name
+    return name
 
 
 def create_project_endpoints(apidoc, projects_url_part="projects"):
