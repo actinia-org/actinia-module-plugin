@@ -61,7 +61,7 @@ from actinia_core.processing.common.ephemeral_processing_with_export import (
 from actinia_core.processing.common.persistent_processing import (
     start_job as start_job_persistent_processing,
 )
-from actinia_core.rest.base.resource_base import ResourceBase
+from actinia_rest_lib.resource_base import ResourceBase
 from actinia_api.swagger2.actinia_core.apidocs.ephemeral_processing_with_export import (
     post_doc as SCHEMA_DOC_EPHEMERAL_PROCESSING_WITH_EXPORT,
 )
@@ -85,8 +85,9 @@ from actinia_module_plugin.core.processing import (
 def log_error_to_resource_logger(self, msg, rdc):
     """
     Logs error which occurs during translation of actinia-module to process
-    chain. This case is not handled by EphemeralProcessing from actinia-core as
-    _send_resource_error method is used if the error occurs during processing.
+    chain. This case is not handled by EphemeralProcessing from
+    actinia-processing-lib as _send_resource_error method is used if the error
+    occurs during processing.
     Here a process (g.search.modules) by createModuleList was already processed
     and the actual process chain was not passed to actinia-core, so the error
     occurs before processing.

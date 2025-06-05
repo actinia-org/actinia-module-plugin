@@ -30,7 +30,7 @@ __maintainer__ = "mundialis GmbH & Co. KG"
 
 from flask import jsonify, make_response, request
 from flask_restful_swagger_2 import swagger
-from actinia_core.rest.base.resource_base import ResourceBase
+from actinia_rest_lib.resource_base import ResourceBase
 
 from actinia_module_plugin.apidocs import modules
 from actinia_module_plugin.core.filter import filter

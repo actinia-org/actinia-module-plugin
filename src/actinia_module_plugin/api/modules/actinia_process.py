@@ -36,7 +36,7 @@ from actinia_core.core.common.kvdb_interface import enqueue_job
 from actinia_core.processing.common.ephemeral_processing_with_export import (
     start_job as start_job_ephemeral_processing_with_export,
 )
-from actinia_core.rest.base.resource_base import ResourceBase
+from actinia_rest_lib.resource_base import ResourceBase
 
 from actinia_module_plugin.core.common import (
     fillTemplateFromProcessChain,
