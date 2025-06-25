@@ -31,6 +31,8 @@ keywords = [
     "osgeo",
 ]
 dependencies = [
+    "actinia-rest-lib>=1.0.0",
+    "actinia-processing-lib>=1.1.1",
     "colorlog>=4.2.1",
     "xmltodict",
 ]
