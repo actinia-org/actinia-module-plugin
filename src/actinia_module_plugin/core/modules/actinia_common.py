@@ -129,7 +129,7 @@ class PlaceholderCollector(object):
         # do not run interface description if module is
         # nested actiniamodule in actiniamodule
         if vp.module in self.actiniamodules_list:
-            module_pc_tpl, user_template = render_template(vp.module)
+            module_pc_tpl, _user_template = render_template(vp.module)
             module_list_items = module_pc_tpl["template"]["list"]
             child_amc = PlaceholderCollector(self.resourceBaseSelf)
             self.nested_modules.append(vp)
