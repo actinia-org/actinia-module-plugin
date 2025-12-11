@@ -1,7 +1,8 @@
 [flake8]
 
-# F401 'module' imported but unused
 # E501 line too long (83 > 79 characters)
+# F401 'module' imported but unused
+# F824 `global someVirtualModules` is unused: name is never assigned in scope
 
 per-file-ignores =
     ./src/actinia_module_plugin/api/modules/grass.py: E501
@@ -12,6 +13,7 @@ per-file-ignores =
     ./src/actinia_module_plugin/endpoints.py: E501
     ./src/actinia_module_plugin/resources/config.py: F401
     ./src/actinia_module_plugin/wsgi.py: F401
+    ./tests/*: F824
 
 exclude =
     ./build
