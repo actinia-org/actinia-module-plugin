@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-SPDX-FileCopyrightText: (c) 2016-2019 Sören Gebbert, 2016-2025 by mundialis GmbH & Co. KG
+SPDX-FileCopyrightText: (c) 2016-2025 Sören Gebbert & mundialis GmbH & Co. KG
 
 SPDX-License-Identifier: GPL-3.0-or-later
 

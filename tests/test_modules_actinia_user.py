@@ -23,16 +23,6 @@ from testsuite import (
     delete_user_template,
 )
 
-someActiniaModules = [
-    "add_enumeration",
-    "default_value",
-    "nested_modules_test",
-    "point_in_polygon",
-    "slope_aspect",
-    "vector_area",
-    "index_NDVI",
-]
-
 
 class ActiniaModulesTest(ActiniaTestCase):
     def test_read_user_module_get(self):

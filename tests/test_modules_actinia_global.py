@@ -28,6 +28,8 @@ someActiniaModules = [
     "slope_aspect",
     "vector_area",
     "index_NDVI",
+    "loop_simple",
+    "loop",
 ]
 
 

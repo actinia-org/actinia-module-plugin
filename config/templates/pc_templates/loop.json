@@ -1,0 +1,31 @@
+{
+	"id": "loop",
+    "description": "Example loop with multiple parameters",
+	"template": {
+        "list": [
+			{% for i in iteration %}
+            {
+                "id": "r_mapcalc",
+                "module": "r.mapcalc",
+                "inputs": [
+                    {
+                        "param": "expression",
+                        "value": "baum={{ i.number }}"
+                    }
+                ]
+            },
+            {
+                "id": "g.list",
+                "module": "g.list",
+                "inputs": [
+                    {
+                        "param": "type",
+                        "value": "{{ i.type }}"
+                    }
+                ]
+            }{{ "," if not loop.last }}
+            {% endfor %}
+        ],
+        "version": "1"
+    }
+}
