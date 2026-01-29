@@ -19,6 +19,7 @@ __maintainer__ = "Carmen Tawalika"
 
 
 from flask import jsonify, make_response
+from jinja2.exceptions import TemplateNotFound
 import pickle
 
 from actinia_core.core.common.kvdb_interface import enqueue_job
@@ -91,7 +92,18 @@ class ProcessActiniaModule(ResourceBase):
         # TODO: Currently no project can be read out of request body.
         # Instead it will take the first project listed in actinia module
         # To be sure only write a single project inside template.
-        virtual_module = createActiniaModule(self, actiniamodule)
+        try:
+            virtual_module = createActiniaModule(self, actiniamodule)
+        except TemplateNotFound:
+            return make_response(
+                jsonify(
+                    {
+                        "code": 404,
+                        "message": f"Module '{actiniamodule}' not found.",
+                    }
+                ),
+                404,
+            )
         preprocess_kwargs["project_name"] = virtual_module["projects"][0]
 
         start_job = start_job_ephemeral_processing_with_export
