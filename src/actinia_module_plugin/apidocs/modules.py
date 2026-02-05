@@ -102,8 +102,9 @@ describeModule_get_docs = {
             "type": "string",
             "description": "Defines which outputs are returned for actinia "
             "modules. 'export' shows the exported results. 'persistent' to "
-            "show persistent results might be added. Without this parameter "
-            "no outputs are returned. No effect for single GRASS GIS modules.",
+            "show persistent results might be added in the future. Without "
+            "this parameter no outputs are returned. No effect for single "
+            "GRASS GIS modules.",
             "enum": [
                 "export",
                 # "persistent",
