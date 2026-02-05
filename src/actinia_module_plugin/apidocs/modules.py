@@ -77,7 +77,32 @@ listModules_get_docs = {
             "description": "This response returns a list of module names and "
             "the status.",
             "schema": ModuleList,
-            "show persistent results might be added within future. Without this parameter "
+        },
+        "400": {
+            "description": "The error message and a detailed log why listing "
+            "of modules did not succeeded",
+            "schema": SimpleStatusCodeResponseModel,
+        },
+    },
+}
+
+describeModule_get_docs = {
+    "tags": ["Module Viewer"],
+    "parameters": [
+        {
+            "in": "path",
+            "name": "module",
+            "type": "string",
+            "description": "The name of a module",
+            "required": True,
+        },
+        {
+            "in": "path",
+            "name": "returns",
+            "type": "string",
+            "description": "Defines which outputs are returned for actinia "
+            "modules. 'export' shows the exported results. 'persistent' to "
+            "show persistent results might be added. Without this parameter "
             "no outputs are returned. No effect for single GRASS GIS modules.",
             "enum": [
                 "export",
