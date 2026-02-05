@@ -1,0 +1,23 @@
+{
+    "list": [
+        {
+            "id": "genereate_slope_aspect",
+            "module": "slope_aspect",
+            "inputs": [
+                {
+                    "param": "datatype",
+                    "value": "CELL"
+                },
+                {
+                    "param": "name_of_output_slope",
+                    "value": "out_slope"
+                },
+                {
+                    "param": "name_of_output_aspect",
+                    "value": "out_aspect"
+                }
+            ]
+        }
+    ],
+    "version": "1"
+}

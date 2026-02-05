@@ -71,6 +71,14 @@
 							"format": "GTiff",
 							"type": "raster"
 						}
+					},
+					{
+						"param": "raster",
+						"value": "{{ name_of_output_aspect }}",
+						"export": {
+							"format": "COG",
+							"type": "raster"
+						}
 					}
 				]
 			}
