@@ -1,0 +1,11 @@
+{
+    "categories": [
+        "actinia-module",
+        "global-template"
+    ],
+    "description": "Example loop with multiple parameters",
+    "id": "loop",
+    "parameters": [],
+    "projects": [],
+    "returns": []
+}

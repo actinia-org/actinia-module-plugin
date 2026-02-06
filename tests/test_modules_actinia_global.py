@@ -13,6 +13,7 @@ __author__ = "Carmen Tawalika"
 __copyright__ = "Copyright 2021, mundialis"
 
 
+import types
 from flask import Response
 
 from actinia_api import URL_PREFIX
@@ -32,8 +33,15 @@ someActiniaModules = [
     "loop",
 ]
 
+someActiniaModulesWithExport = [
+    "point_in_polygon",
+    "slope_aspect",
+    # "nested_modules_test",
+]
+
 
 class ActiniaModulesTest(ActiniaTestCase):
+
     def test_list_modules_get(self):
         """Test HTTP GET /actinia_modules"""
         global someActiniaModules
@@ -85,5 +93,37 @@ for i in someActiniaModules:
     compare_module_to_file.__defaults__ = (
         "actinia_modules",
         i,
+        None,
     )
-    setattr(ActiniaModulesTest, def_name, compare_module_to_file)
+
+    new_func = types.FunctionType(
+        compare_module_to_file.__code__,
+        compare_module_to_file.__globals__,
+        name=def_name,
+        argdefs=compare_module_to_file.__defaults__,
+        closure=compare_module_to_file.__closure__,
+    )
+    setattr(ActiniaModulesTest, def_name, new_func)
+
+
+for i in someActiniaModulesWithExport:
+    """
+    Test HTTP GET /actinia_modules/<module> with HTTP GET parameter
+    """
+    # create method for every actinia-module to have a better overview in
+    # test summary
+    def_name = "test_describe_process_chain_template_get_" + i + "_with_export"
+    compare_module_to_file.__defaults__ = (
+        "actinia_modules",
+        i,
+        "export",
+    )
+
+    new_func = types.FunctionType(
+        compare_module_to_file.__code__,
+        compare_module_to_file.__globals__,
+        name=def_name,
+        argdefs=compare_module_to_file.__defaults__,
+        closure=compare_module_to_file.__closure__,
+    )
+    setattr(ActiniaModulesTest, def_name, new_func)

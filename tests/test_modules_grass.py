@@ -14,7 +14,7 @@ __copyright__ = "Copyright 2021, mundialis"
 
 
 # import unittest
-
+import types
 from flask import Response
 
 from actinia_api import URL_PREFIX
@@ -155,5 +155,13 @@ for i in someGrassModules:
     compare_module_to_file.__defaults__ = (
         "grass_modules",
         i,
+        None,
     )
-    setattr(GmodulesTest, def_name, compare_module_to_file)
+    new_func = types.FunctionType(
+        compare_module_to_file.__code__,
+        compare_module_to_file.__globals__,
+        name=def_name,
+        argdefs=compare_module_to_file.__defaults__,
+        closure=compare_module_to_file.__closure__,
+    )
+    setattr(GmodulesTest, def_name, new_func)

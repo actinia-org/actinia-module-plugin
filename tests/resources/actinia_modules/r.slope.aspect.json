@@ -1,5 +1,5 @@
 {
-	"categories": ["aspect", "curvature", "grass-module", "raster", "slope", "terrain"],
+	"categories": ["aspect", "curvature", "grass-module", "parallel", "raster", "slope", "terrain"],
 	"description": "Aspect is calculated counterclockwise from east.",
 	"id": "r.slope.aspect",
 	"parameters": [{
@@ -45,9 +45,26 @@
 			"type": "number"
 		}
 	}, {
+		"default": "0",
+		"description": "Number of threads for parallel computing. 0: use OpenMP default; >0: use nprocs; <0: use MAX-nprocs. ",
+		"name": "nprocs",
+		"optional": true,
+		"schema": {
+		  "type": "integer"
+		}
+	}, {
+		"default": "300",
+		"description": "Maximum memory to be used (in MB). Cache size for raster rows. ",
+		"name": "memory",
+		"optional": true,
+		"schema": {
+		  "type": "integer"
+		}
+	}, {
 		"default": "False",
 		"description": "Do not align the current region to the raster elevation map. ",
 		"name": "a",
+		"optional": true,
 		"schema": {
 			"type": "boolean"
 		}
@@ -55,6 +72,7 @@
 		"default": "False",
 		"description": "Compute output at edges and near NULL values. ",
 		"name": "e",
+		"optional": true,
 		"schema": {
 			"type": "boolean"
 		}
@@ -62,6 +80,7 @@
 		"default": "False",
 		"description": "Create aspect as degrees clockwise from North (azimuth), with flat = -9999. Default: degrees counter-clockwise from East, with flat = 0. ",
 		"name": "n",
+		"optional": true,
 		"schema": {
 			"type": "boolean"
 		}
@@ -69,6 +88,7 @@
 		"default": "False",
 		"description": "Allow output files to overwrite existing files. ",
 		"name": "overwrite",
+		"optional": true,
 		"schema": {
 			"type": "boolean"
 		}
@@ -76,6 +96,7 @@
 		"default": "False",
 		"description": "Print usage summary. ",
 		"name": "help",
+		"optional": true,
 		"schema": {
 			"type": "boolean"
 		}
@@ -83,6 +104,7 @@
 		"default": "False",
 		"description": "Verbose module output. ",
 		"name": "verbose",
+		"optional": true,
 		"schema": {
 			"type": "boolean"
 		}
@@ -90,6 +112,7 @@
 		"default": "False",
 		"description": "Quiet module output. ",
 		"name": "quiet",
+		"optional": true,
 		"schema": {
 			"type": "boolean"
 		}
