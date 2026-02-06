@@ -34,7 +34,7 @@
 						"value": "5000"
 					}
 				],
-				"stdout": {"id": "region", "format": "kv", "delimiter": "="},
+				"stdout": {"id": "region_kv", "format": "kv", "delimiter": "="},
 				"flags": "g"
 			},
 			{
@@ -50,14 +50,14 @@
 						"value": "0"
 					}
 				],
-				"stdout": {"id": "elevation", "format": "table", "delimiter": " "},
+				"stdout": {"id": "elevation_table", "format": "table", "delimiter": " "},
 				"flags": "h"
 			},
 			{
 				"id": "raster_stats",
 				"module": "r.univar",
 				"inputs": [{"param": "map", "value": "elevation@PERMANENT"}],
-				"stdout": {"id": "stats", "format": "kv", "delimiter": "="},
+				"stdout": {"id": "stats_kv", "format": "kv", "delimiter": "="},
 				"flags": "g"
 			},
 			{
@@ -69,7 +69,7 @@
 					{"param": "separator", "value": "pipe"}
 				],
 				"stdout": {
-					"id": "stats_zonal",
+					"id": "stats_zonal_table",
 					"format": "table",
 					"delimiter": "|"
 				},
