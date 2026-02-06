@@ -1,6 +1,7 @@
 {
 	"id": "slope_aspect",
 	"description": "Calculates slope and aspect of elevation map.",
+    "projects": ["nc_spm_08"],
 	"template": {
 		"version": "1",
 		"list": [
@@ -68,7 +69,7 @@
 						"param": "raster",
 						"value": "{{ name_of_output_slope }}",
 						"export": {
-							"format": "GTiff",
+							"format": "COG",
 							"type": "raster"
 						}
 					}

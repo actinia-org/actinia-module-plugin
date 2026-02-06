@@ -1,0 +1,119 @@
+{
+	"id": "strds_create_and_export",
+	"description": "Example actinia-module to create and export a STRDS.",
+    "projects": ["nc_spm_08"],
+	"template": {
+		"list": [
+			{
+				"id": "set_region",
+				"module": "g.region",
+				"inputs": [
+					{
+						"param": "rast",
+						"value": "landuse96_28m@PERMANENT"
+					}
+				]
+			},
+			{
+				"id": "create_rast_1",
+				"module": "r.mapcalc",
+				"inputs": [
+					{
+						"param": "expression",
+						"value": "prec_1 = 100"
+					}
+				]
+			},
+			{
+				"id": "create_rast_2",
+				"module": "r.mapcalc",
+				"inputs": [
+					{
+						"param": "expression",
+						"value": "prec_2 = 200"
+					}
+				]
+			},
+			{
+				"id": "create_rast_3",
+				"module": "r.mapcalc",
+				"inputs": [
+					{
+						"param": "expression",
+						"value": "prec_3 = 300"
+					}
+				]
+			},
+			{
+				"id": "create_strds",
+				"module": "t.create",
+				"inputs": [
+					{
+						"param": "type",
+						"value": "strds"
+					},
+					{
+						"param": "temporaltype",
+						"value": "absolute"
+					},
+					{
+						"param": "title",
+						"value": "Example"
+					},
+					{
+						"param": "description",
+						"value": "Example"
+					}
+				],
+                "outputs": [
+					{
+						"param": "output",
+						"value": "{{ strds_name }}"
+					}
+				]
+			},
+			{
+				"id": "add_raster_to_strds",
+				"module": "t.register",
+				"inputs": [
+					{
+						"param": "type",
+						"value": "raster"
+					},
+					{
+						"param": "input",
+						"value": "{{ strds_name }}"
+					},
+					{
+						"param": "maps",
+						"value": "prec_1,prec_2,prec_3"
+					},
+					{
+						"param": "start",
+						"value": "2025-01-01"
+					},
+					{
+						"param": "increment",
+						"value": "1 months"
+					}
+				],
+                "flags": "i"
+			},
+            {
+                "id": "exporter_1",
+                "module": "exporter",
+                "outputs": [
+                    {
+                        "export": {
+                            "format": "GTiff",
+                            "type": "strds"
+                        },
+                        "param": "map",
+                        "value": "{{ strds_name }}"
+                    }
+                ]
+            }
+		],
+		"version": "1"
+	}
+}

@@ -1,0 +1,15 @@
+{
+    "list": [
+        {
+            "id": "example_elevation_stdout",
+            "module": "elevation_stdout",
+            "inputs": [
+                {
+                    "param": "datatype",
+                    "value": "raster"
+                }
+            ]
+        }
+    ],
+    "version": "1"
+}
