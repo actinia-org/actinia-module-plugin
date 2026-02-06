@@ -60,9 +60,13 @@
 					{
 						"param": "columns",
 						"value": "NAME,ADDRESS,CITY,ZIP,COUNTY"
+					},
+					{
+						"param": "format",
+						"value": "json"
 					}
 				],
-                "stdout": {"id": "hospitals_adresses", "format": "table", "delimiter": "|"}
+                "stdout": {"id": "hospitals_adresses", "format": "json", "delimiter": "\n"}
 			},
             {
                 "id": "exporter_1",
