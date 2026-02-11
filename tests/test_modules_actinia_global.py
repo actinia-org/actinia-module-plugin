@@ -20,7 +20,6 @@ from actinia_api import URL_PREFIX
 
 from testsuite import ActiniaTestCase, compare_module_to_file
 
-
 someActiniaModules = [
     "add_enumeration",
     "default_value",

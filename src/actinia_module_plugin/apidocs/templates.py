@@ -23,7 +23,6 @@ from actinia_module_plugin.model.responseModels import (
     SimpleStatusCodeResponseModel,
 )
 
-
 script_dir = os.path.dirname(os.path.abspath(__file__))
 rel_path = "./examples/pc_template.json"
 abs_file_path = os.path.join(script_dir, rel_path)

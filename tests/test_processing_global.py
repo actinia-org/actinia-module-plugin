@@ -19,9 +19,7 @@ from time import sleep
 
 from actinia_api import URL_PREFIX
 
-
 from testsuite import ActiniaTestCase, check_started_process
-
 
 global allTemplatesCount
 global templateUUID

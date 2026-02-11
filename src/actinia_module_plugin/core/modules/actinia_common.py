@@ -8,6 +8,7 @@ SPDX-License-Identifier: Apache-2.0
 actinia-module viewer
 Common module for file based and kvdb templates
 """
+
 from __future__ import annotations
 
 __license__ = "Apache-2.0"

@@ -21,7 +21,6 @@ from actinia_module_plugin.model.responseModels import (
 
 from actinia_module_plugin.model.modules import Module, ModuleList
 
-
 null = "null"
 
 

@@ -20,7 +20,6 @@ from flask_restful_swagger_2 import Api
 from actinia_module_plugin import endpoints
 from actinia_module_plugin.resources.logging import log
 
-
 app = Flask(__name__)
 CORS(app)
 

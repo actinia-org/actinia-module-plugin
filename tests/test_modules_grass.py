@@ -23,7 +23,6 @@ from actinia_core.version import init_versions, G_VERSION
 
 from testsuite import ActiniaTestCase, compare_module_to_file
 
-
 someGrassModules = ["r.slope.aspect", "importer", "exporter"]
 
 

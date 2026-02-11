@@ -25,7 +25,6 @@ from actinia_module_plugin.core.template_parameters import (
 from actinia_module_plugin.resources.logging import log
 from actinia_module_plugin.resources.templating import pcTplEnv
 
-
 ENV = {
     key.replace("TEMPLATE_VALUE_", ""): val
     for key, val in env.items()

@@ -21,7 +21,6 @@ from actinia_api import URL_PREFIX
 
 from testsuite import ActiniaTestCase
 
-
 global allTemplatesCount
 global templateUUID
 
