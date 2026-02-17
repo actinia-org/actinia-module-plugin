@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-SPDX-FileCopyrightText: (c) 2018-2025 by mundialis GmbH & Co. KG
+SPDX-FileCopyrightText: (c) 2018-2026 by mundialis GmbH & Co. KG
 
 SPDX-License-Identifier: Apache-2.0
 
@@ -14,11 +14,11 @@ Templates can be stored file based and in kvdb
 
 __license__ = "Apache-2.0"
 __author__ = "Carmen Tawalika"
-__copyright__ = "Copyright 2019-2025, mundialis"
+__copyright__ = "Copyright 2019-2026, mundialis"
 __maintainer__ = "Carmen Tawalika"
 
 
-from flask import jsonify, make_response
+from flask import jsonify, make_response, request
 from flask_restful_swagger_2 import swagger
 from flask_restful import Resource
 
@@ -71,8 +71,10 @@ class DescribeProcessChainTemplate(ResourceBase):
     def get(self, actiniamodule):
         """Describe an actinia module (process chain template)."""
 
+        returns = request.args.get("returns") or None
+
         try:
-            virtual_module = createActiniaModule(self, actiniamodule)
+            virtual_module = createActiniaModule(self, actiniamodule, returns)
             return make_response(jsonify(virtual_module), 200)
         except Exception:
             msg = 'Error looking for actinia module "' + actiniamodule + '".'

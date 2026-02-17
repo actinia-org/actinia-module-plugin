@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-SPDX-FileCopyrightText: (c) 2018-2021 by mundialis GmbH & Co. KG
+SPDX-FileCopyrightText: (c) 2018-2026 by mundialis GmbH & Co. KG
 
 SPDX-License-Identifier: Apache-2.0
 
@@ -9,7 +9,7 @@ Documentation objects for GRASS modules and actinia modules api endpoints
 """
 
 __author__ = "Carmen Tawalika"
-__copyright__ = "2018-2021 mundialis GmbH & Co. KG"
+__copyright__ = "2018-2026 mundialis GmbH & Co. KG"
 __license__ = "Apache-2.0"
 
 
@@ -20,7 +20,6 @@ from actinia_module_plugin.model.responseModels import (
 )
 
 from actinia_module_plugin.model.modules import Module, ModuleList
-
 
 null = "null"
 
@@ -95,7 +94,21 @@ describeModule_get_docs = {
             "type": "string",
             "description": "The name of a module",
             "required": True,
-        }
+        },
+        {
+            "in": "path",
+            "name": "returns",
+            "type": "string",
+            "description": "Defines which outputs are returned for actinia "
+            "modules. 'export' shows the exported results. 'persistent' to "
+            "show persistent results might be added in the future. Without "
+            "this parameter no outputs are returned. No effect for single "
+            "GRASS GIS modules.",
+            "enum": [
+                "export",
+                # "persistent",
+            ],
+        },
     ],
     "description": "Get the description of a module. "
     "Minimum required user role: user."
@@ -109,6 +122,10 @@ describeModule_get_docs = {
         "400": {
             "description": "The error message and a detailed log why "
             "describing modules did not succeeded",
+            "schema": SimpleStatusCodeResponseModel,
+        },
+        "404": {
+            "description": "The error message that the module was not found.",
             "schema": SimpleStatusCodeResponseModel,
         },
     },

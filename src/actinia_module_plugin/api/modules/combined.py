@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-SPDX-FileCopyrightText: (c) 2018-2021 by mundialis GmbH & Co. KG
+SPDX-FileCopyrightText: (c) 2018-2026 by mundialis GmbH & Co. KG
 
 SPDX-License-Identifier: Apache-2.0
 
@@ -14,7 +14,7 @@ Templates can be stored file based and in kvdb
 
 __license__ = "Apache-2.0"
 __author__ = "Carmen Tawalika"
-__copyright__ = "Copyright 2019, mundialis"
+__copyright__ = "Copyright 2019-2026, mundialis"
 __maintainer__ = "Carmen Tawalika"
 
 
@@ -86,11 +86,13 @@ class DescribeVirtualModule(ResourceBase):
     def get(self, module):
         """Describe a module."""
 
+        returns = request.args.get("returns") or None
+
         try:
             try:
                 virtual_module = createGrassModule(self, module)
             except Exception:
-                virtual_module = createActiniaModule(self, module)
+                virtual_module = createActiniaModule(self, module, returns)
             finally:
                 return make_response(jsonify(virtual_module), 200)
 

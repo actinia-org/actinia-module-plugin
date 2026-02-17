@@ -29,5 +29,19 @@
 			"type": "string"
 		}
 	}],
-	"returns": []
-	}
+	"returns": [{
+		"description": "Exported result from exporter r.slope.aspect aspect parameter",
+		"name": "{{ name_of_output_aspect }}",
+		"schema": {
+			"subtype": "GTiff",
+			"type": "raster"
+		}
+	}, {
+		"description": "Exported result from exporter exporter raster parameter",
+		"name": "{{ name_of_output_slope }}",
+		"schema": {
+			"subtype": "GTiff",
+			"type": "raster"
+		}
+	}]
+}

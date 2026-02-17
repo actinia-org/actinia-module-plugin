@@ -16,7 +16,6 @@ __maintainer__ = "Carmen Tawalika"
 
 from flask import request
 
-
 global family
 global tag
 global category

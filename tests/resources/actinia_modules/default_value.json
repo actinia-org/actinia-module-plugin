@@ -10,12 +10,13 @@
 			"type": "string"
 		}
 	}, {
-		"description": "Expression to evaluate.  [generated from r.mapcalc_expression] - output = r.mapcalc result, string; value = raster value (default=0.428), float",
+		"description": "Expression to evaluate.  [generated from r.mapcalc_expression] - output = r.mapcalc result, string; value = raster value (default=0.428), float; Default value exist in the process chain.",
 		"name": "value",
 		"optional": true,
 		"schema": {
 			"type": "string"
 		}
 	}],
+	"projects": [],
 	"returns": []
 }

@@ -1,0 +1,11 @@
+{
+    "categories": [
+        "actinia-module",
+        "global-template"
+    ],
+    "description": "Simple loop",
+    "id": "loop_simple",
+    "parameters": [],
+    "projects": [],
+    "returns": []
+}

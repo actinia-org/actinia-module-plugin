@@ -27,6 +27,13 @@
 			"type": "array"
 		}
 	}, {
+		"description": "The input source that may be a landsat scene name, a sentinel2 scene name, a postGIS database string, or an URL that points to an accessible raster or vector file [generated from import_descr_source]",
+		"name": "url_to_geojson_point",
+		"optional": true,
+		"schema": {
+			"type": "string"
+		}
+	}, {
 		"description": "Expression to evaluate.  [generated from r.mapcalc_expression]",
 		"name": "B04_mosaic",
 		"optional": true,
@@ -34,14 +41,6 @@
 			"type": "string"
 		}
 	}, {
-		"description": "The input source that may be a landsat scene name, a sentinel2 scene name, a postGIS database string, or an URL that points to an accessible raster or vector file [generated from import_descr_source]",
-		"name": "url_to_geojson_point",
-		"optional": true,
-		"schema": {
-			"type": "string"
-		}
-	}],
-	"returns": [{
 		"description": "Name for output slope raster map.  [generated from r.slope.aspect_slope]",
 		"name": "output_slope_name",
 		"optional": true,
@@ -49,5 +48,7 @@
 			"subtype": "cell",
 			"type": "string"
 		}
-	}]
+    }],
+	"projects": [],
+	"returns": []
 }
