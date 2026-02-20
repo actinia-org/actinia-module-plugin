@@ -82,5 +82,6 @@
 			"subtype": "vector",
 			"type": "string"
 		}
-	}]
+	}],
+    "version": "8.5.0dev"
 }

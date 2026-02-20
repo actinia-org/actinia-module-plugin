@@ -27,5 +27,6 @@
         "type": "vector"
       }
     }
-  ]
+  ],
+    "version": "1"
 }

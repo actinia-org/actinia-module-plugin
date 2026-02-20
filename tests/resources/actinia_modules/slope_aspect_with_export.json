@@ -43,5 +43,6 @@
 			"subtype": "GTiff",
 			"type": "raster"
 		}
-	}]
+	}],
+    "version": "1"
 }

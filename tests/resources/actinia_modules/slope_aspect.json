@@ -29,5 +29,6 @@
 			"type": "string"
 		}
 	}],
-	"returns": []
-	}
+	"returns": [],
+    "version": "1"
+}
