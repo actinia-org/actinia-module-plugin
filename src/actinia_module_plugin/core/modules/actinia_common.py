@@ -600,6 +600,7 @@ def createActiniaModule(
         projects=projects,
         parameters=pt.vm_params + pt.vm_returns,
         returns=exported_results,
+        version=pc_template["template"].get("version", "undefined"),
     )
 
     return virtual_module

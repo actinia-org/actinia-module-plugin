@@ -189,5 +189,6 @@
 			"subtype": "cell",
 			"type": "string"
 		}
-	}]
+	}],
+    "version": "8.5.0dev"
 }

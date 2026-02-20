@@ -27,15 +27,15 @@
 			"type": "array"
 		}
 	}, {
-		"description": "The input source that may be a landsat scene name, a sentinel2 scene name, a postGIS database string, or an URL that points to an accessible raster or vector file [generated from import_descr_source]",
-		"name": "url_to_geojson_point",
+		"description": "Expression to evaluate.  [generated from r.mapcalc_expression]",
+		"name": "B04_mosaic",
 		"optional": true,
 		"schema": {
 			"type": "string"
 		}
 	}, {
-		"description": "Expression to evaluate.  [generated from r.mapcalc_expression]",
-		"name": "B04_mosaic",
+		"description": "The input source that may be a landsat scene name, a sentinel2 scene name, a postGIS database string, or an URL that points to an accessible raster or vector file [generated from import_descr_source]",
+		"name": "url_to_geojson_point",
 		"optional": true,
 		"schema": {
 			"type": "string"
@@ -50,5 +50,6 @@
 		}
     }],
 	"projects": [],
-	"returns": []
+	"returns": [],
+    "version": "1"
 }
