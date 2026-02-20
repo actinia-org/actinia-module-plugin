@@ -135,6 +135,10 @@ class Module(Schema):
         "returns": ModuleReturns,
         "import_descr": ModuleImportDescription,
         "export": ModuleExportDescription,
+        "version": {
+            "type": "string",
+            "description": "Version of the module.",
+        },
     }
     example = describemodule_get_docs_example
     required = ["id", "description"]
