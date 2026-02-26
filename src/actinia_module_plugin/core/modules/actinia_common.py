@@ -333,6 +333,8 @@ class PlaceholderTransformer(object):
                             "import_descr_" + param,
                             pc.import_descr_dict,
                         )
+                        if temp_dict.get("schema"):
+                            temp_dict["schema"]["subtype"] = "datasource"
                         self.vm_params.append(temp_dict)
 
         if "exporter" in gm:
