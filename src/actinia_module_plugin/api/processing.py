@@ -101,7 +101,7 @@ def set_actinia_modules(
                 module_pc = fillTemplateFromProcessChain(
                     module["module"],
                     kwargs,
-                )["list"]
+                )
                 if isinstance(module_pc, str):
                     # then return value is a missing attribute
                     msg = (
@@ -118,7 +118,7 @@ def set_actinia_modules(
                     ac_module_pc = set_actinia_modules(
                         self,
                         rdc,
-                        module_pc,
+                        module_pc["list"],
                         grass_module_list,
                         actinia_module_list,
                     )
