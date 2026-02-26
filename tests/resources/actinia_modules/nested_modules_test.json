@@ -38,7 +38,8 @@
 		"name": "url_to_geojson_point",
 		"optional": true,
 		"schema": {
-			"type": "string"
+			"type": "string",
+			"subtype": "datasource"
 		}
 	}, {
 		"description": "Name for output slope raster map.  [generated from r.slope.aspect_slope]",
