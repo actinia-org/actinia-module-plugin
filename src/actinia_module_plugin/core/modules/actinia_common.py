@@ -386,7 +386,7 @@ class PlaceholderTransformer(object):
             exe_param = {}
             exe_param["name"] = param
             exe_param["description"] = "Simple parameter from executable"
-            exe_param["required"] = True
+            exe_param["optional"] = False
             exe_param["schema"] = {"type": "string"}
             add_param_description(exe_param, "exe", dict())
             self.vm_params.append(exe_param)
