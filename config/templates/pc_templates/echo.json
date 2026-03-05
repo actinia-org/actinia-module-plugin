@@ -1,0 +1,32 @@
+{
+	"id": "echo",
+	"description": "test echo",
+	"template": {
+		"version": "1",
+		"list": [
+			{
+				"exe": "echo",
+				"id": "echo",
+				"params": ["{{ input | default('Hello World') }}"]
+			},
+			{
+				"module": "r.grow",
+				"id": "r.grow.numerical.input",
+				"inputs": [
+					{
+						"param": "input",
+						"value": "elevation"
+					},
+					{
+						"param": "output",
+						"value": "output"
+					},
+					{
+						"param": "radius",
+						"value": "{{ pause | default(1) }}"
+					}
+				]
+			}
+		]
+	}
+}
