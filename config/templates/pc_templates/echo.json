@@ -1,6 +1,6 @@
 {
 	"id": "echo",
-	"description": "test echo",
+	"description": "Dummy test module for OGC API processes",
 	"template": {
 		"version": "1",
 		"list": [
