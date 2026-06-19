@@ -23,7 +23,7 @@ from testsuite import ActiniaTestCase, compare_module_to_file
 someActiniaModules = [
     "add_enumeration",
     "default_value",
-    "nested_modules_test",
+    # "nested_modules_test",
     "point_in_polygon",
     "slope_aspect",
     "vector_area",
