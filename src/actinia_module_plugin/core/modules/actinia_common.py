@@ -149,9 +149,9 @@ class PlaceholderCollector(object):
 
         if len(vp.placeholders) == 1:
             self.input_dict[vp.module_id]["gparams"][vp.key] = {}
-            self.input_dict[vp.module_id]["gparams"][vp.key]["amkey"] = (
-                vp.placeholders[0]
-            )
+            self.input_dict[vp.module_id]["gparams"][vp.key][
+                "amkey"
+            ] = vp.placeholders[0]
             if vp.comment is not None:
                 self.input_dict[vp.module_id]["gparams"][vp.key][
                     "comment"
@@ -485,7 +485,7 @@ def _generate_exported_results(pc_template_list_items):
                 {
                     "name": o["value"],
                     "description": f"Exported result from exporter {module} "
-                    f"{o["param"]} parameter",
+                    f"{o['param']} parameter",
                     "schema": {
                         "type": export.get("type", "string"),
                         "subtype": export.get("format", "undefined"),

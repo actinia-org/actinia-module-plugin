@@ -39,11 +39,9 @@ from actinia_module_plugin.api.actinia_templates import ActiniaTemplate
 from actinia_module_plugin.api.actinia_templates import ActiniaTemplateId
 
 
-def get_endpoint_class_name(
-    endpoint_class: Resource) -> str:
+def get_endpoint_class_name(endpoint_class: Resource) -> str:
     """Create the name for the given endpoint class."""
     return endpoint_class.__name__.lower()
-    
 
 
 def create_project_endpoints(apidoc):
@@ -51,10 +49,8 @@ def create_project_endpoints(apidoc):
     Function to add resources with "projects" inside the endpoint url.
 
     Args:
-        apidoc (flask_restful_swagger_2.Api): Flask api
-        
+        apidoc (flask_restful_swagger_2.Api): Flask api.
     """
-
     apidoc.add_resource(
         GdiAsyncEphemeralExportResource,
         "/projects/<string:project_name>/processing_export",
