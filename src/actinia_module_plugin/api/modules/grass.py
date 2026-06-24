@@ -45,6 +45,15 @@ class ListModules(ResourceBase):
         """Get a list of all GRASS GIS modules."""
 
         module_list = createModuleList(self)
+        module_list = [
+            module
+            for module in module_list
+            if not (
+                module["id"].startswith("d.")
+                or module["id"] == "g.gui"
+                or module["id"].startswith("g.gui.")
+            )
+        ]
         if self.user_role == "user" or self.user_role == "guest":
             # admins have access to all modules
             user_list = createModuleUserList(self)
