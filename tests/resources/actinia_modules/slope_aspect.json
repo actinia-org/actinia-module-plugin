@@ -2,7 +2,7 @@
 	"categories": ["actinia-module", "global-template"],
 	"description": "Calculates slope and aspect of elevation map.",
 	"id": "slope_aspect",
-	"projects": [],
+	"projects": ["nc_spm_08"],
 	"parameters": [{
 		"default": "FCELL",
 		"description": "Type of output aspect and slope maps. Storage type for resultant raster map.  [generated from r.slope.aspect_precision]",
