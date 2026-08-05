@@ -485,7 +485,7 @@ def _generate_exported_results(pc_template_list_items):
                 {
                     "name": o["value"],
                     "description": f"Exported result from exporter {module} "
-                    f"{o["param"]} parameter",
+                    f"{o['param']} parameter",
                     "schema": {
                         "type": export.get("type", "string"),
                         "subtype": export.get("format", "undefined"),
