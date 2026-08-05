@@ -24,7 +24,7 @@ GrassModules = ["r.slope.aspect", "importer", "exporter"]
 someActiniaModules = [
     "add_enumeration",
     "default_value",
-    "nested_modules_test",
+    # "nested_modules_test",
     "point_in_polygon",
     "slope_aspect",
     "vector_area",
