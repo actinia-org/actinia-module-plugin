@@ -14,7 +14,6 @@ __license__ = "Apache-2.0"
 
 
 import configparser
-import glob
 from pathlib import Path
 import os
 
@@ -28,13 +27,13 @@ GENERATED_CONFIG = DEFAULT_CONFIG_PATH + "/actinia-module-plugin.cfg"
 
 
 class PCTEMPLATECONFIG:
-    """Default path for 'templates/pc_templates'"""
+    """Default path for 'templates/pc_templates'."""
 
     pathfile = "/src/actinia-module-plugin/config/templates/pc_templates"
 
 
 class LOGCONFIG:
-    """Default config for logging"""
+    """Default config for logging."""
 
     logfile = "actinia-module-plugin.log"
     level = "DEBUG"
@@ -54,7 +53,10 @@ class Configfile:
         config.read(CONFIG_FILES)
 
         if len(config) <= 1:
-            log.info("Could not find any config file, using default values.")
+            log.info(
+                "No actinia-module-plugin config found. "
+                "Using default plugin settings."
+            )
             return
         log.info("Loading config files: " + str(CONFIG_FILES) + " ...")
 
