@@ -154,6 +154,11 @@ class EphemeralModuleLister(EphemeralProcessing):
         self.module_results = self.module_output_log[0]["stdout"]
 
 
+def list_modules(rdc, process_chain):
+    processing = EphemeralModuleLister(rdc, pc=process_chain)
+    processing.run()
+
+
 def run_process_chain(self, process_chain):
     """
     Used to list all GRASS modules, to describe a certain GRASS module
@@ -175,12 +180,8 @@ def run_process_chain(self, process_chain):
         mapset_name="PERMANENT",
     )
 
-    def list_modules(*args, process_chain=process_chain):
-        processing = EphemeralModuleLister(*args, pc=process_chain)
-        processing.run()
-
     if rdc:
-        start_job(self.job_timeout, list_modules, rdc)
+        start_job(self.job_timeout, list_modules, rdc, process_chain)
         _http_code, response_model = self.wait_until_finish()
     else:
         _http_code, response_model = pickle.loads(self.response_data)
