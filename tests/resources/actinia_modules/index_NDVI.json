@@ -24,5 +24,7 @@
 			"type": "string"
 		}
 	}],
-	"returns": []
+	"projects": [],
+	"returns": [],
+    "version": "1"
 }

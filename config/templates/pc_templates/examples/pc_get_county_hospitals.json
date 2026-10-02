@@ -1,0 +1,21 @@
+{
+    "list": [
+        {
+            "id": "get_county_CUMBERLAND_hospitals",
+            "module": "get_county_hospitals",
+            "inputs": [
+                {
+                    "param": "county_name",
+                    "value": "CUMBERLAND"
+                }
+            ],
+            "outputs": [
+                {
+                    "param": "hospitals_within_county",
+                    "value": "hospitals_cumberland"
+                }
+            ]
+        }
+    ],
+    "version": "1"
+}

@@ -18,7 +18,6 @@ import json
 
 from flask_restful_swagger_2 import Schema
 
-
 script_dir = os.path.dirname(os.path.abspath(__file__))
 rel_path = "../apidocs/examples/gm_describemodule_get_example_v_random.json"
 abs_file_path = os.path.join(script_dir, rel_path)
@@ -136,6 +135,10 @@ class Module(Schema):
         "returns": ModuleReturns,
         "import_descr": ModuleImportDescription,
         "export": ModuleExportDescription,
+        "version": {
+            "type": "string",
+            "description": "Version of the module.",
+        },
     }
     example = describemodule_get_docs_example
     required = ["id", "description"]

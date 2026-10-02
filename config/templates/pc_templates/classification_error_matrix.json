@@ -1,0 +1,74 @@
+{
+	"id": "classification_error_matrix",
+	"description": "Example of classificaiton error matrix and kappa parameter.",
+    "projects": ["nc_spm_08"],
+	"template": {
+		"version": "1",
+		"list": [
+			{
+				"id": "set_region",
+				"module": "g.region",
+				"inputs": [
+					{
+						"param": "rast",
+						"value": "landuse96_28m@PERMANENT"
+					}
+				]
+			},
+			{
+				"module": "r.mapcalc",
+				"id": "reference simulation",
+				"inputs": [
+					{
+						"param": "expression",
+						"enum": ["0","1","2","3","4","6","7","8","9","10","11","15","18","20","21"],
+						"value": "ref = if( landuse96_28m@PERMANENT == {{ class_num }} , 22, landuse96_28m@PERMANENT )"
+					}
+				]
+			},
+			{
+				"module": "r.kappa",
+				"id": "error_matrix",
+				"flags": "mh",
+				"inputs": [
+					{
+						"param": "classification",
+						"value": "landuse96_28m@PERMANENT"
+					},
+					{
+						"param": "reference",
+						"value": "ref"
+					}
+				],
+				"outputs": [
+					{
+						"export": {"type": "file", "format": "CSV"},
+						"param": "output",
+						"value": "$file::error_matrix"
+					}
+				]
+			},
+			{
+				"module": "r.kappa",
+				"id": "kappa_parameters",
+				"inputs": [
+					{
+						"param": "classification",
+						"value": "landuse96_28m@PERMANENT"
+					},
+					{
+						"param": "reference",
+						"value": "ref"
+					}
+				],
+				"outputs": [
+					{
+						"export": {"type": "file", "format": "TXT"},
+						"param": "output",
+						"value": "$file::kappa_parameters"
+					}
+				]
+			}
+		]
+	}
+}

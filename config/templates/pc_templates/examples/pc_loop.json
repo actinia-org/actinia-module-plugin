@@ -1,0 +1,20 @@
+{
+    "list": [
+        {
+            "id": "test_loop",
+            "module": "loop",
+            "inputs": [
+                {
+                    "param": "iteration",
+                    "value": [
+                       {"number":1,"type":"raster"},
+                       {"number":2,"type":"raster"},
+                       {"number":3,"type":"raster"},
+                       {"number":4,"type":"raster"}
+                     ]
+                }
+            ]
+        }
+    ],
+    "version": "1"
+}

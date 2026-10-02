@@ -89,5 +89,6 @@
 			"type": "boolean"
 		}
 	}],
-	"returns": []
+	"returns": [],
+    "version": "8.6.0dev"
 }

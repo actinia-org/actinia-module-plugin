@@ -114,7 +114,9 @@ def get_not_needed_params(undef, tpl_source, parsed_content=None):
     # return also the reason why the parameters is not needed
     reason = ["default"] * default_len + ["if"] * if_len
 
-    return {key: val for key, val in zip(not_needed_vars, reason)}
+    return {
+        key: val for key, val in zip(not_needed_vars, reason, strict=False)
+    }
 
 
 def get_template_undef(tpl_source):

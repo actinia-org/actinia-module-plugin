@@ -16,10 +16,10 @@ __author__ = "Anika Weinmann, Carmen Tawalika, Julia Haas"
 __copyright__ = "Copyright 2019 - 2022, mundialis GmbH & Co. KG"
 __maintainer__ = "mundialis GmbH & Co. KG"
 
-
+from actinia_rest_lib.resource_base import ResourceBase
 from flask import jsonify, make_response, request
 from flask_restful_swagger_2 import swagger
-from actinia_rest_lib.resource_base import ResourceBase
+
 
 from actinia_module_plugin.apidocs import modules
 from actinia_module_plugin.core.filter import filter
@@ -28,8 +28,8 @@ from actinia_module_plugin.core.modules.grass import createModuleUserList
 from actinia_module_plugin.core.modules.grass import createGrassModule
 from actinia_module_plugin.core.modules.grass import createFullModuleList
 from actinia_module_plugin.core.modules.grass import installGrassAddon
-from actinia_module_plugin.core.modules.accessible_modules_kvdb_interface import (
-    addGrassAddonToModuleListKvdb,
+from actinia_module_plugin.core.modules import (
+    accessible_modules_kvdb_interface as kvdb,
 )
 from actinia_module_plugin.model.modules import ModuleList
 from actinia_module_plugin.model.responseModels import (
@@ -38,13 +38,22 @@ from actinia_module_plugin.model.responseModels import (
 
 
 class ListModules(ResourceBase):
-    """List all GRASS modules"""
+    """List all GRASS modules."""
 
     @swagger.doc(modules.listModules_get_docs)
     def get(self):
         """Get a list of all GRASS GIS modules."""
 
         module_list = createModuleList(self)
+        module_list = [
+            module
+            for module in module_list
+            if not (
+                module["id"].startswith("d.")
+                or module["id"] == "g.gui"
+                or module["id"].startswith("g.gui.")
+            )
+        ]
         if self.user_role == "user" or self.user_role == "guest":
             # admins have access to all modules
             user_list = createModuleUserList(self)
@@ -63,9 +72,8 @@ class ListModules(ResourceBase):
 
 
 class DescribeModule(ResourceBase):
-    """
-    Definition for endpoint @app.route('grass_modules/<grassmodule>') to
-    desctibe one module
+    """Definition for endpoint @app.route('grass_modules/<grassmodule>') to
+    desctibe one module.
 
     Contains HTTP GET endpoint
     Contains swagger documentation
@@ -89,11 +97,10 @@ class DescribeModule(ResourceBase):
 
     def post(self, grassmodule):
         """Install an official GRASS GIS Addon."""
-
         response = installGrassAddon(self, grassmodule)
 
         if response["status"] == "finished":
-            addGrassAddonToModuleListKvdb(self, grassmodule)
+            kvdb.addGrassAddonToModuleListKvdb(self, grassmodule)
             msg = "Successfully installed GRASS addon " + grassmodule + "."
             status_code = 201
         else:
@@ -101,6 +108,6 @@ class DescribeModule(ResourceBase):
             status_code = 400
 
         res = jsonify(
-            SimpleStatusCodeResponseModel(status=status_code, message=msg)
+            SimpleStatusCodeResponseModel(status=status_code, message=msg),
         )
         return make_response(res, status_code)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-SPDX-FileCopyrightText: (c) 2016-2019 Sören Gebbert, 2016-2025 by mundialis GmbH & Co. KG
+SPDX-FileCopyrightText: (c) 2016-2025 Sören Gebbert & mundialis GmbH & Co. KG
 
 SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -187,20 +187,33 @@ class ActiniaTestCase(unittest.TestCase):
 
 # import unittest
 # @unittest.skip("compare response to file")
-def compare_module_to_file(self, uri_path="modules", module=None):
+def compare_module_to_file(
+    self,
+    uri_path="modules",
+    module=None,
+    returns=None,
+):
     """Compares response of API call to file"""
     # Won't run with module=None but ensures, that "passing of arguments"
     # below is successful.
 
+    url = URL_PREFIX + "/" + uri_path + "/" + module
+    if returns == "export":
+        url += "?returns=export"
+
     resp = self.app.get(
-        URL_PREFIX + "/" + uri_path + "/" + module,
+        url,
         headers=self.user_auth_header,
     )
     respStatusCode = 200
     assert hasattr(resp, "json")
     currentResp = resp.json
 
-    with open("tests/resources/actinia_modules/" + module + ".json") as file:
+    filename = module
+    if returns == "export":
+        filename += "_with_export"
+
+    with open("tests/resources/actinia_modules/" + filename + ".json") as file:
         expectedResp = json.load(file)
 
     assert resp.status_code == respStatusCode

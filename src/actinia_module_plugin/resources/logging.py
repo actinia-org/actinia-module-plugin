@@ -23,7 +23,6 @@ from pythonjsonlogger import jsonlogger
 
 from actinia_module_plugin.resources.config import LOGCONFIG
 
-
 log = logging.getLogger("actinia-module-plugin")
 werkzeugLog = logging.getLogger("werkzeug")
 gunicornLog = logging.getLogger("gunicorn")

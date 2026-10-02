@@ -25,7 +25,6 @@ from testsuite import (
     check_started_process,
 )
 
-
 global allTemplatesCount
 global templateUUID
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-SPDX-FileCopyrightText: (c) 2016-2019 Sören Gebbert, 2016-2025 by mundialis GmbH & Co. KG
+SPDX-FileCopyrightText: (c) 2016-2025 Sören Gebbert & mundialis GmbH & Co. KG
 
 SPDX-License-Identifier: GPL-3.0-or-later
 
@@ -154,6 +154,11 @@ class EphemeralModuleLister(EphemeralProcessing):
         self.module_results = self.module_output_log[0]["stdout"]
 
 
+def list_modules(rdc, process_chain):
+    processing = EphemeralModuleLister(rdc, pc=process_chain)
+    processing.run()
+
+
 def run_process_chain(self, process_chain):
     """
     Used to list all GRASS modules, to describe a certain GRASS module
@@ -175,15 +180,11 @@ def run_process_chain(self, process_chain):
         mapset_name="PERMANENT",
     )
 
-    def list_modules(*args, process_chain=process_chain):
-        processing = EphemeralModuleLister(*args, pc=process_chain)
-        processing.run()
-
     if rdc:
-        start_job(self.job_timeout, list_modules, rdc)
-        http_code, response_model = self.wait_until_finish()
+        start_job(self.job_timeout, list_modules, rdc, process_chain)
+        _http_code, response_model = self.wait_until_finish()
     else:
-        http_code, response_model = pickle.loads(self.response_data)
+        _http_code, response_model = pickle.loads(self.response_data)
 
     deinitGrass(self, project_name)
 

@@ -17,7 +17,6 @@ from jinja2 import Environment, PackageLoader, FileSystemLoader
 
 from actinia_module_plugin.resources.config import PCTEMPLATECONFIG
 
-
 # this environment is used for all cases where individual templates are loaded
 tplEnv = Environment(
     loader=PackageLoader("actinia_module_plugin", "templates")

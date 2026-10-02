@@ -1,0 +1,15 @@
+{
+    "list": [
+        {
+            "id": "test_simple_loop",
+            "module": "loop_simple",
+            "inputs": [
+                {
+                    "param": "iteration",
+                    "value": [1,2,3,4]
+                }
+            ]
+        }
+    ],
+    "version": "1"
+}

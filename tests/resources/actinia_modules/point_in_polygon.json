@@ -10,12 +10,14 @@
       "name": "url_to_geojson_point",
       "optional": true,
       "schema": {
-        "type": "string"
+        "type": "string",
+        "subtype": "datasource"
       }
     }
   ],
   "projects": [
     "nc_spm_08"
   ],
-  "returns": []
+  "returns": [],
+    "version": "1"
 }

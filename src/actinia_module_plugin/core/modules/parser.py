@@ -18,6 +18,8 @@ import collections
 import json
 import xmltodict
 
+from actinia_core.version import G_VERSION
+
 from actinia_module_plugin.model.modules import Module
 from actinia_module_plugin.model.modules import ModuleParameter
 from actinia_module_plugin.model.modules import ModuleParameterSchema
@@ -306,6 +308,7 @@ def ParseInterfaceDescription(xml_string, keys=None):
         parameters=parameters,
         returns=returns,
         **extrakwargs,
+        version=G_VERSION.get("version", "undefined"),
     )
 
     return grass_module

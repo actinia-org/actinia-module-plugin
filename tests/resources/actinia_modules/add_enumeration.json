@@ -12,5 +12,7 @@
 			"type": "array"
 		}
 	}],
-	"returns": []
+	"projects": [],
+	"returns": [],
+    "version": "1"
 }

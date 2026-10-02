@@ -1,0 +1,15 @@
+{
+    "list": [
+        {
+            "id": "STRDS_example",
+            "module": "strds_create_and_export",
+            "outputs": [
+                {
+                    "param": "strds_name",
+                    "value": "strds_test"
+                }
+            ]
+        }
+    ],
+    "version": "1"
+}

@@ -3,8 +3,15 @@ name: Linting and code quality check
 
 on: [push, pull_request]
 
+permissions:
+  contents: read
+
 jobs:
   lint:
+    permissions:
+      contents: read
+      packages: read
+      statuses: write
     uses: mundialis/github-workflows/.github/workflows/linting.yml@main
     with:
       # set pylint-version to empty string to skip the pylint workflow

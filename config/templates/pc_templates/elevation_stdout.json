@@ -1,0 +1,80 @@
+{
+	"id": "elevation_stdout",
+	"description": "Example actinia-module for stdout.",
+    "projects": ["nc_spm_08"],
+	"template": {
+		"version": "1",
+		"list": [
+			{
+				"id": "get_map_list",
+				"module": "g.list",
+				"inputs": [
+					{
+						"param": "type",
+						"enum": ["raster","raster_3d","vector","label","region","group","all"],
+						"value": "{{ datatype }}"
+					}
+				],
+				"stdout": {
+                    "id": "map_list",
+                    "format": "list",
+                    "delimiter": "\n"
+                }
+			},
+            {
+				"id": "set_region",
+				"module": "g.region",
+				"inputs": [
+					{
+						"param": "raster",
+						"value": "elevation@PERMANENT"
+					},
+					{
+						"param": "res",
+						"value": "5000"
+					}
+				],
+				"stdout": {"id": "region_kv", "format": "kv", "delimiter": "="},
+				"flags": "g"
+			},
+			{
+				"id": "elevation_to_ascii_table",
+				"module": "r.out.ascii",
+				"inputs": [
+					{
+						"param": "input",
+						"value": "elevation@PERMANENT"
+					},
+					{
+						"param": "precision",
+						"value": "0"
+					}
+				],
+				"stdout": {"id": "elevation_table", "format": "table", "delimiter": " "},
+				"flags": "h"
+			},
+			{
+				"id": "raster_stats",
+				"module": "r.univar",
+				"inputs": [{"param": "map", "value": "elevation@PERMANENT"}],
+				"stdout": {"id": "stats_kv", "format": "kv", "delimiter": "="},
+				"flags": "g"
+			},
+			{
+				"id": "raster_zonal_stats_table",
+				"module": "r.univar",
+				"inputs": [
+					{"param": "map", "value": "elevation@PERMANENT"},
+					{"param": "zones", "value": "basin_50K@PERMANENT"},
+					{"param": "separator", "value": "pipe"}
+				],
+				"stdout": {
+					"id": "stats_zonal_table",
+					"format": "table",
+					"delimiter": "|"
+				},
+				"flags": "t"
+			}
+		]
+	}
+}

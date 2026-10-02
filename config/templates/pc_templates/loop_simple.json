@@ -1,0 +1,21 @@
+{
+	"id": "loop_simple",
+    "description": "Simple loop",
+	"template": {
+        "list": [
+			{% for i in iteration %}
+            {
+                "id": "r_mapcalc",
+                "module": "r.mapcalc",
+                "inputs": [
+                    {
+                        "param": "expression",
+                        "value": "baum={{ i }}"
+                    }
+                ]
+            }{{ "," if not loop.last }}
+            {% endfor %}
+        ],
+        "version": "1"
+    }
+}

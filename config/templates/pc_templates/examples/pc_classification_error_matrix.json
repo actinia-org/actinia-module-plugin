@@ -1,0 +1,15 @@
+{
+    "list": [
+        {
+            "id": "example_get_error_matrix",
+            "module": "classification_error_matrix",
+            "inputs": [
+                {
+                    "param": "class_num",
+                    "value": "10"
+                }
+            ]
+        }
+    ],
+    "version": "1"
+}

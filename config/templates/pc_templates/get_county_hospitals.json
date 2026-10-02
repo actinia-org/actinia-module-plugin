@@ -1,0 +1,96 @@
+{
+	"id": "get_county_hospitals",
+	"description": "Example actinia-module to extract all hospitals in one county.",
+    "projects": ["nc_spm_08"],
+	"template": {
+		"list": [
+			{
+				"id": "get_county",
+				"module": "v.extract",
+				"inputs": [
+					{
+						"param": "input",
+						"value": "boundary_county"
+					},
+					{
+						"param": "where",
+						"enum": ["ALEXANDER","ALAMANCE","ANSON","ALLEGHANY","AVERY","ASHE","BERTIE","BEAUFORT","BRUNSWICK","BLADEN","BURKE","BUNCOMBE","CALDWELL","CABARRUS","CARTERET","CAMDEN","CATAWBA","CASWELL","CHEROKEE","CHATHAM","CLAY","CHOWAN","COLUMBUS","CLEVELAND","CUMBERLAND","CRAVEN","DARE","CURRITUCK","DAVIE","DAVIDSON","DURHAM","DUPLIN","FORSYTH","EDGECOMBE","GASTON","FRANKLIN","GRAHAM","GATES","GREENE","GRANVILLE","HALIFAX","GUILFORD","HAYWOOD","HARNETT","HERTFORD","HENDERSON","HYDE","HOKE","JACKSON","IREDELL","JONES","JOHNSTON","LENOIR","LEE","MACON","LINCOLN","MARTIN","MADISON","MECKLENBURG","MCDOWELL","MONTGOMERY","MITCHELL","NASH","MOORE","NORTHAMPTON","NEW HANOVER","ORANGE","ONSLOW","PASQUOTANK","PAMLICO","PERQUIMANS","PENDER","PITT","PERSON","RANDOLPH","POLK","ROBESON","RICHMOND","ROWAN","ROCKINGHAM","SAMPSON","RUTHERFORD","STANLY","SCOTLAND","SURRY","STOKES","TRANSYLVANIA","SWAIN","UNION","TYRRELL","WAKE","VANCE","WASHINGTON","WARREN","WAYNE","WATAUGA","WILSON","WILKES","YANCEY","YADKIN"],
+						"value": "name='{{ county_name }}'"
+					}
+				],
+				"outputs": [
+					{
+						"param": "output",
+						"value": "boundary_county"
+					}
+				]
+			},
+			{
+				"id": "hospitals_within_county",
+				"module": "v.select",
+				"inputs": [
+					{
+						"param": "ainput",
+						"value": "hospitals"
+					},
+					{
+						"param": "binput",
+						"value": "boundary_county"
+					},
+					{
+						"param": "operator",
+						"value": "within"
+					}
+				],
+				"outputs": [
+					{
+						"param": "output",
+						"value": "{{ hospitals_within_county }}"
+					}
+				]
+			},
+			{
+				"id": "get_hospitals_adresses",
+				"module": "v.db.select",
+				"inputs": [
+					{
+						"param": "map",
+						"value": "{{ hospitals_within_county }}"
+					},
+					{
+						"param": "columns",
+						"value": "NAME,ADDRESS,CITY,ZIP,COUNTY"
+					},
+					{
+						"param": "format",
+						"value": "json"
+					}
+				],
+                "stdout": {"id": "hospitals_adresses_json", "format": "json", "delimiter": "\n"}
+			},
+            {
+                "id": "exporter_1",
+                "module": "exporter",
+                "outputs": [
+                    {
+                        "export": {
+                            "format": "GPKG",
+                            "type": "vector"
+                        },
+                        "param": "map",
+                        "value": "{{ hospitals_within_county }}"
+                    },
+                    {
+                        "export": {
+                            "format": "ESRI_Shapefile",
+                            "type": "vector"
+                        },
+                        "param": "map",
+                        "value": "{{ hospitals_within_county }}"
+                    }
+                ]
+            }
+		],
+		"version": "1"
+	}
+}

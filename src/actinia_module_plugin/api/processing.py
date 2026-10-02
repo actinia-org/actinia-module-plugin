@@ -101,7 +101,7 @@ def set_actinia_modules(
                 module_pc = fillTemplateFromProcessChain(
                     module["module"],
                     kwargs,
-                )["list"]
+                )
                 if isinstance(module_pc, str):
                     # then return value is a missing attribute
                     msg = (
@@ -118,7 +118,7 @@ def set_actinia_modules(
                     ac_module_pc = set_actinia_modules(
                         self,
                         rdc,
-                        module_pc,
+                        module_pc["list"],
                         grass_module_list,
                         actinia_module_list,
                     )
@@ -190,8 +190,7 @@ class GdiAsyncEphemeralExportResource(ResourceBase):
     @swagger.doc(deepcopy(SCHEMA_DOC_EPHEMERAL_PROCESSING_WITH_EXPORT))
     def post(self, project_name):
         """
-        Execute a user defined process chain in an ephemeral project/mapset
-        and store the processing results for download.
+        Execute an ephemeral process chain and store results for download.
         """
 
         preprocess_kwargs = {}
@@ -218,8 +217,7 @@ class GdiAsyncPersistentResource(ResourceBase):
     @swagger.doc(deepcopy(SCHEMA_DOC_PERSISTENT_PROCESSING))
     def post(self, project_name, mapset_name):
         """
-        Execute a user defined process chain that creates a new mapset or
-        runs in an existing one.
+        Execute a user-defined process chain in a new or existing mapset.
         """
 
         preprocess_kwargs = {}
