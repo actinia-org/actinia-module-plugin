@@ -10,13 +10,6 @@ permissions:
 
 jobs:
 
-  publish-python-test-pypi:
-    uses: mundialis/github-workflows/.github/workflows/python-publish.yml@main
-    with:
-      test_pypi: true
-    secrets:
-      PYPI_PASSWORD: ${{ secrets.TEST_PYPI_API_TOKEN }}
-
   publish-python-pypi:
     uses: mundialis/github-workflows/.github/workflows/python-publish.yml@main
     secrets:
